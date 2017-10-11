@@ -22,7 +22,7 @@ public final class BaseExceptionMapper implements ExceptionMapper<Exception> {
 
     @Override
     public Response toResponse(Exception exception) {
-        Response.ResponseBuilder r = null;
+        Response.ResponseBuilder r;
 
         //if the exception is one of our own exception objects
         if (exception instanceof MappedException) {

@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.junit.Assert.*;
-
 public class DataValidationEndpointTest {
     @Test
     public void get() throws Exception {

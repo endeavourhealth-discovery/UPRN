@@ -2,7 +2,7 @@ package org.endeavourhealth.datavalidation.framework.exceptions;
 
 import org.endeavourhealth.coreui.endpoints.AbstractEndpoint;
 import org.endeavourhealth.coreui.framework.exceptions.MappedException;
-import org.endeavourhealth.datavalidation.json.JsonServerException;
+import org.endeavourhealth.datavalidation.models.ServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +48,7 @@ public final class BaseExceptionMapper implements ExceptionMapper<Exception> {
         if (message != null) {
 					UUID errorId = UUID.randomUUID();
 					LOG.error("Server error " + errorId.toString() + " : " + message);
-            JsonServerException wrapper = new JsonServerException("Server error " + errorId.toString());
+            ServerException wrapper = new ServerException("Server error " + errorId.toString());
             r = r.entity(wrapper);
         }
 

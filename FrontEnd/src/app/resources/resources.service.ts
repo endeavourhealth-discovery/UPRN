@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
+import {Patient} from "../models/Patient";
 
 @Injectable()
 export class ResourcesService {
@@ -12,4 +13,11 @@ export class ResourcesService {
       .map((response) => response.json());
   }
 
+  public getPatients(personId : string) : Observable<Patient[]> {
+    let params : URLSearchParams = new URLSearchParams();
+    params.append('personId', personId);
+
+    return this.http.get('/api/person/patients', {params : params, withCredentials : true})
+      .map((response) => response.json());
+  }
 }

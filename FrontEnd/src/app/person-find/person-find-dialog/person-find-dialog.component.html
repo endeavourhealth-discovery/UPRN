@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title">Patient find</h4>
+  <button type="button" class="close" (click)="cancel()" aria-hidden="true">&times;</button>
+</div>
+<div class="modal-body">
+  <form endUserRole="form" class="container-fluid">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="control-label">Search Criteria</label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search term" aria-describedby="searchTerm"
+                 [(ngModel)]="searchTerms" (keyup)="search()" autofocus name="searchData">
+          <span class="input-group-addon" (click)="search()" style="cursor: pointer">
+						<i class="fa fa-search" id="searchTerm" aria-hidden="true"></i>
+					</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label class="control-label">Matches</label> <small class="text-muted"></small>
+        <div class="scroll-box-150 form-control">
+          <div *ngFor="let match of matches" class="hover-box show-child-on-hover striped">
+            <div (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)">{{ match.name }} {{ match.nhsNumber}} <small>({{match.patientCount}} patients)</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn"
+          (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary"
+          (click)="ok();">Ok</button>
+</div>

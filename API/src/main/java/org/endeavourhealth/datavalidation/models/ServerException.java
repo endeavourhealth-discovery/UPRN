@@ -1,4 +1,4 @@
-package org.endeavourhealth.datavalidation.json;
+package org.endeavourhealth.datavalidation.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * a request has gone wrong on the server
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class JsonServerException {
+public final class ServerException {
     private String message = null;
 
-    public JsonServerException(String message) {
+    public ServerException(String message) {
         this.message = message;
     }
 

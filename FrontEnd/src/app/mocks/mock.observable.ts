@@ -1,4 +1,4 @@
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from 'rxjs/Subscription';
 
 export abstract class AbstractMockObservable {
   protected _subscription: Subscription;
@@ -20,15 +20,15 @@ export abstract class AbstractMockObservable {
   subscribe(next: Function, error?: Function, complete?: Function): Subscription {
     this._subscription = new Subscription();
 
-    if (next && this._fakeContent && !this._fakeError) {
+    if (next && this._fakeContent && !this._fakeError)
       next(this._fakeContent);
-    }
-    if (error && this._fakeError) {
+
+    if (error && this._fakeError)
       error(this._fakeError);
-    }
-    if (complete) {
+
+    if (complete)
       complete();
-    }
+
     return this._subscription;
   }
 }

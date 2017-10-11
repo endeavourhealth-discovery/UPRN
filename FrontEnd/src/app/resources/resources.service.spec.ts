@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ResourcesService } from './resources.service';
-import { HttpModule} from "@angular/http";
+import { HttpModule} from '@angular/http';
 
 describe('ResourcesService', () => {
   beforeEach(() => {

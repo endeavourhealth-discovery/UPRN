@@ -1,5 +1,5 @@
 import { AngularPage } from './app.po';
-import {$, browser, by, element} from "protractor";
+import {$, browser, by, element} from 'protractor';
 
 describe('angular App', () => {
   let page: AngularPage;

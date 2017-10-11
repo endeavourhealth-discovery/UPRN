@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {User} from "eds-angular4/dist/security/models/User";
-import {Access} from "eds-angular4/dist/security/models/Access";
+import {User} from 'eds-angular4/dist/security/models/User';
+import {Access} from 'eds-angular4/dist/security/models/Access';
 
 @Injectable()
 export class MockSecurityService {
 
-  public currentUser : User;
+  public currentUser: User;
 
   constructor() {
-    let clientAccessMap : any = {'eds-compass': {roles: ['eds-compass:dashboard']} as Access};
+    const clientAccessMap: any = {'eds-compass': {roles: ['eds-compass:dashboard']} as Access};
 
     this.currentUser = {
       title : 'Mr',
@@ -18,7 +18,7 @@ export class MockSecurityService {
     } as User;
   }
 
-  getCurrentUser() : User {
+  getCurrentUser(): User {
     return this.currentUser;
   }
 

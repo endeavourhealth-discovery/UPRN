@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import {ResourcesService} from "./resources.service";
-import {PersonFindDialogComponent} from "../person-find/person-find-dialog/person-find-dialog.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Service} from "../models/Service";
-import {Person} from "../models/Person";
+import {ResourcesService} from './resources.service';
+import {PersonFindDialogComponent} from '../person-find/person-find-dialog/person-find-dialog.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Service} from '../models/Service';
+import {Person} from '../models/Person';
 import { LinqService } from 'ng2-linq';
 
 @Component({
-  selector: 'resources',
+  selector: 'app-resources-component',
   templateUrl: './resources.component.html',
   styleUrls: ['./resources.component.css']
 })
 export class ResourcesComponent implements OnInit {
 
-  private person : Person;
-  private serviceFilter : Service;
-  private resourceFilter : string;
+  private person: Person;
+  private serviceFilter: Service;
+  private resourceFilter: string;
 
-  constructor(private linq: LinqService, protected modal : NgbModal, protected service : ResourcesService) {
+  constructor(private linq: LinqService, protected modal: NgbModal, protected service: ResourcesService) {
   }
 
   ngOnInit() {
@@ -31,8 +31,8 @@ export class ResourcesComponent implements OnInit {
     );
   }
 
-  private loadPerson(person : Person) {
-    let vm = this;
+  private loadPerson(person: Person) {
+    const vm = this;
     vm.person = person;
     vm.service.getPatients(person.nhsNumber)
       .subscribe(
@@ -41,7 +41,7 @@ export class ResourcesComponent implements OnInit {
       );
   }
 
-  private getServices() : Service[] {
+  private getServices(): Service[] {
     if (!this.person || !this.person.patients)
       return [];
 
@@ -51,7 +51,7 @@ export class ResourcesComponent implements OnInit {
       .ToArray();
   }
 
-  private getResources() : String[] {
+  private getResources(): String[] {
     return [
       'Episode',
       'Encounter',
@@ -59,7 +59,7 @@ export class ResourcesComponent implements OnInit {
     ];
   }
 
-  private refresh() : void {
+  private refresh(): void {
     // fetch data from db
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {PersonFindService} from "../person-find.service";
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Person} from "../../models/Person";
+import {PersonFindService} from '../person-find.service';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Person} from '../../models/Person';
 
 @Component({
   selector: 'app-person-find-dialog',
@@ -10,23 +10,22 @@ import {Person} from "../../models/Person";
 })
 export class PersonFindDialogComponent implements OnInit {
 
+  private searchTerms: string;
+  private matches: Person[] = null;
+  private selectedPerson: Person = null;
+
   public static open(modalService: NgbModal) {
-    const modalRef = modalService.open(PersonFindDialogComponent, { backdrop : 'static', size : 'lg'});
+    const modalRef = modalService.open(PersonFindDialogComponent, { backdrop: 'static', size: 'lg'});
     return modalRef;
   }
 
-  private searchTerms : string;
-  private matches : Person[] = null;
-  private selectedPerson : Person = null;
-
-
-  constructor(public activeModal: NgbActiveModal, private service : PersonFindService) { }
+  constructor(public activeModal: NgbActiveModal, private service: PersonFindService) { }
 
   ngOnInit() {
   }
 
   private search() {
-    let vm = this;
+    const vm = this;
     vm.service.findPerson(vm.searchTerms)
       .subscribe(
         (result) => vm.matches = result,
@@ -34,7 +33,7 @@ export class PersonFindDialogComponent implements OnInit {
       );
   }
 
-  private selectPerson(person : Person, close : boolean){
+  private selectPerson(person: Person, close: boolean) {
     this.selectedPerson = person;
     if (close)
       this.ok();

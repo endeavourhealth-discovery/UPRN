@@ -30,10 +30,19 @@
 
         <dependency>
             <groupId>org.endeavourhealth.common</groupId>
-            <artifactId>security</artifactId>
-            <version>${eds-security.version}</version>
+            <artifactId>transforms</artifactId>
+            <version>${eds-transforms.version}</version>
         </dependency>
         <!-- End Common -->
+
+        <!-- Postgres -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <!-- End Postgres -->
+
 
         <!-- Jersey -->
         <dependency>

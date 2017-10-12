@@ -27,7 +27,16 @@
                   </div>
                 </div>
                 <div class="card-block">
-
+                  <loadingIndicator [done]="resourceList">
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr *ngFor="let resource of resourceList">
+                          <td>{{resource.resourceType}}</td>
+                          <td>{{resource.id}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </loadingIndicator>
                 </div>
               </div>
             </loadingIndicator>

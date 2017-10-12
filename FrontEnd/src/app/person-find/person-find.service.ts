@@ -10,7 +10,7 @@ export class PersonFindService {
 
   public findPerson(searchTerms: string): Observable<Person[]> {
     const params = new URLSearchParams();
-    params.set('searchTerms', searchTerms);
+    params.append('searchTerms', searchTerms);
 
     return this.http.get('/api/person', {search: params, withCredentials: true})
       .map((response) => response.json());

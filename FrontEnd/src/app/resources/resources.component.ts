@@ -6,6 +6,7 @@ import {Service} from '../models/Service';
 import {Person} from '../models/Person';
 import { LinqService } from 'ng2-linq';
 import {ResourceType} from '../models/ResourceType';
+import {Patient} from '../models/Patient';
 
 @Component({
   selector: 'app-resources-component',
@@ -16,8 +17,9 @@ export class ResourcesComponent implements OnInit {
 
   private person: Person;
   private resourceTypes: ResourceType[] = [];
-  private serviceFilter: string;
-  private resourceFilter: string;
+  private resourceList: any = [];
+  private serviceFilter: string[];
+  private resourceFilter: string[];
 
   constructor(private linq: LinqService, protected modal: NgbModal, protected service: ResourcesService) {
     this.getResourceTypes();
@@ -64,6 +66,23 @@ export class ResourcesComponent implements OnInit {
   }
 
   private refresh(): void {
-    // fetch data from db
+    const applicablePatients: Patient[] = this.linq.Enumerable().From(this.person.patients)
+      .Where(p => this.serviceFilter.indexOf(p.service.id) > -1)
+      .ToArray();
+
+    if (applicablePatients.length === 0)
+      return;
+
+    const patient: Patient = applicablePatients[0];
+
+    const vm = this;
+    vm.service.getPatientResources(patient.id, patient.service.id, this.resourceFilter)
+      .subscribe(
+        (result) => {
+          vm.resourceList = result;
+          console.log(result);
+        },
+        (error) => console.error(error)
+      );
   }
 }

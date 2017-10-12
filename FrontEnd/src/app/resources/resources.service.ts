@@ -18,13 +18,25 @@ export class ResourcesService {
     const params: URLSearchParams = new URLSearchParams();
     params.append('personId', personId);
 
-    return this.http.get('/api/person/patients', {params: params, withCredentials: true})
+    return this.http.get('/api/person/patients', {search: params, withCredentials: true})
       .map((response) => response.json());
   }
 
   public getResourceTypes(): Observable<ResourceType[]> {
 
     return this.http.get('/api/resource/type', {withCredentials: true})
+      .map((response) => response.json());
+  }
+
+  public getPatientResources(patientId: string, serviceId: string, resourceTypes: string[]): Observable<any> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('patientId', patientId);
+    params.append('serviceId', serviceId);
+
+    for (const resourceType of resourceTypes)
+      params.append('resourceTypes', resourceType);
+
+    return this.http.get('/api/resource/patient', {search: params, withCredentials: true})
       .map((response) => response.json());
   }
 

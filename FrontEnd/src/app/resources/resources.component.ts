@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Service} from '../models/Service';
 import {Person} from '../models/Person';
 import { LinqService } from 'ng2-linq';
+import {ResourceType} from '../models/ResourceType';
 
 @Component({
   selector: 'app-resources-component',
@@ -14,10 +15,12 @@ import { LinqService } from 'ng2-linq';
 export class ResourcesComponent implements OnInit {
 
   private person: Person;
-  private serviceFilter: Service;
+  private resourceTypes: ResourceType[] = [];
+  private serviceFilter: string;
   private resourceFilter: string;
 
   constructor(private linq: LinqService, protected modal: NgbModal, protected service: ResourcesService) {
+    this.getResourceTypes();
   }
 
   ngOnInit() {
@@ -51,12 +54,13 @@ export class ResourcesComponent implements OnInit {
       .ToArray();
   }
 
-  private getResources(): String[] {
-    return [
-      'Episode',
-      'Encounter',
-      'Condition',
-    ];
+  private getResourceTypes(): void {
+    const vm = this;
+    vm.service.getResourceTypes()
+      .subscribe(
+        (result) => vm.resourceTypes = result,
+        (error) => console.error(error)
+      );
   }
 
   private refresh(): void {

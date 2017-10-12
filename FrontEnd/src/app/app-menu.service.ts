@@ -8,8 +8,8 @@ import {ResourcesComponent} from './resources/resources.component';
 export class AppMenuService implements  AbstractMenuProvider {
   static getRoutes(): Routes {
     return [
-      { path: '', redirectTo : 'main', pathMatch: 'full' },
-      { path: 'main', component: ResourcesComponent }
+      { path: '', redirectTo : 'resources', pathMatch: 'full' },
+      { path: 'resources', component: ResourcesComponent }
     ]
   }
 
@@ -21,7 +21,7 @@ export class AppMenuService implements  AbstractMenuProvider {
   }
   getMenuOptions(): MenuOption[] {
     return [
-      {caption: 'Main', state: 'main', icon: 'fa fa-hospital-o', role: 'eds-data-checker:patient-explorer'},
+      {caption: 'Resources', state: 'resources', icon: 'fa fa-archive', role: 'eds-data-checker:patient-explorer'},
     ];
   }
 }

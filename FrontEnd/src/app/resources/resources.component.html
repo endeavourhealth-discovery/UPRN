@@ -5,37 +5,32 @@
       <button class="btn btn-success pull-right" (click)="findPerson()">Find Person</button>
     </div>
     <div class="module-body">
-      <div *ngIf="person && !person.patients" class="row">
-        <div class="col-md-12">
-          <h2>Loading patients ...</h2>
-        </div>
-      </div>
-      <div *ngIf="person && person.patients" class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <div class="row">
-                <div class="form-group col-md-5">
-                  <label class="control-label">Services</label>
-                  <select class="form-control" [(ngModel)]="serviceFilter" name="serviceFilter">
-                    <option *ngFor="let service of getServices()" [ngValue]="service.id">{{service.name}}</option>
-                  </select>
+      <div *ngIf="person">
+        <div class="row">
+          <div class="col-md-12">
+            <loadingIndicator [done]="person.patients">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="form-group col-md-5">
+                      <label class="control-label">Services</label>
+                      <multiSelectDropdown [data]="getServices()" [(ngModel)]="serviceFilter" name="serviceFilter" ></multiSelectDropdown>
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label class="control-label">Resources</label>
+                      <multiSelectDropdown [data]="resourceTypes" [(ngModel)]="resourceFilter" name="resourceFilter" ></multiSelectDropdown>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <div>&nbsp;</div>
+                      <button class="btn btn-success pull-right" (click)="refresh()">Refresh</button>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group col-md-5">
-                  <label class="control-label">Resources</label>
-                  <select class="form-control" [(ngModel)]="resourceFilter" name="serviceFilter">
-                    <option *ngFor="let resource of getResources()" [ngValue]="resource">{{resource}}</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-2">
-                  <div>&nbsp;</div>
-                  <button class="btn btn-success pull-right" (click)="refresh()">Refresh</button>
+                <div class="card-block">
+
                 </div>
               </div>
-            </div>
-            <div class="card-block">
-
-            </div>
+            </loadingIndicator>
           </div>
         </div>
       </div>

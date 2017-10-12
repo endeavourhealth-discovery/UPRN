@@ -11,7 +11,7 @@ import {Person} from '../../models/Person';
 export class PersonFindDialogComponent implements OnInit {
 
   private searchTerms: string;
-  private matches: Person[] = null;
+  private matches: Person[] = [];
   private selectedPerson: Person = null;
 
   public static open(modalService: NgbModal) {
@@ -26,6 +26,7 @@ export class PersonFindDialogComponent implements OnInit {
 
   private search() {
     const vm = this;
+    vm.matches = null;
     vm.service.findPerson(vm.searchTerms)
       .subscribe(
         (result) => vm.matches = result,

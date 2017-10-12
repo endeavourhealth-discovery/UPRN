@@ -9,7 +9,7 @@
         <label class="control-label">Search Criteria</label>
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search term" aria-describedby="searchTerm"
-                 [(ngModel)]="searchTerms" (keyup)="search()" autofocus name="searchData">
+                 [(ngModel)]="searchTerms" (keyup)="$event.keyCode == 13 ? search() : null" autofocus name="searchData">
           <span class="input-group-addon" (click)="search()" style="cursor: pointer">
 						<i class="fa fa-search" id="searchTerm" aria-hidden="true"></i>
 					</span>
@@ -18,12 +18,14 @@
     </div>
     <div class="row">
       <div class="form-group col-md-12">
-        <label class="control-label">Matches</label> <small class="text-muted"></small>
-        <div class="scroll-box-150 form-control">
-          <div *ngFor="let match of matches" class="hover-box show-child-on-hover striped">
-            <div (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)">{{ match.name }} {{ match.nhsNumber}} <small>({{match.patientCount}} patients)</small></div>
+        <loadingIndicator [done]="matches">
+          <label class="control-label">Matches</label> <small class="text-muted"></small>
+          <div class="scroll-box-150 form-control">
+            <div *ngFor="let match of matches" class="hover-box show-child-on-hover striped">
+              <div (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)">{{ match.name }} {{ match.nhsNumber}} <small>({{match.patientCount}} patients)</small></div>
+            </div>
           </div>
-        </div>
+        </loadingIndicator>
       </div>
     </div>
   </form>

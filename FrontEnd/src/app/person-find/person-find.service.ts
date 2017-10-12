@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
+import {URLSearchParams, Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Person} from '../models/Person';
 
@@ -9,10 +9,10 @@ export class PersonFindService {
   constructor(private http: Http) { }
 
   public findPerson(searchTerms: string): Observable<Person[]> {
-    const params: URLSearchParams = new URLSearchParams();
-    params.append('searchTerms', searchTerms);
+    const params = new URLSearchParams();
+    params.set('searchTerms', searchTerms);
 
-    return this.http.get('/api/person', {params: params, withCredentials: true})
+    return this.http.get('/api/person', {search: params, withCredentials: true})
       .map((response) => response.json());
   }
 }

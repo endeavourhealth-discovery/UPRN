@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
+import {URLSearchParams, Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Patient} from '../models/Patient';
+import {ResourceType} from '../models/ResourceType';
 
 @Injectable()
 export class ResourcesService {
@@ -20,4 +21,11 @@ export class ResourcesService {
     return this.http.get('/api/person/patients', {params: params, withCredentials: true})
       .map((response) => response.json());
   }
+
+  public getResourceTypes(): Observable<ResourceType[]> {
+
+    return this.http.get('/api/resource/type', {withCredentials: true})
+      .map((response) => response.json());
+  }
+
 }

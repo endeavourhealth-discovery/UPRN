@@ -1,18 +1,14 @@
 package org.endeavourhealth.datavalidation.logic;
 
 import org.apache.commons.lang3.StringUtils;
-import org.endeavourhealth.core.rdbms.eds.PatientSearch;
 import org.endeavourhealth.datavalidation.dal.PersonPatientDAL;
 import org.endeavourhealth.datavalidation.dal.PersonPatientDAL_Jdbc;
-import org.endeavourhealth.datavalidation.dal.PersonPatientDAL_Legacy;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
-import org.endeavourhealth.datavalidation.models.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public class PersonPatient {
     static PersonPatientDAL dal = new PersonPatientDAL_Jdbc();

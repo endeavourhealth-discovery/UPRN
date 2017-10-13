@@ -1,14 +1,17 @@
 package org.endeavourhealth.datavalidation.dal;
 
-import org.endeavourhealth.core.rdbms.eds.PatientSearch;
+import org.endeavourhealth.datavalidation.models.Patient;
+import org.endeavourhealth.datavalidation.models.Person;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 public interface PersonPatientDAL {
-    List<PatientSearch> searchByNhsNumber(Set<String> organisationIds, String nhsNumber);
-    List<PatientSearch> searchByLocalId(Set<String> organisationIds, String emisNumber);
-    List<PatientSearch> searchByDateOfBirth(Set<String> organisationIds, Date dateOfBirth);
-    List<PatientSearch> searchByNames(Set<String> organisationIds, List<String> names);
+    List<Person> searchByNhsNumber(Set<String> serviceIds, String nhsNumber);
+    List<Person> searchByLocalId(Set<String> serviceIds, String emisNumber);
+    List<Person> searchByDateOfBirth(Set<String> serviceIds, Date dateOfBirth);
+    List<Person> searchByNames(Set<String> serviceIds, List<String> names);
+
+    List<Patient> getPatientsByNhsNumber(Set<String> serviceIds, String nhsNumber);
 }

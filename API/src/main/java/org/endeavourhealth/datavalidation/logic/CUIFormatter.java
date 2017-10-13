@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class CUIFormatter {
-    static String getFormattedName(String title, String forename, String surname) {
+public class CUIFormatter {
+    public static String getFormattedName(String title, String forename, String surname) {
         List<String> parts = new ArrayList<>();
 
         if (title != null && !title.isEmpty())

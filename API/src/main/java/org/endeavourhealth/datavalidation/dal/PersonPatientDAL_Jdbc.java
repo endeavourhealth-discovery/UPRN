@@ -2,7 +2,8 @@ package org.endeavourhealth.datavalidation.dal;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.endeavourhealth.common.config.ConfigManager;
-import org.endeavourhealth.core.rdbms.eds.PatientSearch;
+import org.endeavourhealth.coreui.framework.ContextShutdownHook;
+import org.endeavourhealth.coreui.framework.StartupConfig;
 import org.endeavourhealth.datavalidation.logic.CUIFormatter;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
@@ -14,9 +15,13 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-public class PersonPatientDAL_Jdbc implements PersonPatientDAL {
+public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownHook {
     private static final Logger LOG = LoggerFactory.getLogger(PersonPatientDAL_Jdbc.class);
     private Connection _connection = null;
+
+    public PersonPatientDAL_Jdbc() {
+        StartupConfig.registerShutdownHook("PersonPatientDAL_Jdbc", this);
+    }
 
     @Override
     public List<Person> searchByNhsNumber(Set<String> serviceIds, String nhsNumber) {
@@ -270,5 +275,15 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL {
             LOG.error("Error getting connection", e);
         }
         return null;
+    }
+
+    @Override
+    public void contextShutdown() {
+        try{
+            if (_connection != null && !_connection.isClosed())
+                _connection.close();
+        } catch (Exception e) {
+            LOG.error("Error disconnecting", e);
+        }
     }
 }

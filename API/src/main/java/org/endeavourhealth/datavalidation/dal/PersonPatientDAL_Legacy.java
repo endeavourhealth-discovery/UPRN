@@ -1,7 +1,10 @@
 package org.endeavourhealth.datavalidation.dal;
 
+import org.endeavourhealth.core.rdbms.eds.EdsConnection;
 import org.endeavourhealth.core.rdbms.eds.PatientSearch;
 import org.endeavourhealth.core.rdbms.eds.PatientSearchHelper;
+import org.endeavourhealth.coreui.framework.ContextShutdownHook;
+import org.endeavourhealth.coreui.framework.StartupConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +13,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class PersonPatientDAL_Legacy implements PersonPatientDAL {
+public class PersonPatientDAL_Legacy implements PersonPatientDAL, ContextShutdownHook {
     private static final Logger LOG = LoggerFactory.getLogger(PersonPatientDAL_Legacy.class);
+
+    public PersonPatientDAL_Legacy() {
+        StartupConfig.registerShutdownHook("PersonPatientDAL_Legacy", this);
+    }
 
     public List<PatientSearch> searchByNhsNumber(Set<String> organisationIds, String nhsNumber) {
         try {
@@ -47,5 +54,10 @@ public class PersonPatientDAL_Legacy implements PersonPatientDAL {
             LOG.error(exception.getMessage());
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public void contextShutdown() {
+        EdsConnection.shutdown();
     }
 }

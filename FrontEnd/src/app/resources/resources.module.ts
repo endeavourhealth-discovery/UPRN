@@ -7,12 +7,14 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ResourcesComponent } from './resources.component';
 import {ResourcesService} from './resources.service';
+import {PipesModule} from '../pipes/pipes.module';
 
 @NgModule({
   imports : [
     BrowserModule,
     FormsModule,
     CommonModule,
+    PipesModule,
     SecurityModule,
     RouterModule,
     NgbModule,

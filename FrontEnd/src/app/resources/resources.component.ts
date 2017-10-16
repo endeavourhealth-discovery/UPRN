@@ -21,7 +21,7 @@ export class ResourcesComponent implements OnInit {
   private serviceFilter: string[];
   private resourceFilter: string[];
 
-  constructor(private linq: LinqService, protected modal: NgbModal, protected service: ResourcesService) {
+  constructor(protected linq: LinqService, protected modal: NgbModal, protected resourceService: ResourcesService) {
     this.getResourceTypes();
   }
 
@@ -39,7 +39,7 @@ export class ResourcesComponent implements OnInit {
   private loadPerson(person: Person) {
     const vm = this;
     vm.person = person;
-    vm.service.getPatients(person.nhsNumber)
+    vm.resourceService.getPatients(person.nhsNumber)
       .subscribe(
         (result) => person.patients = result,
         (error) => console.error(error)
@@ -50,15 +50,32 @@ export class ResourcesComponent implements OnInit {
     if (!this.person || !this.person.patients)
       return [];
 
-    return this.linq.Enumerable().From(this.person.patients)
+    const distinctServices: any = this.linq.Enumerable().From(this.person.patients)
       .Select(p => p.service)
-      .Distinct()
-      .ToArray();
+      .Distinct();
+
+    distinctServices.ForEach(s => this.getServiceName(s));
+
+    return distinctServices.ToArray();
+  }
+
+  private getServiceName(service: Service) {
+    if (service.name != null && service.name !== '')
+      return;
+
+    service.name = 'Loading...';
+
+    const vm = this;
+    vm.resourceService.getServiceName(service.id)
+      .subscribe(
+        (result) => service.name = (result == null) ? 'Not Known' : result,
+        (error) => { console.log(error); service.name = 'Error!'; }
+      );
   }
 
   private getResourceTypes(): void {
     const vm = this;
-    vm.service.getResourceTypes()
+    vm.resourceService.getResourceTypes()
       .subscribe(
         (result) => vm.resourceTypes = result,
         (error) => console.error(error)
@@ -76,13 +93,42 @@ export class ResourcesComponent implements OnInit {
     const patient: Patient = applicablePatients[0];
 
     const vm = this;
-    vm.service.getPatientResources(patient.id, patient.service.id, this.resourceFilter)
+    vm.resourceList = null;
+    vm.resourceService.getPatientResources(patient.id, patient.service.id, this.resourceFilter)
       .subscribe(
         (result) => {
-          vm.resourceList = result;
-          console.log(result);
+          vm.resourceList = vm.linq.Enumerable().From(result)
+            .OrderByDescending(resource => vm.getDate(resource))
+            .ToArray();
         },
         (error) => console.error(error)
       );
+  }
+
+  private getDate(resource: any): Date {
+    switch (resource.resourceType) {
+      case 'Encounter':
+      case 'EpisodeOfCare':
+        return new Date(resource.period.start);
+      case 'Observation':
+        return new Date(resource.effectiveDateTime);
+      default:
+        return null;
+    }
+  }
+
+  private getCode(resource: any): any {
+    let codeableConcept: any = null;
+    switch (resource.resourceType) {
+      case 'Encounter':
+        codeableConcept = (resource.reason && resource.reason.length > 0) ? resource.reason[0] : null;
+        break;
+      case 'EpisodeOfCare':
+        codeableConcept = resource.type;
+        break;
+      case 'Observation':
+        codeableConcept = resource.code;
+        break;
+    }
   }
 }

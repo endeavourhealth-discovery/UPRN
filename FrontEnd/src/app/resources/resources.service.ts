@@ -14,6 +14,14 @@ export class ResourcesService {
       .map((response) => response.json());
   }
 
+  public getServiceName(serviceId): Observable<string> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('serviceId', serviceId);
+
+    return this.http.get('/api/admin/service/name', {search: params, withCredentials: true})
+      .map((response) => response.text());
+  }
+
   public getPatients(personId: string): Observable<Patient[]> {
     const params: URLSearchParams = new URLSearchParams();
     params.append('personId', personId);

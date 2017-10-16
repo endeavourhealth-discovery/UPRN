@@ -203,8 +203,6 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                         .setService(
                             new Service()
                             .setId(UUID.fromString(rs.getString("service_id")))
-                            .setName(rs.getString("service_id"))
-                            .setType("GP")
                         )
                     );
                 }

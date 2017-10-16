@@ -12,6 +12,7 @@ import {AbstractMenuProvider, LayoutModule} from 'eds-angular4';
 import {ResourcesModule} from './resources/resources.module';
 import {LayoutComponent} from 'eds-angular4/dist/layout/layout.component';
 import {PersonFindModule} from './person-find/person-find.module';
+import {PipesModule} from './pipes/pipes.module';
 
 @NgModule({
   declarations: [],

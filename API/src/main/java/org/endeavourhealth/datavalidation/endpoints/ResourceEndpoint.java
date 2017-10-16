@@ -20,14 +20,14 @@ import java.util.List;
 
 @Path("/resource")
 @Metrics(registry = "dataValidationMetricRegistry")
-@Api(description = "API for all calls relating to resources")
+@Api(description = "API for all calls relating to admin")
 public class ResourceEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(ResourceEndpoint.class);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Timed(absolute = true, name="DataValidation.ResourceEndpoint.Types")
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.Types")
     @Path("/type")
     @ApiOperation(value = "Returns a list of all resource types")
     public Response get(@Context SecurityContext sc) throws Exception {
@@ -44,13 +44,14 @@ public class ResourceEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Timed(absolute = true, name="DataValidation.ResourceEndpoint.ForPatients")
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.ForPatients")
     @Path("/patient")
     @ApiOperation(value = "Returns a list of all resources of the given types for the given patients")
     public Response getForPatient(@Context SecurityContext sc,
-                                   @ApiParam(value = "Mandatory Patient Id") @QueryParam("patientId") String patientId,
+                                  @ApiParam(value = "Mandatory Patient Id") @QueryParam("patientId") String patientId,
                                   @ApiParam(value = "Mandatory Service Id") @QueryParam("serviceId") String serviceId,
-                                   @ApiParam(value = "Mandatory Resource type list") @QueryParam("resourceTypes") List<String> resourceTypes) throws Exception {
+                                  @ApiParam(value = "Mandatory Resource type list") @QueryParam("resourceTypes"
+                                  ) List<String> resourceTypes) throws Exception {
         LOG.debug("getForPatients called");
 
         List<JsonNode> resources = Resource.getPatientResources(

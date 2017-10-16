@@ -27,12 +27,6 @@
             <artifactId>core</artifactId>
             <version>${eds-core.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.endeavourhealth.common</groupId>
-            <artifactId>transforms</artifactId>
-            <version>${eds-transforms.version}</version>
-        </dependency>
         <!-- End Common -->
 
         <!-- Postgres -->

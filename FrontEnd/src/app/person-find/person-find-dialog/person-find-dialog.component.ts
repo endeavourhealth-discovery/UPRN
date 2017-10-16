@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {PersonFindService} from '../person-find.service';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Person} from '../../models/Person';
+import {LoggerService} from 'eds-angular4';
 
 @Component({
   selector: 'app-person-find-dialog',
@@ -19,7 +20,7 @@ export class PersonFindDialogComponent implements OnInit {
     return modalRef;
   }
 
-  constructor(public activeModal: NgbActiveModal, private service: PersonFindService) { }
+  constructor(protected logger: LoggerService, public activeModal: NgbActiveModal, private service: PersonFindService) { }
 
   ngOnInit() {
   }
@@ -30,7 +31,7 @@ export class PersonFindDialogComponent implements OnInit {
     vm.service.findPerson(vm.searchTerms)
       .subscribe(
         (result) => vm.matches = result,
-        (error) => console.error(error)
+        (error) => vm.logger.error(error)
       );
   }
 
@@ -42,11 +43,11 @@ export class PersonFindDialogComponent implements OnInit {
 
   private ok() {
     this.activeModal.close(this.selectedPerson);
-    console.log('OK Pressed');
+    this.logger.log('OK Pressed');
   }
 
   private cancel() {
     this.activeModal.dismiss('cancel');
-    console.log('Cancel Pressed');
+    this.logger.log('Cancel Pressed');
   }
 }

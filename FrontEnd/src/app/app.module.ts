@@ -8,22 +8,26 @@ import {AppMenuService} from './app-menu.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {KeycloakService} from 'eds-angular4/dist/keycloak/keycloak.service';
 import {keycloakHttpFactory} from 'eds-angular4/dist/keycloak/keycloak.http';
-import {AbstractMenuProvider, LayoutModule} from 'eds-angular4';
+import {AbstractMenuProvider, LayoutModule, LoggerModule} from 'eds-angular4';
 import {ResourcesModule} from './resources/resources.module';
 import {LayoutComponent} from 'eds-angular4/dist/layout/layout.component';
 import {PersonFindModule} from './person-find/person-find.module';
-import {PipesModule} from './pipes/pipes.module';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     LayoutModule,
+    LoggerModule,
     PersonFindModule,
     ResourcesModule,
     RouterModule.forRoot(AppMenuService.getRoutes()),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [
     KeycloakService,

@@ -15,10 +15,24 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
     @Override
     public List<ResourceType> getResourceTypes() {
         List<ResourceType> resourceTypes = new ArrayList<>();
+        // Hard-coded list as you cant do a simple distinct in cassandra!
 
-        resourceTypes.add(new ResourceType().setId("EpisodeOfCare").setName("Episode Of Care"));
+        resourceTypes.add(new ResourceType().setId("AllergyIntolerance").setName("Allergy/Intolerance"));
+        resourceTypes.add(new ResourceType().setId("Condition").setName("Condition"));
+        resourceTypes.add(new ResourceType().setId("DiagnosticOrder").setName("Diagnostic Order"));
+        resourceTypes.add(new ResourceType().setId("DiagnosticReport").setName("Diagnostic Report"));
+        resourceTypes.add(new ResourceType().setId("ProcedureRequest").setName("Procedure Request"));
         resourceTypes.add(new ResourceType().setId("Encounter").setName("Encounter"));
+        resourceTypes.add(new ResourceType().setId("EpisodeOfCare").setName("Episode Of Care"));
+        resourceTypes.add(new ResourceType().setId("FamilyMemberHistory").setName("Family Member History"));
+        resourceTypes.add(new ResourceType().setId("Immunisation").setName("Immunisation"));
+        resourceTypes.add(new ResourceType().setId("MedicationOrder").setName("Medication Order"));
+        resourceTypes.add(new ResourceType().setId("MedicationStatement").setName("Medication Statement"));
+        resourceTypes.add(new ResourceType().setId("Medication").setName("Medication"));
         resourceTypes.add(new ResourceType().setId("Observation").setName("Observation"));
+        resourceTypes.add(new ResourceType().setId("Procedure").setName("Procedure"));
+        resourceTypes.add(new ResourceType().setId("ReferralRequest").setName("Referral Request"));
+        resourceTypes.add(new ResourceType().setId("Specimen").setName("Specimen"));
 
         return resourceTypes;
     }

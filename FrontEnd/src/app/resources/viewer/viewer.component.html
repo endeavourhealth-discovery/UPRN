@@ -5,7 +5,9 @@
   </button>
 </div>
 <div class="modal-body">
-  <pre>{{message}}</pre>
+  <div class="scroll-box-500">
+    <app-object-viewer [node]="object"></app-object-viewer>
+  </div>
 </div>
 <div class="modal-footer">
   <button *ngIf="cancelText" type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">{{cancelText}}</button>

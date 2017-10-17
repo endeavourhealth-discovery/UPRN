@@ -1,0 +1,16 @@
+<span *ngIf="isPrimitive(node)">{{node}}</span>
+
+<span *ngIf="isObject(node)">
+  <ul>
+    <li *ngFor="let property of getKeys()">
+      <b>{{property}}:</b>
+      <app-object-viewer [node]="getValue(property)"></app-object-viewer>
+    </li>
+  </ul>
+</span>
+
+<span *ngIf="isArray(node)">
+  <span *ngFor="let arrayItem of node; let i = index">
+    [<app-object-viewer [node]="arrayItem"></app-object-viewer>]
+  </span>
+</span>

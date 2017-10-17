@@ -9,6 +9,7 @@ import { ResourcesComponent } from './resources.component';
 import {ResourcesService} from './resources.service';
 import {PipesModule} from '../pipes/pipes.module';
 import { ViewerComponent } from './viewer/viewer.component';
+import { ObjectViewerComponent } from './object-viewer/object-viewer.component';
 
 @NgModule({
   imports : [
@@ -24,7 +25,8 @@ import { ViewerComponent } from './viewer/viewer.component';
   ],
   declarations : [
     ResourcesComponent,
-    ViewerComponent
+    ViewerComponent,
+    ObjectViewerComponent
   ],
   providers : [
     ResourcesService,

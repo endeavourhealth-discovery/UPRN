@@ -158,6 +158,20 @@ export class ResourcesComponent implements OnInit {
     return (extension === null) ? null : new Date(extension.valueDateTime);
   }
 
+  private getCodeTerm(resource: any): string {
+    const code = this.getCode(resource);
+    if (code == null)
+      return null;
+
+    if (code.text != null)
+      return code.text;
+
+    if (code.coding)
+      return code.coding[0].display;
+
+    return null;
+  }
+
   private getCode(resource: any): any {
     switch (resource.resourceType) {
       case 'AllergyIntolerance': return resource.substance;
@@ -186,6 +200,6 @@ export class ResourcesComponent implements OnInit {
   }
 
   private viewResource(resource: any) {
-    ViewerComponent.open(this.modal, this.getResourceName(resource.resourceType), JSON.stringify(resource, null, 2), null, 'Close');
+    ViewerComponent.open(this.modal, this.getResourceName(resource.resourceType), resource, null, 'Close');
   }
 }

@@ -42,7 +42,7 @@
                           <tr *ngFor="let resource of resourceList" (click)="viewResource(resource)">
                             <td>{{getDate(resource) | cuiDate}}</td>
                             <td>{{getResourceName(resource.resourceType)}}</td>
-                            <td>{{getCode(resource)?.text}}</td>
+                            <td>{{getCodeTerm(resource)}}</td>
                             <td>{{resource.id}}</td>
                           </tr>
                         </tbody>

@@ -8,19 +8,19 @@ import {NgbActiveModal, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap'
 })
 export class ViewerComponent {
   @Input() title;
-  @Input() message;
+  @Input() object;
   @Input() okText;
   @Input() cancelText;
 
   public static open(modalService: NgbModal,
                      title: string,
-                     message: string,
+                     object: any,
                      okText: string,
                      cancelText: string): NgbModalRef {
 
     const modalRef = modalService.open(ViewerComponent, { backdrop : 'static', size: 'lg'});
     modalRef.componentInstance.title = title;
-    modalRef.componentInstance.message = message;
+    modalRef.componentInstance.object = object;
     modalRef.componentInstance.okText = okText;
     modalRef.componentInstance.cancelText = cancelText;
 
@@ -28,4 +28,8 @@ export class ViewerComponent {
   }
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  private getKeys() {
+    return Object.keys(this.object);
+  }
 }

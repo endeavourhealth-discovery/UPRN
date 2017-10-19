@@ -19,13 +19,13 @@ import { DateHelper} from '../pipes/cui';
 })
 export class ResourcesComponent implements OnInit {
 
-  private person: Person;
   private resourceMap: any;
   private serviceMap: any;
 
   protected resourceTypes: ResourceType[] = [];
   protected resourceFilter: string[];
 
+  protected person: Person;
   protected patients: Patient[] = [];
   protected patientFilter: string[];
 
@@ -171,6 +171,7 @@ export class ResourcesComponent implements OnInit {
     switch (resource.resourceType) {
       case 'Condition': return DateHelper.parse(resource.dateRecorded);
 
+      // TODO : Remaining recorded date entries!
       case 'AllergyIntolerance': return DateHelper.parse(resource.onset);
       case 'DiagnosticOrder': return this.getRecordedDateExtension(resource);
       case 'DiagnosticReport': return DateHelper.parse(resource.effectiveDateTime);
@@ -224,6 +225,7 @@ export class ResourcesComponent implements OnInit {
 
   /** DESCRIPTION FUNCTIONS **/
   private getDescription(resource: any): string {
+    // TODO : Proper description fetcher
     return this.getCodeTerm(resource);
   }
 

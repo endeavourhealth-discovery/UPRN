@@ -1,4 +1,4 @@
-package org.endeavourhealth.datavalidation.logic;
+package org.endeavourhealth.datavalidation.helpers;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-class SearchTermsParser {
+public class SearchTermsParser {
     private String nhsNumber;
     private String emisNumber;
     private Date dateOfBirth;
     private List<String> names = new ArrayList<>();
 
-    SearchTermsParser(String searchTerms) {
+    public SearchTermsParser(String searchTerms) {
         if (StringUtils.isEmpty(searchTerms))
             return;
 
@@ -23,11 +23,11 @@ class SearchTermsParser {
         List<String> tokens = Arrays.asList(searchTerms.split(" "));
 
         //remove any empty tokens before any further processing, so accidental double-spaces don't cause problems
-        removeEmptyTokens(tokens);
+        tokens = removeEmptyTokens(tokens);
 
         //not the nicest way of doing this, but if we have three separate numeric tokens that total 10 chars,
         //then mash them together as it's an NHS number search
-        combineNhsNumberTokens(tokens);
+        tokens = combineNhsNumberTokens(tokens);
 
         for (String token : tokens) {
 
@@ -50,53 +50,50 @@ class SearchTermsParser {
         }
     }
 
-    boolean hasNhsNumber() {
+    public boolean hasNhsNumber() {
         return StringUtils.isNotBlank(this.nhsNumber);
     }
 
-    String getNhsNumber() {
+    public String getNhsNumber() {
         return nhsNumber;
     }
 
-    boolean hasEmisNumber() {
+    public boolean hasEmisNumber() {
         return StringUtils.isNotBlank(this.emisNumber);
     }
 
-    String getEmisNumber() {
+    public String getEmisNumber() {
         return emisNumber;
     }
 
-    boolean hasDateOfBirth() {
+    public boolean hasDateOfBirth() {
         return this.dateOfBirth != null;
     }
 
-    Date getDateOfBirth() {
+    public Date getDateOfBirth() {
         return this.dateOfBirth;
     }
 
-    List<String> getNames() {
+    public List<String> getNames() {
         return names;
     }
 
-    private static void removeEmptyTokens(List<String> tokens) {
-        for (int i=tokens.size()-1; i>=0; i--) {
-            String token = tokens.get(i);
-            token = token.trim();
+    private static List<String> removeEmptyTokens(List<String> tokens) {
+        List<String> result = new ArrayList<>();
 
-            if (StringUtils.isEmpty(token)) {
-                tokens.remove(i);
-            } else {
-                //replace with the trimmed version
-                tokens.set(i, token);
+        for(String token : tokens) {
+            token = token.trim();
+            if (!StringUtils.isEmpty(token)) {
+                result.add(token);
             }
         }
+
+        return result;
     }
 
-    private static void combineNhsNumberTokens(List<String> tokens) {
-
-        if (tokens.size() != 3) {
-            return;
-        }
+    private static List<String> combineNhsNumberTokens(List<String> tokens) {
+        if (tokens.size() != 3)
+            return tokens;
 
         StringBuilder sb = new StringBuilder();
 
@@ -104,16 +101,16 @@ class SearchTermsParser {
             if (StringUtils.isNumeric(token)) {
                 sb.append(token);
             } else {
-                return;
+                return tokens;
             }
         }
 
         String combined = sb.toString();
-        if (combined.length() != 10) {
-            return;
-        }
+        if (combined.length() != 10)
+            return tokens;
 
-        tokens.clear();
-        tokens.add(combined);
+        List<String> result = new ArrayList<>();
+        result.add(combined);
+        return result;
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ResourceDAL {
     List<ResourceType> getResourceTypes();
-    List<String> getPatientResources(String patientId, String serviceId, List<String> resourceTypes);
+    List<String> getPatientResources(String servicePatientId, String serviceId, List<String> resourceTypes);
 }

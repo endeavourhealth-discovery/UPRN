@@ -1,14 +1,10 @@
 package org.endeavourhealth.datavalidation.endpoints;
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.astefanutti.metrics.aspectj.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.endeavourhealth.datavalidation.logic.Admin;
-import org.endeavourhealth.datavalidation.logic.Resource;
-import org.endeavourhealth.datavalidation.logic.Security;
-import org.endeavourhealth.datavalidation.models.ResourceType;
+import org.endeavourhealth.datavalidation.logic.AdminLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.List;
 
 @Path("/admin")
 @Metrics(registry = "dataValidationMetricRegistry")
@@ -35,7 +30,7 @@ public class AdminEndpoint {
     ) throws Exception {
         LOG.debug("Get Name Called");
 
-        String resourceData = Admin.getServiceName(serviceId);
+        String resourceData = new AdminLogic().getServiceName(serviceId);
 
         return Response
             .ok()

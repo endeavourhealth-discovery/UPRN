@@ -3,6 +3,7 @@ package org.endeavourhealth.datavalidation.logic;
 import org.apache.commons.lang3.StringUtils;
 import org.endeavourhealth.datavalidation.dal.PersonPatientDAL;
 import org.endeavourhealth.datavalidation.dal.PersonPatientDAL_Jdbc;
+import org.endeavourhealth.datavalidation.helpers.SearchTermsParser;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
 
@@ -10,10 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class PersonPatient {
-    static PersonPatientDAL dal = new PersonPatientDAL_Jdbc();
+public class PersonPatientLogic {
+    private PersonPatientDAL dal;
 
-    public static List<Person> findPersonsInOrganisations(Set<String> organisationIds, String searchTerms) throws Exception {
+    public PersonPatientLogic() {
+         dal = new PersonPatientDAL_Jdbc();
+    }
+
+    PersonPatientLogic(PersonPatientDAL dal) {
+        this.dal = dal;
+    }
+
+
+    public List<Person> findPersonsInOrganisations(Set<String> organisationIds, String searchTerms) throws Exception {
         List<Person> result = new ArrayList<>();
 
         if (!StringUtils.isEmpty(searchTerms)) {
@@ -35,7 +45,7 @@ public class PersonPatient {
         return result;
     }
 
-    public static List<Patient> getPatientsForPerson(Set<String> serviceIds, String personId) throws Exception {
+    public List<Patient> getPatientsForPerson(Set<String> serviceIds, String personId) throws Exception {
         return dal.getPatientsByNhsNumber(serviceIds, personId);
     }
-    }
+}

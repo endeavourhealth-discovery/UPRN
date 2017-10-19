@@ -1,4 +1,4 @@
-package org.endeavourhealth.datavalidation.logic;
+package org.endeavourhealth.datavalidation.helpers;
 
 import org.endeavourhealth.common.security.SecurityUtils;
 import org.keycloak.representations.AccessToken;
@@ -7,7 +7,7 @@ import javax.ws.rs.core.SecurityContext;
 import java.util.*;
 
 public class Security {
-    public static Set<String> getUserAllowedOrganisationIdsFromSecurityContext(SecurityContext securityContext) {
+    public Set<String> getUserAllowedOrganisationIdsFromSecurityContext(SecurityContext securityContext) {
         Set<String> orgs = new HashSet<>();
 
         AccessToken accessToken = SecurityUtils.getToken(securityContext);

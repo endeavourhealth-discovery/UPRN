@@ -1,18 +1,18 @@
-package org.endeavourhealth.datavalidation.logic;
+package org.endeavourhealth.datavalidation.helpers;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class CUIFormatter {
-    public static String getFormattedName(String title, String forename, String surname) {
+    public String getFormattedName(String title, String forename, String surname) {
         List<String> parts = new ArrayList<>();
 
         if (title != null && !title.isEmpty())
-            parts.add("(" + CUIFormatter.toSentenceCase(title) + ")");
+            parts.add("(" + toSentenceCase(title) + ")");
 
         if (forename != null && !forename.isEmpty())
-            parts.add(CUIFormatter.toSentenceCase(forename));
+            parts.add(toSentenceCase(forename));
 
         if (surname != null && !surname.isEmpty())
             if (parts.size() == 0)
@@ -25,7 +25,7 @@ public class CUIFormatter {
         return String.join(" ", parts);
     }
 
-    static String toSentenceCase(String sentence) {
+    String toSentenceCase(String sentence) {
         if (sentence == null || sentence.isEmpty())
             return sentence;
 

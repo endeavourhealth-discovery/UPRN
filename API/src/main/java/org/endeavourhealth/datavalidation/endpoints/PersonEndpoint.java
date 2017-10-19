@@ -4,8 +4,8 @@ import io.astefanutti.metrics.aspectj.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.endeavourhealth.datavalidation.logic.PersonPatient;
-import org.endeavourhealth.datavalidation.logic.Security;
+import org.endeavourhealth.datavalidation.logic.PersonPatientLogic;
+import org.endeavourhealth.datavalidation.helpers.Security;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class PersonEndpoint {
     ) throws Exception {
         LOG.debug("Get Called");
 
-        List<Person> matches = PersonPatient.findPersonsInOrganisations(Security.getUserAllowedOrganisationIdsFromSecurityContext(sc), searchTerms);
+        List<Person> matches = new PersonPatientLogic().findPersonsInOrganisations(new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc), searchTerms);
 
         return Response
             .ok()
@@ -53,7 +53,7 @@ public class PersonEndpoint {
     ) throws Exception {
         LOG.debug("GetPatients Called");
 
-        List<Patient> patients = PersonPatient.getPatientsForPerson(Security.getUserAllowedOrganisationIdsFromSecurityContext(sc), personId);
+        List<Patient> patients = new PersonPatientLogic().getPatientsForPerson(new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc), personId);
 
         return Response
             .ok()

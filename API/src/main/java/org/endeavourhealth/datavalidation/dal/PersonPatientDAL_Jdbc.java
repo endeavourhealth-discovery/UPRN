@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.endeavourhealth.common.config.ConfigManager;
 import org.endeavourhealth.coreui.framework.ContextShutdownHook;
 import org.endeavourhealth.coreui.framework.StartupConfig;
-import org.endeavourhealth.datavalidation.logic.CUIFormatter;
+import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
 import org.endeavourhealth.datavalidation.models.Service;
@@ -84,7 +84,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 while (rs.next()) {
                     result.add(new Person()
                         .setNhsNumber(rs.getString("nhs_number"))
-                        .setName(CUIFormatter.getFormattedName(
+                        .setName(new CUIFormatter().getFormattedName(
                             null,
                             rs.getString("forenames"),
                             rs.getString("surname")
@@ -153,7 +153,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 while (rs.next()) {
                     result.add(new Person()
                         .setNhsNumber(rs.getString("nhs_number"))
-                        .setName(CUIFormatter.getFormattedName(
+                        .setName(new CUIFormatter().getFormattedName(
                             null,
                             rs.getString("forenames"),
                             rs.getString("surname")
@@ -195,7 +195,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                     result.add(new Patient()
                         .setId(rs.getString("service_id") + rs.getString("patient_id")) // Cassandra has no Service_Patient_Id
                         .setPatientId(UUID.fromString(rs.getString("patient_id")))
-                        .setName(CUIFormatter.getFormattedName(
+                        .setName(new CUIFormatter().getFormattedName(
                             null,
                             rs.getString("forenames"),
                             rs.getString("surname")
@@ -231,7 +231,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
             while (rs.next()) {
                 result.add(new Person()
                     .setNhsNumber(rs.getString("nhs_number"))
-                    .setName(CUIFormatter.getFormattedName(
+                    .setName(new CUIFormatter().getFormattedName(
                         null,
                         rs.getString("forenames"),
                         rs.getString("surname")

@@ -4,8 +4,8 @@ import io.astefanutti.metrics.aspectj.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.endeavourhealth.datavalidation.logic.Resource;
-import org.endeavourhealth.datavalidation.logic.Security;
+import org.endeavourhealth.datavalidation.logic.ResourceLogic;
+import org.endeavourhealth.datavalidation.helpers.Security;
 import org.endeavourhealth.datavalidation.models.ResourceType;
 import org.endeavourhealth.datavalidation.models.ServicePatientResource;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/resource")
@@ -34,7 +33,7 @@ public class ResourceEndpoint {
     public Response get(@Context SecurityContext sc) throws Exception {
         LOG.debug("Get Types Called");
 
-        List<ResourceType> resourceTypes = Resource.getTypes();
+        List<ResourceType> resourceTypes = new ResourceLogic().getTypes();
 
         return Response
             .ok()
@@ -54,12 +53,9 @@ public class ResourceEndpoint {
     ) throws Exception {
         LOG.debug("getForPatient called");
 
-        List<ServicePatientResource> resources = new ArrayList<>();
-        for(String servicePatientId : servicePatientIds) {
-             resources.addAll(Resource.getServicePatientResources(
-                Security.getUserAllowedOrganisationIdsFromSecurityContext(sc),
-                servicePatientId, resourceTypes));
-        }
+        List<ServicePatientResource> resources = new ResourceLogic().getServicePatientResources(
+            new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc),
+            servicePatientIds, resourceTypes);
 
         return Response
             .ok()

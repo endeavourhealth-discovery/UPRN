@@ -3,16 +3,17 @@ package org.endeavourhealth.datavalidation.models;
 import java.util.UUID;
 
 public class Patient {
-    private UUID id;
+    private String id;
     private Service service;
+    private UUID patientId;
     private String name;
     private String dob;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public Patient setId(UUID id) {
+    public Patient setId(String id) {
         this.id = id;
         return this;
     }
@@ -41,6 +42,15 @@ public class Patient {
 
     public Patient setDob(String dob) {
         this.dob = dob;
+        return this;
+    }
+
+    public UUID getPatientId() {
+        return patientId;
+    }
+
+    public Patient setPatientId(UUID patientId) {
+        this.patientId = patientId;
         return this;
     }
 }

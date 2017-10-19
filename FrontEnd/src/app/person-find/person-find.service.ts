@@ -12,7 +12,7 @@ export class PersonFindService {
     const params = new URLSearchParams();
     params.append('searchTerms', searchTerms);
 
-    return this.http.get('/api/person', {search: params, withCredentials: true})
+    return this.http.get('api/person', {search: params, withCredentials: true})
       .map((response) => response.json());
   }
 }

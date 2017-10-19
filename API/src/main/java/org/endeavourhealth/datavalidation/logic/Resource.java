@@ -1,10 +1,10 @@
 package org.endeavourhealth.datavalidation.logic;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
 import org.endeavourhealth.datavalidation.models.ResourceType;
+import org.endeavourhealth.datavalidation.models.ServicePatientResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,17 +18,26 @@ public class Resource {
         return dal.getResourceTypes();
     }
 
-    public static List<JsonNode> getPatientResources(Set<String> serviceIds, String patientId, String serviceId, List<String> resourceTypes) throws Exception {
+    public static List<ServicePatientResource> getServicePatientResources(Set<String> serviceIds, String servicePatientId, List<String> resourceTypes) throws Exception {
+        String serviceId = servicePatientId.substring(0, 36);
+        String patientId = servicePatientId.substring(36, 72);
+
         if (!serviceIds.contains(serviceId))
             return new ArrayList<>();
 
-        List<String> resourcesJson = dal.getPatientResources(patientId, serviceId, resourceTypes);
+        List<String> resourceStrings = dal.getPatientResources(patientId, serviceId, resourceTypes);
 
         ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
 
-        List<JsonNode> resourceObjects = new ArrayList<>();
-        for(String resourceJson : resourcesJson)
-            resourceObjects.add(parserPool.readTree(resourceJson));
+        List<ServicePatientResource> resourceObjects = new ArrayList<>();
+        for(String resourceString : resourceStrings)
+            resourceObjects.add(
+                new ServicePatientResource()
+                .setPatientId(patientId)
+                .setServiceId(serviceId)
+                .setResourceJson(parserPool.readTree(resourceString))
+            );
+
 
         return resourceObjects;
     }

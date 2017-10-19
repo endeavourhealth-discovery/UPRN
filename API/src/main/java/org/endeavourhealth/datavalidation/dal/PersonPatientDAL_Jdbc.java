@@ -45,11 +45,11 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
     public List<Person> searchByLocalId(Set<String> serviceIds, String emisNumber) {
         Connection conn = getConnection();
         try {
-            String sql = "distinct nhs_number, forenames, surname, count(*) as cnt " +
+            String sql = "select distinct nhs_number, forenames, surname, count(*) as cnt " +
                 "from patient_search p " +
-                "inner join patient_search_local_identifier l on p.serviceId = l.serviceId and p.systemId = l.systemId and p.patientId = l.patientId " +
-                "where l.localId = ? " +
-                "and l.serviceId IN ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +") "+
+                "inner join patient_search_local_identifier l on p.service_id = l.service_id and p.system_id = l.system_id and p.patient_id = l.patient_id " +
+                "where l.local_id = ? " +
+                "and l.service_id IN ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +") "+
                 "group by nhs_number, forenames, surname";
 
             return searchPeople(serviceIds, emisNumber, conn, sql);
@@ -193,7 +193,8 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
 
                 while (rs.next()) {
                     result.add(new Patient()
-                        .setId(UUID.fromString(rs.getString("patient_id")))
+                        .setId(rs.getString("service_id") + rs.getString("patient_id")) // Cassandra has no Service_Patient_Id
+                        .setPatientId(UUID.fromString(rs.getString("patient_id")))
                         .setName(CUIFormatter.getFormattedName(
                             null,
                             rs.getString("forenames"),

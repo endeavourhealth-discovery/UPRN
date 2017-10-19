@@ -1,6 +1,5 @@
 package org.endeavourhealth.datavalidation.endpoints;
 import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.astefanutti.metrics.aspectj.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import org.endeavourhealth.datavalidation.logic.Resource;
 import org.endeavourhealth.datavalidation.logic.Security;
 import org.endeavourhealth.datavalidation.models.ResourceType;
+import org.endeavourhealth.datavalidation.models.ServicePatientResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/resource")
@@ -44,19 +45,21 @@ public class ResourceEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.ForPatients")
-    @Path("/patient")
-    @ApiOperation(value = "Returns a list of all resources of the given types for the given patients")
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.Get")
+    @Path("/")
+    @ApiOperation(value = "Returns a list of all resources of the given types for the given service patients")
     public Response getForPatient(@Context SecurityContext sc,
-                                  @ApiParam(value = "Mandatory Patient Id") @QueryParam("patientId") String patientId,
-                                  @ApiParam(value = "Mandatory Service Id") @QueryParam("serviceId") String serviceId,
-                                  @ApiParam(value = "Mandatory Resource type list") @QueryParam("resourceTypes"
-                                  ) List<String> resourceTypes) throws Exception {
-        LOG.debug("getForPatients called");
+                                  @ApiParam(value = "Mandatory Service Patient ID list") @QueryParam("servicePatientId") List<String> servicePatientIds,
+                                  @ApiParam(value = "Mandatory Resource type list") @QueryParam("resourceType") List<String> resourceTypes
+    ) throws Exception {
+        LOG.debug("getForPatient called");
 
-        List<JsonNode> resources = Resource.getPatientResources(
-            Security.getUserAllowedOrganisationIdsFromSecurityContext(sc),
-            patientId, serviceId, resourceTypes);
+        List<ServicePatientResource> resources = new ArrayList<>();
+        for(String servicePatientId : servicePatientIds) {
+             resources.addAll(Resource.getServicePatientResources(
+                Security.getUserAllowedOrganisationIdsFromSecurityContext(sc),
+                servicePatientId, resourceTypes));
+        }
 
         return Response
             .ok()

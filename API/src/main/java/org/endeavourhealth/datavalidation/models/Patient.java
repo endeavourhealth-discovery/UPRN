@@ -1,38 +1,36 @@
 package org.endeavourhealth.datavalidation.models;
 
-import java.util.UUID;
-
 public class Patient {
-    private String id;
-    private Service service;
-    private UUID patientId;
-    private String name;
+    private ResourceId id;
+    private String patientName;
     private String dob;
 
-    public String getId() {
+    public Patient() {}
+
+    public Patient(String serviceId, String systemId, String patientId, String patientName, String dob) {
+        this.id = new ResourceId()
+            .setServiceId(serviceId)
+            .setSystemId(systemId)
+            .setPatientId(patientId);
+        this.patientName = patientName;
+        this.dob = dob;
+    }
+
+    public ResourceId getId() {
         return id;
     }
 
-    public Patient setId(String id) {
+    public Patient setId(ResourceId id) {
         this.id = id;
         return this;
     }
 
-    public Service getService() {
-        return service;
+    public String getPatientName() {
+        return patientName;
     }
 
-    public Patient setService(Service service) {
-        this.service = service;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Patient setName(String name) {
-        this.name = name;
+    public Patient setPatientName(String patientName) {
+        this.patientName = patientName;
         return this;
     }
 
@@ -42,15 +40,6 @@ public class Patient {
 
     public Patient setDob(String dob) {
         this.dob = dob;
-        return this;
-    }
-
-    public UUID getPatientId() {
-        return patientId;
-    }
-
-    public Patient setPatientId(UUID patientId) {
-        this.patientId = patientId;
         return this;
     }
 }

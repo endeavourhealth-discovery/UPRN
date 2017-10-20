@@ -7,7 +7,6 @@ import org.endeavourhealth.coreui.framework.StartupConfig;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
-import org.endeavourhealth.datavalidation.models.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,21 +76,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 for (String serviceId : serviceIds)
                     statement.setString(i++, serviceId);
 
-                ResultSet rs = statement.executeQuery();
-
-                List<Person> result = new ArrayList<>();
-
-                while (rs.next()) {
-                    result.add(new Person()
-                        .setNhsNumber(rs.getString("nhs_number"))
-                        .setName(new CUIFormatter().getFormattedName(
-                            null,
-                            rs.getString("forenames"),
-                            rs.getString("surname")
-                        ))
-                        .setPatientCount(rs.getInt("cnt"))
-                    );
-                }
+                List<Person> result = getStatementResults(statement);
 
                 return result;
             }
@@ -146,21 +131,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 for (String serviceId : serviceIds)
                     statement.setString(i++, serviceId);
 
-                ResultSet rs = statement.executeQuery();
-
-                List<Person> result = new ArrayList<>();
-
-                while (rs.next()) {
-                    result.add(new Person()
-                        .setNhsNumber(rs.getString("nhs_number"))
-                        .setName(new CUIFormatter().getFormattedName(
-                            null,
-                            rs.getString("forenames"),
-                            rs.getString("surname")
-                        ))
-                        .setPatientCount(rs.getInt("cnt"))
-                    );
-                }
+                List<Person> result = getStatementResults(statement);
 
                 return result;
             }
@@ -171,11 +142,45 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
         }
     }
 
+    private List<Person> searchPeople(Set<String> serviceIds, String identifier, Connection conn, String sql) throws SQLException {
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            int i = 1;
+            statement.setString(i++, identifier);
+
+            for (String serviceId : serviceIds)
+                statement.setString(i++, serviceId);
+
+            List<Person> result = getStatementResults(statement);
+
+            return result;
+        }
+    }
+
+    private List<Person> getStatementResults(PreparedStatement statement) throws SQLException {
+        ResultSet rs = statement.executeQuery();
+
+        List<Person> result = new ArrayList<>();
+
+        while (rs.next()) {
+            result.add(new Person(
+                    rs.getString("nhs_number"),
+                    new CUIFormatter().getFormattedName(
+                        null,
+                        rs.getString("forenames"),
+                        rs.getString("surname")
+                    ),
+                    rs.getInt("cnt")
+                )
+            );
+        }
+        return result;
+    }
+
     @Override
     public List<Patient> getPatientsByNhsNumber(Set<String> serviceIds, String nhsNumber) {
         Connection conn = getConnection();
         try {
-            String sql = "select patient_id, forenames, surname, date_of_birth, service_id " +
+            String sql = "select service_id, system_id, patient_id, forenames, surname, date_of_birth " +
                 "from patient_search " +
                 "where nhs_number = ? " +
                 "and service_id in ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +")";
@@ -192,18 +197,16 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 List<Patient> result = new ArrayList<>();
 
                 while (rs.next()) {
-                    result.add(new Patient()
-                        .setId(rs.getString("service_id") + rs.getString("patient_id")) // Cassandra has no Service_Patient_Id
-                        .setPatientId(UUID.fromString(rs.getString("patient_id")))
-                        .setName(new CUIFormatter().getFormattedName(
-                            null,
-                            rs.getString("forenames"),
-                            rs.getString("surname")
-                        ))
-                        .setDob(rs.getDate("date_of_birth").toString())
-                        .setService(
-                            new Service()
-                            .setId(UUID.fromString(rs.getString("service_id")))
+                    result.add(new Patient(
+                            rs.getString("service_id"),
+                            rs.getString("system_id"),
+                            rs.getString("patient_id"),
+                            new CUIFormatter().getFormattedName(
+                                null,
+                                rs.getString("forenames"),
+                                rs.getString("surname")
+                            ),
+                            rs.getDate("date_of_birth").toString()
                         )
                     );
                 }
@@ -213,34 +216,6 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
         } catch (Exception e) {
             LOG.error("Error fetching patients for person [" + nhsNumber + "]", e);
             return null;
-        }
-    }
-
-    private List<Person> searchPeople(Set<String> serviceIds, String identifier, Connection conn, String sql) throws SQLException {
-        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-            int i = 1;
-            statement.setString(i++, identifier);
-
-            for (String serviceId : serviceIds)
-                statement.setString(i++, serviceId);
-
-            ResultSet rs = statement.executeQuery();
-
-            List<Person> result = new ArrayList<>();
-
-            while (rs.next()) {
-                result.add(new Person()
-                    .setNhsNumber(rs.getString("nhs_number"))
-                    .setName(new CUIFormatter().getFormattedName(
-                        null,
-                        rs.getString("forenames"),
-                        rs.getString("surname")
-                    ))
-                    .setPatientCount(rs.getInt("cnt"))
-                );
-            }
-
-            return result;
         }
     }
 

@@ -1,5 +1,11 @@
 export class ServicePatientResource {
-  patientId: string;
   serviceId: string;
+  systemId: string;
+  patientId: string;
   resourceJson: any;
+
+  // UI Cached entries
+  recordedDate: Date;
+  effectiveDate: Date;
+  description: string;
 }

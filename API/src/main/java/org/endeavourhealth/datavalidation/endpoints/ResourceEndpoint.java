@@ -4,10 +4,12 @@ import io.astefanutti.metrics.aspectj.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.datavalidation.logic.ResourceLogic;
 import org.endeavourhealth.datavalidation.helpers.Security;
+import org.endeavourhealth.datavalidation.models.ResourceRequest;
 import org.endeavourhealth.datavalidation.models.ResourceType;
-import org.endeavourhealth.datavalidation.models.ServicePatientResource;
+import org.endeavourhealth.datavalidation.models.PatientResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,21 +43,23 @@ public class ResourceEndpoint {
             .build();
     }
 
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.Get")
     @Path("/")
     @ApiOperation(value = "Returns a list of all resources of the given types for the given service patients")
     public Response getForPatient(@Context SecurityContext sc,
-                                  @ApiParam(value = "Mandatory Service Patient ID list") @QueryParam("servicePatientId") List<String> servicePatientIds,
-                                  @ApiParam(value = "Mandatory Resource type list") @QueryParam("resourceType") List<String> resourceTypes
+                                  @ApiParam(value = "Mandatory Resource Request") String resourceRequestJson
     ) throws Exception {
         LOG.debug("getForPatient called");
 
-        List<ServicePatientResource> resources = new ResourceLogic().getServicePatientResources(
+        ResourceRequest resourceRequest = ObjectMapperPool.getInstance().readValue(resourceRequestJson, ResourceRequest.class);
+
+        List<PatientResource> resources = new ResourceLogic().getPatientResources(
             new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc),
-            servicePatientIds, resourceTypes);
+            resourceRequest.getPatients(),
+            resourceRequest.getResourceTypes());
 
         return Response
             .ok()

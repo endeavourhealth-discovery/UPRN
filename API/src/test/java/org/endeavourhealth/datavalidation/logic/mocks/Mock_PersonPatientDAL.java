@@ -46,7 +46,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
         searchByNhsNumberCalled = true;
         List<Person> persons = new ArrayList<>();
         if (nhsNumberPresent.equals(nhsNumber))
-            persons.add(new Person());
+            persons.add(new Person(nhsNumber, "John Smith", 1));
 
         return persons;
     }
@@ -56,7 +56,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
         searchByLocalIdCalled = true;
         List<Person> persons = new ArrayList<>();
         if (emisNumberPresent.equals(emisNumber))
-            persons.add(new Person());
+            persons.add(new Person("1234567890", "John Smith", 1));
 
         return persons;
     }
@@ -66,7 +66,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
         searchByDateOfBirthCalled = true;
         List<Person> persons = new ArrayList<>();
         if (dobPresentDate.equals(dateOfBirth))
-            persons.add(new Person());
+            persons.add(new Person("1234567890", "John Smith", 1));
 
         return persons;
     }
@@ -78,10 +78,10 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
 
         for(String name : names) {
             if ("Smith".equals(name))
-                persons.add(new Person());
+                persons.add(new Person("1234567890", "John Smith", 1));
 
             if ("Jones".equals(name))
-                persons.add(new Person());
+                persons.add(new Person("0987654321", "James Jones", 1));
         }
 
         return persons;

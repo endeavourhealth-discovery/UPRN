@@ -10,6 +10,7 @@ import {ResourcesService} from './resources.service';
 import {PipesModule} from '../pipes/pipes.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ObjectViewerComponent } from './object-viewer/object-viewer.component';
+import { DefaultClinicalViewComponent } from './clinical-views/default-clinical-view/default-clinical-view.component';
 
 @NgModule({
   imports : [
@@ -26,13 +27,15 @@ import { ObjectViewerComponent } from './object-viewer/object-viewer.component';
   declarations : [
     ResourcesComponent,
     ViewerComponent,
-    ObjectViewerComponent
+    ObjectViewerComponent,
+    DefaultClinicalViewComponent
   ],
   providers : [
     ResourcesService,
   ],
   entryComponents: [
-    ViewerComponent
+    ViewerComponent,
+    DefaultClinicalViewComponent
   ]
 })
 export class ResourcesModule { }

@@ -17,32 +17,32 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         List<ResourceType> resourceTypes = new ArrayList<>();
         // Hard-coded list as you cant do a simple distinct in cassandra!
 
-        resourceTypes.add(new ResourceType().setId("AllergyIntolerance").setName("Allergy/Intolerance"));
-        resourceTypes.add(new ResourceType().setId("Condition").setName("Condition"));
-        resourceTypes.add(new ResourceType().setId("DiagnosticOrder").setName("Diagnostic Order"));
-        resourceTypes.add(new ResourceType().setId("DiagnosticReport").setName("Diagnostic Report"));
-        resourceTypes.add(new ResourceType().setId("ProcedureRequest").setName("Procedure Request"));
-        resourceTypes.add(new ResourceType().setId("Encounter").setName("Encounter"));
-        resourceTypes.add(new ResourceType().setId("EpisodeOfCare").setName("Episode Of Care"));
-        resourceTypes.add(new ResourceType().setId("FamilyMemberHistory").setName("Family Member History"));
-        resourceTypes.add(new ResourceType().setId("Immunisation").setName("Immunisation"));
-        resourceTypes.add(new ResourceType().setId("MedicationOrder").setName("Medication Order"));
-        resourceTypes.add(new ResourceType().setId("MedicationStatement").setName("Medication Statement"));
-        resourceTypes.add(new ResourceType().setId("Medication").setName("Medication"));
-        resourceTypes.add(new ResourceType().setId("Observation").setName("Observation"));
-        resourceTypes.add(new ResourceType().setId("Procedure").setName("Procedure"));
-        resourceTypes.add(new ResourceType().setId("ReferralRequest").setName("Referral Request"));
-        resourceTypes.add(new ResourceType().setId("Specimen").setName("Specimen"));
+        resourceTypes.add(new ResourceType("AllergyIntolerance", "Allergy/Intolerance"));
+        resourceTypes.add(new ResourceType("Condition", "Condition"));
+        resourceTypes.add(new ResourceType("DiagnosticOrder", "Diagnostic Order"));
+        resourceTypes.add(new ResourceType("DiagnosticReport", "Diagnostic Report"));
+        resourceTypes.add(new ResourceType("ProcedureRequest", "Procedure Request"));
+        resourceTypes.add(new ResourceType("Encounter", "Encounter"));
+        resourceTypes.add(new ResourceType("EpisodeOfCare", "Episode Of Care"));
+        resourceTypes.add(new ResourceType("FamilyMemberHistory", "Family Member History"));
+        resourceTypes.add(new ResourceType("Immunisation", "Immunisation"));
+        resourceTypes.add(new ResourceType("MedicationOrder", "Medication Order"));
+        resourceTypes.add(new ResourceType("MedicationStatement", "Medication Statement"));
+        resourceTypes.add(new ResourceType("Medication", "Medication"));
+        resourceTypes.add(new ResourceType("Observation", "Observation"));
+        resourceTypes.add(new ResourceType("Procedure", "Procedure"));
+        resourceTypes.add(new ResourceType("ReferralRequest", "Referral Request"));
+        resourceTypes.add(new ResourceType("Specimen", "Specimen"));
 
         return resourceTypes;
     }
 
     @Override
-    public List<String> getPatientResources(String patientId, String serviceId, List<String> resourceTypes) {
+    public List<String> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
         List<String> resources = new ArrayList<>();
 
         for (String resourceType : resourceTypes) {
-            List<String> resourcesByType = getPatientResourcesByType(patientId, serviceId, resourceType);
+            List<String> resourcesByType = getPatientResourcesByType(serviceId, systemId, patientId, resourceType);
 
             if (resourcesByType != null && resourcesByType.size() > 0)
                 resources.addAll(resourcesByType);
@@ -51,9 +51,13 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         return resources;
     }
 
-    private List<String> getPatientResourcesByType(String patientId, String serviceId, String resourceType) {
+    private List<String> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) {
         ResourceRepository resourceRepository = new ResourceRepository();
-        List<ResourceByPatient> resourceByPatientList = resourceRepository.getResourcesByPatientAllSystems(UUID.fromString(serviceId), UUID.fromString(patientId), resourceType);
+        List<ResourceByPatient> resourceByPatientList = resourceRepository.getResourcesByPatient(
+            UUID.fromString(serviceId),
+            UUID.fromString(systemId),
+            UUID.fromString(patientId),
+            resourceType);
 
         List<String> resources = resourceByPatientList
             .stream()

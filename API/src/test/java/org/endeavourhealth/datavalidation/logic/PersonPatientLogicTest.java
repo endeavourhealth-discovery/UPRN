@@ -14,7 +14,8 @@ public class PersonPatientLogicTest {
     @Before
     public void setup() {
         mockDal = new Mock_PersonPatientDAL();
-        personPatient = new PersonPatientLogic(mockDal);
+        PersonPatientLogic.dal = mockDal;
+        personPatient = new PersonPatientLogic();
     }
 
     @Test

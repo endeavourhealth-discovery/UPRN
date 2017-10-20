@@ -5,6 +5,14 @@ public class Person {
     private String name;
     private Integer patientCount;
 
+    public Person() {}
+
+    public Person(String nhsNumber, String name, Integer patientCount) {
+        this.nhsNumber = nhsNumber;
+        this.name = name;
+        this.patientCount = patientCount;
+    }
+
     public String getNhsNumber() {
         return nhsNumber;
     }

@@ -6,19 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AdminLogic {
-    private AdminDAL dal;
+    static AdminDAL dal;
 
     public AdminLogic() {
-        dal = new AdminDAL_Cassandra();
-    }
-
-    AdminLogic(AdminDAL dal) {
-        this.dal = dal;
+        if (dal == null)
+            dal = new AdminDAL_Cassandra();
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(AdminLogic.class);
 
     public String getServiceName(String serviceId) {
         return dal.getServiceName(serviceId);
+    }
+
+    public String getSystemName(String systemId) {
+        return dal.getSystemName(systemId);
     }
 }

@@ -1,9 +1,11 @@
-import {Service} from './Service';
+import {ResourceId} from './ResourceId';
 
 export class Patient {
-  id: string;
-  service: Service;
-  patientId: string;
-  name: string;
+  id: ResourceId;
+  patientName: string;
   dob: string;
+
+  serviceName = 'Loading...';
+  systemName = 'Loading...';
+  name: string;
 }

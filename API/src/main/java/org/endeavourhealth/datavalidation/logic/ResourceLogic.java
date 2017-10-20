@@ -3,47 +3,49 @@ package org.endeavourhealth.datavalidation.logic;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
+import org.endeavourhealth.datavalidation.models.Patient;
+import org.endeavourhealth.datavalidation.models.ResourceId;
 import org.endeavourhealth.datavalidation.models.ResourceType;
-import org.endeavourhealth.datavalidation.models.ServicePatientResource;
+import org.endeavourhealth.datavalidation.models.PatientResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class ResourceLogic {
-    ResourceDAL dal;
+    static ResourceDAL dal;
     private static final Logger LOG = LoggerFactory.getLogger(ResourceLogic.class);
 
     public ResourceLogic() {
-        dal = new ResourceDAL_Cassandra();
-    }
-
-    ResourceLogic(ResourceDAL dal) {
-        this.dal = dal;
+        if (dal == null)
+            dal = new ResourceDAL_Cassandra();
     }
 
     public List<ResourceType> getTypes() {
         return dal.getResourceTypes();
     }
 
-    public List<ServicePatientResource> getServicePatientResources(Set<String> serviceIds, List<String> servicePatientIds, List<String> resourceTypes) throws Exception {
-        List<ServicePatientResource> resourceObjects = new ArrayList<>();
+    public List<PatientResource> getPatientResources(Set<String> serviceIds, List<ResourceId> patients, List<String> resourceTypes) throws Exception {
+        List<PatientResource> resourceObjects = new ArrayList<>();
 
-        for(String servicePatientId : servicePatientIds) {
-            String serviceId = servicePatientId.substring(0, 36);
-            String patientId = servicePatientId.substring(36, 72);
+        for(ResourceId patient : patients) {
 
-            if (serviceIds.contains(serviceId)) {
-                List<String> resourceStrings = dal.getPatientResources(patientId, serviceId, resourceTypes);
+            if (serviceIds.contains(patient.getServiceId())) {
+                List<String> resourceStrings = dal.getPatientResources(
+                    patient.getServiceId(),
+                    patient.getSystemId(),
+                    patient.getPatientId(),
+                    resourceTypes);
 
                 ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
 
                 for (String resourceString : resourceStrings)
                     resourceObjects.add(
-                        new ServicePatientResource()
-                            .setPatientId(patientId)
-                            .setServiceId(serviceId)
-                            .setResourceJson(parserPool.readTree(resourceString))
+                        new PatientResource(
+                            patient.getServiceId(),
+                            patient.getSystemId(),
+                            patient.getPatientId(),
+                            parserPool.readTree(resourceString))
                     );
             }
         }

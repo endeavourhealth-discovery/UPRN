@@ -19,16 +19,17 @@ import javax.ws.rs.core.SecurityContext;
 @Api(description = "API for all calls relating to admin")
 public class AdminEndpoint {
     private static final Logger LOG = LoggerFactory.getLogger(AdminEndpoint.class);
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     @Timed(absolute = true, name = "DataValidation.AdminEndpoint.Service.Name")
     @Path("/service/name")
     @ApiOperation(value = "Returns a the name for the given service id")
-    public Response getResource(@Context SecurityContext sc,
+    public Response getServiceName(@Context SecurityContext sc,
                                 @ApiParam(value = "Mandatory Service Id") @QueryParam("serviceId") String serviceId
     ) throws Exception {
-        LOG.debug("Get Name Called");
+        LOG.debug("Get Service Name Called");
 
         String resourceData = new AdminLogic().getServiceName(serviceId);
 
@@ -37,4 +38,24 @@ public class AdminEndpoint {
             .entity(resourceData)
             .build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Timed(absolute = true, name = "DataValidation.AdminEndpoint.System.Name")
+    @Path("/system/name")
+    @ApiOperation(value = "Returns a the name for the given system id")
+    public Response getResource(@Context SecurityContext sc,
+                                @ApiParam(value = "Mandatory System Id") @QueryParam("systemId") String systemId
+    ) throws Exception {
+        LOG.debug("Get System Name Called");
+
+        String resourceData = new AdminLogic().getSystemName(systemId);
+
+        return Response
+            .ok()
+            .entity(resourceData)
+            .build();
+    }
+
 }

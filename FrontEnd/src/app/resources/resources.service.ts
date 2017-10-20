@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {Patient} from '../models/Patient';
 import {ResourceType} from '../models/ResourceType';
 import {ServicePatientResource} from '../models/Resource';
+import {ResourceId} from '../models/ResourceId';
 
 @Injectable()
 export class ResourcesService {
@@ -15,11 +16,19 @@ export class ResourcesService {
       .map((response) => response.json());
   }
 
-  public getServiceName(serviceId): Observable<string> {
+  public getServiceName(serviceId: string): Observable<string> {
     const params: URLSearchParams = new URLSearchParams();
     params.append('serviceId', serviceId);
 
     return this.http.get('api/admin/service/name', {search: params, withCredentials: true})
+      .map((response) => response.text());
+  }
+
+  public getSystemName(systemId: string): Observable<string> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('systemId', systemId);
+
+    return this.http.get('api/admin/system/name', {search: params, withCredentials: true})
       .map((response) => response.text());
   }
 
@@ -37,16 +46,13 @@ export class ResourcesService {
       .map((response) => response.json());
   }
 
-  public getResources(servicePatientIds: string[], resourceTypes: string[]): Observable<ServicePatientResource[]> {
-    const params: URLSearchParams = new URLSearchParams();
+  public getResources(patients: ResourceId[], resourceTypes: string[]): Observable<ServicePatientResource[]> {
+    const resourceRequest = {
+      patients: patients,
+      resourceTypes: resourceTypes
+    };
 
-    for(const servicePatientId of servicePatientIds)
-      params.append('servicePatientId', servicePatientId);
-
-    for(const resourceType of resourceTypes)
-      params.append('resourceType', resourceType);
-
-    return this.http.get('api/resource', {search: params, withCredentials: true})
+    return this.http.post('api/resource', resourceRequest)
       .map((response) => response.json());
   }
 }

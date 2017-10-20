@@ -11,6 +11,7 @@
             <loadingIndicator [done]="patients">
               <div class="card">
                 <div class="card-header">
+                  <!-- ***************** FILTERS ***************** -->
                   <div class="row">
                     <div class="form-group col-md-5">
                       <label class="control-label">Patient</label>
@@ -27,9 +28,10 @@
                   </div>
                 </div>
                 <div class="card-block">
+                  <!-- ***************** PATIENTS ***************** -->
                   <div class="row">
                     <div class="col-md-12">
-                      <h2>Patients</h2>
+                      <h2>Patients <small>({{patientResourceList?.length}})</small></h2>
                       <loadingIndicator [done]="patientResourceList">
                         <div class="scroll-box-100">
                           <table class="table table-sm table-hover">
@@ -42,10 +44,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let patient of patientResourceList" (click)="viewResource(patient)" [ngClass]="{'highlight': (patient.patientId == highlight?.patientId && patient.serviceId && highlight?.serviceId)}">
-                            <td>{{getDate(patient.resourceJson) | cuiDate}}</td>
-                            <td>{{getPatientName(patient.resourceJson)}}</td>
-                            <td>{{getServiceName(patient.serviceId)}}</td>
+                          <tr *ngFor="let patient of patientResourceList" (click)="viewResource(patient)" [ngClass]="{'highlight': patient === highlight}">
+                            <td>{{getDate(patient) | cuiDate}}</td>
+                            <td>{{getPatientName(patient)}}</td>
+                            <td>{{getServiceName(patient)}}</td>
                             <td>{{patient.resourceJson.id}}</td>
                           </tr>
                         </tbody>
@@ -54,12 +56,13 @@
                       </loadingIndicator>
                     </div>
                   </div>
+                  <!-- ***************** RESOURCES ***************** -->
                   <div class="row">
                     <div class="col-md-12">
-                      <h2>Resources</h2>
+                      <h2>Resources <small>({{clinicalResourceList?.length}})</small></h2>
                       <loadingIndicator [done]="clinicalResourceList">
                         <div class="scroll-box-400">
-                          <table class="table table-sm">
+                          <table class="table table-sm table-hover">
                         <thead>
                           <tr>
                             <th>Recorded Date</th>
@@ -69,11 +72,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let resource of clinicalResourceList" (click)="viewResource(resource)" (mouseover)="highlight = resource" [ngClass]="{'highlight': resource == highlight}">
-                            <td>{{getRecordedDate(resource.resourceJson) | cuiDate}}</td>
-                            <td>{{getDate(resource.resourceJson) | cuiDate}}</td>
-                            <td>{{getResourceName(resource.resourceJson.resourceType)}}</td>
-                            <td>{{getDescription(resource.resourceJson)}}</td>
+                          <tr *ngFor="let resource of clinicalResourceList" (click)="viewResource(resource)">
+                            <td>{{getRecordedDate(resource) | cuiDate}}</td>
+                            <td>{{getDate(resource) | cuiDate}}</td>
+                            <td>{{getResourceName(resource)}}</td>
+                            <td>{{getDescription(resource)}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -81,6 +84,7 @@
                       </loadingIndicator>
                     </div>
                   </div>
+
                 </div>
               </div>
             </loadingIndicator>

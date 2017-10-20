@@ -12,7 +12,7 @@ public class Mock_ResourceDAL implements ResourceDAL {
     }
 
     @Override
-    public List<String> getPatientResources(String patientId, String serviceId, List<String> resourceTypes) {
+    public List<String> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
         return null;
     }
 }

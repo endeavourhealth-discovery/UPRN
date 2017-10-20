@@ -12,16 +12,12 @@ import java.util.List;
 import java.util.Set;
 
 public class PersonPatientLogic {
-    private PersonPatientDAL dal;
+    static PersonPatientDAL dal;
 
     public PersonPatientLogic() {
+        if (dal == null)
          dal = new PersonPatientDAL_Jdbc();
     }
-
-    PersonPatientLogic(PersonPatientDAL dal) {
-        this.dal = dal;
-    }
-
 
     public List<Person> findPersonsInOrganisations(Set<String> organisationIds, String searchTerms) throws Exception {
         List<Person> result = new ArrayList<>();

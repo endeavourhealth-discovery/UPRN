@@ -27,7 +27,7 @@ export class ResourcesComponent implements OnInit {
   protected resourceTypes: ResourceType[] = [];
   protected resourceFilter: string[];
 
-  protected person: Person;
+  public person: Person;
   protected patients: Patient[] = [];
   protected patientFilter: ResourceId[];
 
@@ -64,7 +64,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   /** PERSON FIND **/
-  private findPerson() {
+  public findPerson() {
     PersonFindDialogComponent.open(this.modal)
       .result.then(
       (result) => this.loadPerson(result),

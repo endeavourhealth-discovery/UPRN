@@ -11,9 +11,9 @@ import {LoggerService} from 'eds-angular4';
 })
 export class PersonFindDialogComponent implements OnInit {
 
-  private searchTerms: string;
-  private matches: Person[] = [];
-  private selectedPerson: Person = null;
+  public searchTerms: string;
+  public matches: Person[] = [];
+  public selectedPerson: Person = null;
 
   public static open(modalService: NgbModal) {
     const modalRef = modalService.open(PersonFindDialogComponent, { backdrop: 'static', size: 'lg'});
@@ -25,7 +25,7 @@ export class PersonFindDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  private search() {
+  public search() {
     const vm = this;
     vm.matches = null;
     vm.service.findPerson(vm.searchTerms)
@@ -35,18 +35,18 @@ export class PersonFindDialogComponent implements OnInit {
       );
   }
 
-  private selectPerson(person: Person, close: boolean) {
+  public selectPerson(person: Person, close: boolean) {
     this.selectedPerson = person;
     if (close)
       this.ok();
   }
 
-  private ok() {
+  public ok() {
     this.activeModal.close(this.selectedPerson);
     this.logger.log('OK Pressed');
   }
 
-  private cancel() {
+  public cancel() {
     this.activeModal.dismiss('cancel');
     this.logger.log('Cancel Pressed');
   }

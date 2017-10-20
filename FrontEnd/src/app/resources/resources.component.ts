@@ -281,7 +281,7 @@ export class ResourcesComponent implements OnInit {
       case 'Immunisation': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
       case 'MedicationOrder': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.dateWritten);
       case 'MedicationStatement': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.dateAsserted);
-      case 'Medication': return null;
+      case 'Medication': return resource.effectiveDate = DateHelper.NOT_KNOWN;
       case 'Observation': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.effectiveDateTime);
       case 'Procedure': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.performedDateTime);
       case 'ReferralRequest': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);

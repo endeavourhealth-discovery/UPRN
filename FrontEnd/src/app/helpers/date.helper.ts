@@ -5,12 +5,12 @@ export class DateHelper {
     if (dateString == null || dateString === '')
       return DateHelper.NOT_KNOWN;
 
-    const date: Date = new Date(dateString);
+      const date: Date = new Date(dateString);
 
-    if (date)
+      if (isNaN(date.getTime()))
+        return DateHelper.NOT_KNOWN;
+
       return date;
-
-    return DateHelper.NOT_KNOWN;
   }
 }
 

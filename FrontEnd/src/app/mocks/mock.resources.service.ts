@@ -63,4 +63,10 @@ export class MockResourcesService extends AbstractMockObservable {
 
     return this;
   }
+
+  getResourceTypes() {
+    this._fakeContent = ['Patient', 'Condition'];
+
+    return this;
+  }
 }

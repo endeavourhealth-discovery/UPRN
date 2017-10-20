@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewerComponent } from './viewer.component';
+import {ObjectViewerComponent} from '../object-viewer/object-viewer.component';
+import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MockNgbActiveModal} from '../../mocks/mock.ngb-active-modal';
+import {ServicePatientResource} from '../../models/Resource';
 
 describe('ViewerComponent', () => {
   let component: ViewerComponent;
@@ -8,7 +12,11 @@ describe('ViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewerComponent ]
+      imports: [NgbModule.forRoot()],
+      declarations: [ ViewerComponent, ObjectViewerComponent ],
+      providers: [
+        {provide : NgbActiveModal, useClass: MockNgbActiveModal }
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +24,7 @@ describe('ViewerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerComponent);
     component = fixture.componentInstance;
+    component.resource = { resourceJson: {} } as ServicePatientResource;
     fixture.detectChanges();
   });
 

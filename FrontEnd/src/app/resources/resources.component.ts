@@ -77,6 +77,7 @@ export class ResourcesComponent implements OnInit {
     const vm = this;
     this.patientResourceList = [];
     this.clinicalResourceList = [];
+    this.patientFilter = [];
 
     vm.person = person;
     vm.resourceService.getPatients(person.nhsNumber)

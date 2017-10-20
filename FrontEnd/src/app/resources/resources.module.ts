@@ -7,7 +7,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ResourcesComponent } from './resources.component';
 import {ResourcesService} from './resources.service';
-import {PipesModule} from '../pipes/pipes.module';
 import { ViewerComponent } from './viewer/viewer.component';
 import { ObjectViewerComponent } from './object-viewer/object-viewer.component';
 import { DefaultClinicalViewComponent } from './clinical-views/default-clinical-view/default-clinical-view.component';
@@ -17,7 +16,6 @@ import { DefaultClinicalViewComponent } from './clinical-views/default-clinical-
     BrowserModule,
     FormsModule,
     CommonModule,
-    PipesModule,
     SecurityModule,
     RouterModule,
     NgbModule,

@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LinqService } from 'ng2-linq';
 
 import {Http, HttpModule, RequestOptions, XHRBackend} from '@angular/http';
 import {AppMenuService} from './app-menu.service';
@@ -31,7 +30,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   ],
   providers: [
     KeycloakService,
-    LinqService,
     { provide: Http, useFactory: keycloakHttpFactory, deps: [XHRBackend, RequestOptions, KeycloakService] },
     { provide: AbstractMenuProvider, useClass : AppMenuService }
   ],

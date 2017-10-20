@@ -31,7 +31,7 @@
                   <!-- ***************** PATIENTS ***************** -->
                   <div class="row">
                     <div class="col-md-12">
-                      <h2>Patients <small>({{patientResourceList?.length}})</small></h2>
+                      <h2>Patients</h2> <small>({{patientResourceList?.length}})</small>
                       <loadingIndicator [done]="patientResourceList">
                         <div class="scroll-box-100">
                           <table class="table table-sm table-hover">
@@ -45,7 +45,7 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let patient of patientResourceList" (click)="viewResource(patient)" [ngClass]="{'highlight': patient === highlight}">
-                            <td>{{getDate(patient) | cuiDate}}</td>
+                            <td>{{getDate(patient) | date:'dd-MMM-y'}}</td>
                             <td>{{getPatientName(patient)}}</td>
                             <td>{{getServiceName(patient)}}</td>
                             <td>{{patient.resourceJson.id}}</td>
@@ -59,7 +59,7 @@
                   <!-- ***************** RESOURCES ***************** -->
                   <div class="row">
                     <div class="col-md-12">
-                      <h2>Resources <small>({{clinicalResourceList?.length}})</small></h2>
+                      <h2>Resources</h2> <small>({{clinicalResourceList?.length}})</small>
                       <loadingIndicator [done]="clinicalResourceList">
                         <div class="scroll-box-400">
                           <table class="table table-sm table-hover">
@@ -73,8 +73,8 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let resource of clinicalResourceList" (click)="viewResource(resource)">
-                            <td>{{getRecordedDate(resource) | cuiDate}}</td>
-                            <td>{{getDate(resource) | cuiDate}}</td>
+                            <td>{{getRecordedDate(resource) | date:'dd-MMM-y'}}</td>
+                            <td>{{getDate(resource) | date:'dd-MMM-y'}}</td>
                             <td>{{getResourceName(resource)}}</td>
                             <td>{{getDescription(resource)}}</td>
                           </tr>

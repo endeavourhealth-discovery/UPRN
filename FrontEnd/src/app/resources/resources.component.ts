@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ResourcesService} from './resources.service';
 import {PersonFindDialogComponent} from '../person-find/person-find-dialog/person-find-dialog.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Service} from '../models/Service';
 import {Person} from '../models/Person';
-import { LinqService } from 'ng2-linq';
 import {ResourceType} from '../models/ResourceType';
 import {Patient} from '../models/Patient';
 import {LoggerService} from 'eds-angular4';
 import {ViewerComponent} from './viewer/viewer.component';
 import {ServicePatientResource} from '../models/Resource';
-import { DateHelper} from '../pipes/cui';
+import { DateHelper} from '../helpers/date.helper';
 import {System} from '../models/System';
 import {ResourceId} from '../models/ResourceId';
 
@@ -30,7 +29,7 @@ export class ResourcesComponent implements OnInit {
 
   protected person: Person;
   protected patients: Patient[] = [];
-  protected patientFilter: string[];
+  protected patientFilter: ResourceId[];
 
   protected patientResourceList: ServicePatientResource[] = [];
   protected clinicalResourceList: ServicePatientResource[] = [];
@@ -39,7 +38,6 @@ export class ResourcesComponent implements OnInit {
   protected lastHighlight: ServicePatientResource;
 
   constructor(protected logger: LoggerService,
-              protected linq: LinqService,
               protected modal: NgbModal,
               protected resourceService: ResourcesService) {
     this.getResourceTypes();
@@ -77,6 +75,9 @@ export class ResourcesComponent implements OnInit {
   /** INITIAL DATA LOAD **/
   private loadPerson(person: Person) {
     const vm = this;
+    this.patientResourceList = [];
+    this.clinicalResourceList = [];
+
     vm.person = person;
     vm.resourceService.getPatients(person.nhsNumber)
       .subscribe(
@@ -93,32 +94,27 @@ export class ResourcesComponent implements OnInit {
 
     this.patients = patients;
 
-    const services = this.linq.Enumerable().From(patients)
-      .Select(p => p.id.serviceId)
-      .Distinct()
-      .ToArray();
-
-    this.populateServiceMap(services);
-
-    const systems = this.linq.Enumerable().From(patients)
-      .Select(p => p.id.systemId)
-      .Distinct()
-      .ToArray();
-
-    this.populateSystemMap(systems);
-  }
-
-  /** SERVICES **/
-  private populateServiceMap(serviceIds: string[]) {
     this.serviceMap = {};
-    for (const serviceId of serviceIds) {
-      const service: Service = new Service();
-      service.id = serviceId;
-      this.serviceMap[serviceId] = service;
-      this.loadServiceName(service);
+    this.systemMap = {};
+
+    for (const patient of patients) {
+      if (!this.serviceMap[patient.id.serviceId]) {
+        const service: Service = new Service();
+        service.id = patient.id.serviceId;
+        this.serviceMap[service.id] = service;
+        this.loadServiceName(service);
+      }
+
+      if (!this.systemMap[patient.id.systemId]) {
+        const system: System = new System();
+        system.id = patient.id.systemId;
+        this.systemMap[system.id] = system;
+        this.loadSystemName(system);
+      }
     }
   }
 
+  /** SERVICES **/
   private loadServiceName(service: Service) {
     if (service.name != null && service.name !== '')
       return;
@@ -154,16 +150,6 @@ export class ResourcesComponent implements OnInit {
   }
 
   /** SYSTEMS **/
-  private populateSystemMap(systemIds: string[]) {
-    this.systemMap = {};
-    for (const systemId of systemIds) {
-      const system: System = new System();
-      system.id = systemId;
-      this.systemMap[systemId] = system;
-      this.loadSystemName(system);
-    }
-  }
-
   private loadSystemName(system: System) {
     if (system.name != null && system.name !== '')
       return;
@@ -214,29 +200,24 @@ export class ResourcesComponent implements OnInit {
       return;
     }
 
-    const applicablePatients: ResourceId[] = this.linq.Enumerable().From(this.patients)
-      .Where(p => this.patientFilter.indexOf(p.id) > -1)
-      .Select(p => p.id)
-      .ToArray();
-
-    if (applicablePatients.length === 0)
+    if (!this.patientFilter || this.patientFilter.length === 0)
       return;
 
+    this.patientResourceList = null;
+    this.clinicalResourceList = null;
+
     const vm = this;
-    vm.patientResourceList = null;
-    vm.resourceService.getResources(applicablePatients, ['Patient'])
+    vm.resourceService.getResources(this.patientFilter, ['Patient'])
       .subscribe(
         (result) => vm.patientResourceList = result,
         (error) => vm.logger.error(error)
       );
 
-    vm.clinicalResourceList = null;
-    vm.resourceService.getResources(applicablePatients, this.resourceFilter)
+    vm.resourceService.getResources(this.patientFilter, this.resourceFilter)
       .subscribe(
-        (result) => vm.clinicalResourceList = vm.linq.Enumerable().From(result)
-          .OrderByDescending(spr => vm.getRecordedDate(spr))
-          .ThenByDescending(spr => vm.getDate(spr))
-          .ToArray(),
+        (result) => {
+          vm.clinicalResourceList = vm.sortResources(result);
+        },
         (error) => vm.logger.error(error)
       );
   }
@@ -269,14 +250,16 @@ export class ResourcesComponent implements OnInit {
 
   private getRecordedDateExtension(resource: any): Date {
     const RECORDED_DATE = 'http://endeavourhealth.org/fhir/StructureDefinition/primarycare-recorded-date-extension';
-    const extensions = this.linq.Enumerable().From(resource.extension)
-      .Where(e => e.url === RECORDED_DATE)
-      .ToArray();
 
-    if (extensions.length === 0)
-      return null;
+    if (!resource || !resource.extension)
+      return DateHelper.NOT_KNOWN;
 
-    return extensions[0].valueDateTime;
+    const extension = resource.extension.find((e) => e.url === RECORDED_DATE);
+
+    if (!extension)
+      return DateHelper.NOT_KNOWN;
+
+    return DateHelper.parse(extension.valueDateTime);
   }
 
   /** EFFECTIVE DATE FUNCTIONS **/
@@ -365,31 +348,54 @@ export class ResourcesComponent implements OnInit {
   }
 
   private setHighlight(resource: ServicePatientResource) {
-/*    if (this.lastHighlight
-      && this.lastHighlight.patientId === resource.patientId
-      && this.lastHighlight.systemId === resource.systemId
-      && this.lastHighlight.serviceId === resource.serviceId)
-      return;
+    /*    if (this.lastHighlight
+					&& this.lastHighlight.patientId === resource.patientId
+					&& this.lastHighlight.systemId === resource.systemId
+					&& this.lastHighlight.serviceId === resource.serviceId)
+					return;
 
-    this.lastHighlight = resource;
+				this.lastHighlight = resource;
 
-    for (const patient of this.patientResourceList) {
-      if (patient.patientId !== resource.patientId)
-        continue;
-      if (patient.systemId !== resource.systemId)
-        continue;
-      if (patient.serviceId !== resource.serviceId)
-        continue;
+				for (const patient of this.patientResourceList) {
+					if (patient.patientId !== resource.patientId)
+						continue;
+					if (patient.systemId !== resource.systemId)
+						continue;
+					if (patient.serviceId !== resource.serviceId)
+						continue;
 
-      // this.highlight = patient;
-      console.log('Matched!');
-      return;
-    }
+					// this.highlight = patient;
+					console.log('Matched!');
+					return;
+				}
 
-    // this.highlight = null;*/
+				// this.highlight = null;*/
   }
 
   private viewResource(resource: ServicePatientResource) {
     ViewerComponent.open(this.modal, this.getResourceName(resource), resource, null, 'Close');
   }
+
+  private sortResources(array) {
+    const len = array.length;
+    if (len < 2) {
+      return array;
+    }
+    const pivot = Math.ceil(len / 2);
+    return this.mergeResources(this.sortResources(array.slice(0, pivot)), this.sortResources(array.slice(pivot)));
+  };
+
+  private mergeResources(left, right) {
+    let result = [];
+    while ((left.length > 0) && (right.length > 0)) {
+      if (this.getRecordedDate(left[0]) > this.getRecordedDate(right[0])) {
+        result.push(left.shift());
+      } else {
+        result.push(right.shift());
+      }
+    }
+
+    result = result.concat(left, right);
+    return result;
+  };
 }

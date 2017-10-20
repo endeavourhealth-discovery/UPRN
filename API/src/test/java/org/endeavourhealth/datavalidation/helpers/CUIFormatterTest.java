@@ -1,6 +1,5 @@
 package org.endeavourhealth.datavalidation.helpers;
 
-import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

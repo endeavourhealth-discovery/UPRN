@@ -92,4 +92,9 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
         getPatientsByNhsNumberCalled = true;
         return new ArrayList<>();
     }
+
+    @Override
+    public Patient getPatient(String serviceId, String systemId, String patientId) {
+        return new Patient();
+    }
 }

@@ -60,4 +60,26 @@ public class PersonEndpoint {
             .entity(patients)
             .build();
     }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Timed(absolute = true, name="DataValidation.PersonEndpoint.GetPatient")
+    @Path("/patient")
+    @ApiOperation(value = "Returns a patient for given service/system/patient identifiers")
+    public Response getPatients(@Context SecurityContext sc,
+                                @ApiParam(value = "Mandatory Service Id") @QueryParam("serviceId") String serviceId,
+                                @ApiParam(value = "Mandatory System Id") @QueryParam("systemId") String systemId,
+                                @ApiParam(value = "Mandatory Patient Id") @QueryParam("patientId") String patientId
+    ) throws Exception {
+        LOG.debug("GetPatient Called");
+
+        Patient patient = new PersonPatientLogic().getPatient(new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc), serviceId, systemId, patientId);
+
+        return Response
+            .ok()
+            .entity(patient)
+            .build();
+    }
 }

@@ -7,6 +7,7 @@ import org.endeavourhealth.coreui.framework.StartupConfig;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
+import org.endeavourhealth.datavalidation.models.ResourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,12 +45,12 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
     public List<Person> searchByLocalId(Set<String> serviceIds, String emisNumber) {
         Connection conn = getConnection();
         try {
-            String sql = "select distinct nhs_number, forenames, surname, count(*) as cnt " +
+            String sql = "select distinct nhs_number, forenames, surname, count(*) as cnt, p.service_id, p.system_id, p.patient_id " +
                 "from patient_search p " +
                 "inner join patient_search_local_identifier l on p.service_id = l.service_id and p.system_id = l.system_id and p.patient_id = l.patient_id " +
                 "where l.local_id = ? " +
                 "and l.service_id IN ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +") "+
-                "group by nhs_number, forenames, surname";
+                "group by nhs_number, forenames, surname, p.service_id, p.system_id, p.patient_id";
 
             return searchPeople(serviceIds, emisNumber, conn, sql);
 
@@ -63,11 +64,11 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
     public List<Person> searchByDateOfBirth(Set<String> serviceIds, Date dateOfBirth) {
         Connection conn = getConnection();
         try {
-            String sql = "select distinct nhs_number, forenames, surname, count(*) as cnt " +
+            String sql = "select distinct nhs_number, forenames, surname, count(*) as cnt, service_id, system_id, patient_id " +
                 "from patient_search " +
                 "where date_of_birth = ? " +
                 "and service_id in ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +" "+
-                "group by nhs_number, forenames, surname";
+                "group by nhs_number, forenames, surname, service_id, system_id, patient_id";
 
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 int i = 1;
@@ -97,22 +98,22 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
 
             if (names.size() == 1) {
                 name1 = (names.get(0)).replace(",", "") + "%";
-                sql = "select distinct nhs_number, forenames, surname, count(*) as cnt " +
+                sql = "select distinct nhs_number, forenames, surname, count(*) as cnt, service_id, system_id, patient_id " +
                     "from patient_search " +
                     "where (lower(surname) LIKE ? or lower(forenames) LIKE ?) " +
                     "and service_id in (" + String.join(",", Collections.nCopies(serviceIds.size(), "?")) + ") "+
-                    "group by nhs_number, forenames, surname";
+                    "group by nhs_number, forenames, surname, service_id, system_id, patient_id";
             } else {
                 name1 = (names.remove(names.size() - 1)).replace(",", "") + "%";
                 name2 = String.join("% ", names).replace(",", "") + "%";
-                sql = "select distinct nhs_number, forenames, surname, count(*) as cnt " +
+                sql = "select distinct nhs_number, forenames, surname, count(*) as cnt, service_id, system_id, patient_id " +
                     "from patient_search " +
                     "where (" +
                         "(lower(surname) LIKE ? and lower(forenames) LIKE ?)" +
                         " or (lower(surname) LIKE ? and lower(forenames) LIKE ?)" +
                     ") " +
                     "and service_id in (" + String.join(",", Collections.nCopies(serviceIds.size(), "?")) + ") "+
-                    "group by nhs_number, forenames, surname";
+                    "group by nhs_number, forenames, surname, service_id, system_id, patient_id";
             }
 
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -162,7 +163,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
         List<Person> result = new ArrayList<>();
 
         while (rs.next()) {
-            result.add(new Person(
+            Person person = new Person(
                     rs.getString("nhs_number"),
                     new CUIFormatter().getFormattedName(
                         null,
@@ -170,8 +171,19 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                         rs.getString("surname")
                     ),
                     rs.getInt("cnt")
-                )
-            );
+                );
+
+            // Populate patientId if present
+            if (rs.getMetaData().getColumnCount() > 4) {
+                person.setPatientId(
+                    new ResourceId()
+                    .setServiceId( rs.getString("service_id"))
+                    .setSystemId( rs.getString("system_id"))
+                    .setPatientId( rs.getString("patient_id"))
+                );
+            }
+
+            result.add(person);
         }
         return result;
     }
@@ -197,18 +209,8 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 List<Patient> result = new ArrayList<>();
 
                 while (rs.next()) {
-                    result.add(new Patient(
-                            rs.getString("service_id"),
-                            rs.getString("system_id"),
-                            rs.getString("patient_id"),
-                            new CUIFormatter().getFormattedName(
-                                null,
-                                rs.getString("forenames"),
-                                rs.getString("surname")
-                            ),
-                            rs.getDate("date_of_birth").toString()
-                        )
-                    );
+                    Patient patient = getPatientFromResultSet(rs);
+                    result.add(patient);
                 }
 
                 return result;
@@ -217,6 +219,47 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
             LOG.error("Error fetching patients for person [" + nhsNumber + "]", e);
             return null;
         }
+    }
+
+    @Override
+    public Patient getPatient(String serviceId, String systemId, String patientId) {
+        Patient patient = null;
+        Connection conn = getConnection();
+        try {
+            String sql = "select service_id, system_id, patient_id, forenames, surname, date_of_birth " +
+                "from patient_search " +
+                "where service_id = ? " +
+                "and system_id = ? "+
+                "and patient_id = ? ";
+
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                int i = 1;
+                statement.setString(i++, serviceId);
+                statement.setString(i++, systemId);
+                statement.setString(i++, patientId);
+                ResultSet rs = statement.executeQuery();
+                if (rs.next())
+                    patient = getPatientFromResultSet(rs);
+            }
+        } catch (Exception e) {
+            LOG.error("Error fetching patient [" + serviceId+ ", " + systemId + ", " + patientId + "]", e);
+        }
+
+        return patient;
+    }
+
+    private Patient getPatientFromResultSet(ResultSet rs) throws SQLException {
+        return new Patient(
+            rs.getString("service_id"),
+            rs.getString("system_id"),
+            rs.getString("patient_id"),
+            new CUIFormatter().getFormattedName(
+                null,
+                rs.getString("forenames"),
+                rs.getString("surname")
+            ),
+            rs.getDate("date_of_birth").toString()
+        );
     }
 
     private Connection getConnection() {

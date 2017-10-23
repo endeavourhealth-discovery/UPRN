@@ -77,14 +77,23 @@ export class ResourcesComponent implements OnInit {
     const vm = this;
     this.patientResourceList = [];
     this.clinicalResourceList = [];
+    this.patients = [];
     this.patientFilter = [];
 
     vm.person = person;
+    if (this.person.nhsNumber && this.person.nhsNumber !== '')
     vm.resourceService.getPatients(person.nhsNumber)
       .subscribe(
         (result) => vm.processPatients(result),
         (error) => vm.logger.error(error)
       );
+    else
+      vm.resourceService.getPatient(person.patientId.serviceId, person.patientId.systemId, this.person.patientId.patientId)
+        .subscribe(
+          (result) => vm.processPatients([result]),
+          (error) => vm.logger.error(error)
+        );
+
   }
 
   private processPatients(patients: any) {
@@ -345,7 +354,11 @@ export class ResourcesComponent implements OnInit {
 
   /** MAP LOOKUPS **/
   private getResourceName(resource: ServicePatientResource): string {
-    return this.resourceMap[resource.resourceJson.resourceType];
+    const resourceName: string = this.resourceMap[resource.resourceJson.resourceType];
+    if (resourceName && resourceName !== '')
+      return resourceName;
+
+    return resource.resourceJson.resourceType;
   }
 
   private setHighlight(resource: ServicePatientResource) {

@@ -44,4 +44,11 @@ public class PersonPatientLogic {
     public List<Patient> getPatientsForPerson(Set<String> serviceIds, String personId) throws Exception {
         return dal.getPatientsByNhsNumber(serviceIds, personId);
     }
+
+    public Patient getPatient(Set<String> serviceIds, String serviceId, String systemId, String patientId) {
+        if (!serviceId.contains(serviceId))
+            return null;
+
+        return dal.getPatient(serviceId, systemId, patientId);
+    }
 }

@@ -40,6 +40,16 @@ export class ResourcesService {
       .map((response) => response.json());
   }
 
+  public getPatient(serviceId: string, systemId: string, patientId: string): Observable<Patient> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('serviceId', serviceId);
+    params.append('systemId', systemId);
+    params.append('patientId', patientId);
+
+    return this.http.get('api/person/patient', {search: params, withCredentials: true})
+      .map((response) => response.json());
+  }
+
   public getResourceTypes(): Observable<ResourceType[]> {
 
     return this.http.get('api/resource/type', {withCredentials: true})

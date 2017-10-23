@@ -14,4 +14,5 @@ public interface PersonPatientDAL {
     List<Person> searchByNames(Set<String> serviceIds, List<String> names);
 
     List<Patient> getPatientsByNhsNumber(Set<String> serviceIds, String nhsNumber);
+    Patient getPatient(String serviceId, String systemId, String patientId);
 }

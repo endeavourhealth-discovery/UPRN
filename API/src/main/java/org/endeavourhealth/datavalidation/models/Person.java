@@ -5,6 +5,9 @@ public class Person {
     private String name;
     private Integer patientCount;
 
+    // Person may be single/specific patient (localId search result with no NhsNumber)
+    private ResourceId patientId;
+
     public Person() {}
 
     public Person(String nhsNumber, String name, Integer patientCount) {
@@ -37,6 +40,15 @@ public class Person {
 
     public Person setPatientCount(Integer patientCount) {
         this.patientCount = patientCount;
+        return this;
+    }
+
+    public ResourceId getPatientId() {
+        return patientId;
+    }
+
+    public Person setPatientId(ResourceId patientId) {
+        this.patientId = patientId;
         return this;
     }
 }

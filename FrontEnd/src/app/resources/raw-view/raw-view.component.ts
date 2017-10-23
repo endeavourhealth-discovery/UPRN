@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-object-viewer',
-  templateUrl: './object-viewer.component.html',
-  styleUrls: ['./object-viewer.component.css']
+  selector: 'app-raw-view',
+  templateUrl: './raw-view.component.html',
+  styleUrls: ['./raw-view.component.css']
 })
-export class ObjectViewerComponent implements OnInit {
+export class RawViewComponent implements OnInit {
   @Input() node: any;
 
   constructor() { }

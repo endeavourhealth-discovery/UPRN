@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ObjectViewerComponent } from './object-viewer.component';
+import { RawViewComponent } from './raw-view.component';
 
-describe('ObjectViewerComponent', () => {
-  let component: ObjectViewerComponent;
-  let fixture: ComponentFixture<ObjectViewerComponent>;
+describe('RawViewComponent', () => {
+  let component: RawViewComponent;
+  let fixture: ComponentFixture<RawViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ObjectViewerComponent ]
+      declarations: [ RawViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ObjectViewerComponent);
+    fixture = TestBed.createComponent(RawViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,7 +5,18 @@
   </button>
 </div>
 <div class="modal-body">
-    <app-object-viewer [node]="resource.resourceJson"></app-object-viewer>
+  <ngb-tabset>
+    <ngb-tab title="Raw">
+      <ng-template ngbTabContent>
+        <app-raw-view [node]="resource.resourceJson"></app-raw-view>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Template">
+      <ng-template ngbTabContent>
+        <app-template-view [resource]="resource"></app-template-view>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
 </div>
 <div class="modal-footer">
   <button *ngIf="cancelText" type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">{{cancelText}}</button>

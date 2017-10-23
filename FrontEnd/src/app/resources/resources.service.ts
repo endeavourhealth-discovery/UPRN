@@ -65,4 +65,12 @@ export class ResourcesService {
     return this.http.post('api/resource', resourceRequest)
       .map((response) => response.json());
   }
+
+  public getTemplate(resourceType: string): Observable<string> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('resourceType', resourceType);
+
+    return this.http.get('api/template', {search: params, withCredentials: true})
+      .map((response) => response.text());
+  }
 }

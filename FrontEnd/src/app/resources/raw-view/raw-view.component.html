@@ -4,13 +4,13 @@
   <ul>
     <li *ngFor="let property of getKeys()">
       <b>{{property}}:</b>
-      <app-object-viewer [node]="getValue(property)"></app-object-viewer>
+      <app-raw-view [node]="getValue(property)"></app-raw-view>
     </li>
   </ul>
 </span>
 
 <span *ngIf="isArray(node)">
   <span *ngFor="let arrayItem of node; let i = index">
-    [<app-object-viewer [node]="arrayItem"></app-object-viewer>]
+    [<app-raw-view [node]="arrayItem"></app-raw-view>]
   </span>
 </span>

@@ -8,8 +8,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ResourcesComponent } from './resources.component';
 import {ResourcesService} from './resources.service';
 import { ViewerComponent } from './viewer/viewer.component';
-import { ObjectViewerComponent } from './object-viewer/object-viewer.component';
-import { DefaultClinicalViewComponent } from './clinical-views/default-clinical-view/default-clinical-view.component';
+import { RawViewComponent } from './raw-view/raw-view.component';
+import {TemplateViewComponent} from './template-view/template-view.component';
 
 @NgModule({
   imports : [
@@ -25,15 +25,14 @@ import { DefaultClinicalViewComponent } from './clinical-views/default-clinical-
   declarations : [
     ResourcesComponent,
     ViewerComponent,
-    ObjectViewerComponent,
-    DefaultClinicalViewComponent
+    RawViewComponent,
+    TemplateViewComponent
   ],
   providers : [
     ResourcesService,
   ],
   entryComponents: [
-    ViewerComponent,
-    DefaultClinicalViewComponent
+    ViewerComponent
   ]
 })
 export class ResourcesModule { }

@@ -3,6 +3,7 @@ package org.endeavourhealth.datavalidation.dal;
 import org.endeavourhealth.core.data.ehr.ResourceRepository;
 import org.endeavourhealth.core.data.ehr.models.ResourceByPatient;
 import org.endeavourhealth.datavalidation.models.ResourceType;
+import org.hl7.fhir.instance.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,17 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         }
 
         return resources;
+    }
+
+    @Override
+    public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId) {
+        ResourceRepository resourceRepository = new ResourceRepository();
+        try {
+            return resourceRepository.getCurrentVersionAsResource(resourceType, resourceId);
+        } catch (Exception e) {
+            LOG.error("Error fetching resource", e);
+            return null;
+        }
     }
 
     private List<String> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) {

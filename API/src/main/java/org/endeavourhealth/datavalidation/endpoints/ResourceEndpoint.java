@@ -66,4 +66,22 @@ public class ResourceEndpoint {
             .entity(resources)
             .build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.Reference")
+    @Path("/reference")
+    @ApiOperation(value = "Returns the description for a given service, system and reference")
+    public Response reference(@Context SecurityContext sc,
+                              @ApiParam(value = "Mandatory reference") @QueryParam("reference") String reference) throws Exception {
+        LOG.debug("Get Reference Called");
+
+        String referenceDescription = new ResourceLogic().getReferenceDescription(reference);
+
+        return Response
+            .ok(referenceDescription)
+            .build();
+    }
+
 }

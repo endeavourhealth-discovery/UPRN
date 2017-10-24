@@ -73,4 +73,12 @@ export class ResourcesService {
     return this.http.get('api/template', {search: params, withCredentials: true})
       .map((response) => response.text());
   }
+
+  public getReferenceDescription(reference: string): Observable<string> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('reference', reference);
+
+    return this.http.get('api/resource/reference', {search: params, withCredentials: true})
+      .map((response) => response.text());
+  }
 }

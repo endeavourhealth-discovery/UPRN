@@ -1,7 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {
+  AfterViewInit, Compiler, Component, Injector, Input, NgModule, NgModuleRef,
+  ViewChild, ViewContainerRef
+} from '@angular/core';
 import {ServicePatientResource} from '../../models/Resource';
 import {ResourcesService} from '../resources.service';
-import {isPrimitive} from 'util';
+import {CommonModule} from '@angular/common';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-template-view',
@@ -10,9 +14,13 @@ import {isPrimitive} from 'util';
 })
 export class TemplateViewComponent implements AfterViewInit {
   @Input() resource: ServicePatientResource;
-  @ViewChild('dataContainer') dataContainer: ElementRef;
+  @ViewChild('dataContainer', {read: ViewContainerRef}) dataContainer: ViewContainerRef;
 
-  constructor(private resourceService: ResourcesService) { }
+  constructor(private resourceService: ResourcesService,
+              private _compiler: Compiler,
+              private _injector: Injector,
+              private _m: NgModuleRef<any>) {
+  }
 
   ngAfterViewInit() {
     this.loadTemplate();
@@ -28,67 +36,19 @@ export class TemplateViewComponent implements AfterViewInit {
   }
 
   private buildView(template: string) {
-    if (!template || template === '')
-      this.dataContainer.nativeElement.innerHTML = '<h2>Not template configured for resource type ' +
-        this.resource.resourceJson.resourceType + '</h2>';
-    else {
-      let html = this.processTemplate(template, this.resource.resourceJson);
-      html = html.replace(new RegExp('{{[^]+}}', 'g'), '');
-      this.dataContainer.nativeElement.innerHTML = html;
-    }
+
+    const tmpCmp = Component({template: template})(class {
+    });
+    const tmpModule = NgModule({imports: [CommonModule], declarations: [tmpCmp]})(class {
+    });
+
+    this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
+      .then((factories) => {
+        const f = factories.componentFactories[0];
+        const cmpRef = f.create(this._injector, [], null, this._m);
+        cmpRef.instance.resource = this.resource;
+        this.dataContainer.insert(cmpRef.hostView);
+      });
   }
 
-  private processTemplate(template: string, object: any, prefix: string = ''): string {
-    if (isPrimitive(object))
-      return template.replace(new RegExp('{{' + prefix + '}}', 'g'), object);
-
-    for (const key of Object.keys(object)) {
-      const value = object[key];
-      const field = '{{' + prefix + key + '}}';
-      if (this.isPrimitive(value))
-        template = template.replace(new RegExp(field, 'g'), value);
-      if (this.isObject(value))
-        template = this.processTemplate(template, value, prefix + key + '.');
-      if (this.isArray(value))
-        template = this.processArray(template, value, prefix + key);
-    }
-
-    return template;
-  }
-
-  private processArray(template: string, objects: any[], key: string) {
-    // get sub-template string
-    const regex = new RegExp('#' + key + ':start[^]+#' + key + ':end', 'g');
-    const subTemplate = template.match(regex);
-
-    if (subTemplate == null)
-      return template;
-
-    let subTemplateHtml = subTemplate[0]
-      .substring(key.length + 7);
-
-    subTemplateHtml = subTemplateHtml.substring(0, subTemplateHtml.length - (key.length + 5));
-
-    let result = '';
-
-    for (const object of objects) {
-      result += this.processTemplate(subTemplateHtml, object, key + '.');
-    }
-
-    template = template.replace(regex, result);
-
-    return template;
-  }
-
-  public isObject(value: any): boolean {
-    return !Array.isArray(value) && typeof value === 'object';
-  }
-
-  public isArray(value: string): boolean {
-    return Array.isArray(value);
-  }
-
-  public isPrimitive(value: any): boolean {
-    return !Array.isArray(value) && typeof value !== 'object';
-  }
 }

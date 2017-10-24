@@ -361,31 +361,6 @@ export class ResourcesComponent implements OnInit {
     return resource.resourceJson.resourceType;
   }
 
-  private setHighlight(resource: ServicePatientResource) {
-    /*    if (this.lastHighlight
-					&& this.lastHighlight.patientId === resource.patientId
-					&& this.lastHighlight.systemId === resource.systemId
-					&& this.lastHighlight.serviceId === resource.serviceId)
-					return;
-
-				this.lastHighlight = resource;
-
-				for (const patient of this.patientResourceList) {
-					if (patient.patientId !== resource.patientId)
-						continue;
-					if (patient.systemId !== resource.systemId)
-						continue;
-					if (patient.serviceId !== resource.serviceId)
-						continue;
-
-					// this.highlight = patient;
-					console.log('Matched!');
-					return;
-				}
-
-				// this.highlight = null;*/
-  }
-
   private viewResource(resource: ServicePatientResource) {
     ViewerComponent.open(this.modal, this.getResourceName(resource), resource, null, 'Close');
   }

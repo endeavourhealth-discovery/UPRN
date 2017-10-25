@@ -1,7 +1,8 @@
 package org.endeavourhealth.datavalidation.dal;
 
-import org.endeavourhealth.core.data.ehr.ResourceRepository;
-import org.endeavourhealth.core.data.ehr.models.ResourceByPatient;
+import org.endeavourhealth.core.database.dal.DalProvider;
+import org.endeavourhealth.core.database.dal.ehr.ResourceDalI;
+import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
 import org.endeavourhealth.datavalidation.models.ResourceType;
 import org.hl7.fhir.instance.model.Resource;
 import org.slf4j.Logger;
@@ -42,19 +43,24 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
     public List<String> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
         List<String> resources = new ArrayList<>();
 
-        for (String resourceType : resourceTypes) {
-            List<String> resourcesByType = getPatientResourcesByType(serviceId, systemId, patientId, resourceType);
+        try {
+            for (String resourceType : resourceTypes) {
+                List<String> resourcesByType = getPatientResourcesByType(serviceId, systemId, patientId, resourceType);
 
-            if (resourcesByType != null && resourcesByType.size() > 0)
-                resources.addAll(resourcesByType);
+                if (resourcesByType != null && resourcesByType.size() > 0)
+                    resources.addAll(resourcesByType);
+            }
+
+            return resources;
+        } catch (Exception ex) {
+            LOG.error("Error fetching resource", ex);
+            return null;
         }
-
-        return resources;
     }
 
     @Override
     public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId) {
-        ResourceRepository resourceRepository = new ResourceRepository();
+        ResourceDalI resourceRepository = DalProvider.factoryResourceDal();
         try {
             return resourceRepository.getCurrentVersionAsResource(resourceType, resourceId);
         } catch (Exception e) {
@@ -63,9 +69,9 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         }
     }
 
-    private List<String> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) {
-        ResourceRepository resourceRepository = new ResourceRepository();
-        List<ResourceByPatient> resourceByPatientList = resourceRepository.getResourcesByPatient(
+    private List<String> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) throws Exception {
+        ResourceDalI resourceRepository = DalProvider.factoryResourceDal();
+        List<ResourceWrapper> resourceByPatientList = resourceRepository.getResourcesByPatient(
             UUID.fromString(serviceId),
             UUID.fromString(systemId),
             UUID.fromString(patientId),

@@ -5,6 +5,9 @@ import {RawViewComponent} from '../raw-view/raw-view.component';
 import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MockNgbActiveModal} from '../../mocks/mock.ngb-active-modal';
 import {ServicePatientResource} from '../../models/Resource';
+import {TemplateViewComponent} from '../template-view/template-view.component';
+import {ResourcesService} from '../resources.service';
+import {MockResourcesService} from '../../mocks/mock.resources.service';
 
 describe('ViewerComponent', () => {
   let component: ViewerComponent;
@@ -13,9 +16,10 @@ describe('ViewerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgbModule.forRoot()],
-      declarations: [ ViewerComponent, RawViewComponent ],
+      declarations: [ ViewerComponent, RawViewComponent, TemplateViewComponent ],
       providers: [
-        {provide : NgbActiveModal, useClass: MockNgbActiveModal }
+        {provide : NgbActiveModal, useClass: MockNgbActiveModal },
+        {provide : ResourcesService, useClass: MockResourcesService }
       ]
     })
     .compileComponents();

@@ -69,4 +69,9 @@ export class MockResourcesService extends AbstractMockObservable {
 
     return this;
   }
+
+  getTemplate(resourceType: string) {
+    this._fakeContent = '<h1>Test Template</h1>';
+    return this;
+  }
 }

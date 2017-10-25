@@ -30,7 +30,11 @@ public class ResourceLogic {
     public List<PatientResource> getPatientResources(Set<String> serviceIds, List<ResourceId> patients, List<String> resourceTypes) throws Exception {
         List<PatientResource> resourceObjects = new ArrayList<>();
 
-        for(ResourceId patient : patients) {
+        if (serviceIds == null || serviceIds.size() == 0)
+            return resourceObjects;
+
+
+        for (ResourceId patient : patients) {
 
             if (serviceIds.contains(patient.getServiceId())) {
                 List<String> resourceStrings = dal.getPatientResources(
@@ -56,6 +60,9 @@ public class ResourceLogic {
     }
 
     public String getReferenceDescription(String reference) {
+        if (reference == null || reference.isEmpty())
+            return null;
+
         int slashPos = reference.indexOf('/');
         if (slashPos == -1)
             return "Invalid reference";
@@ -66,14 +73,14 @@ public class ResourceLogic {
 
         Resource resource = dal.getResource(resourceType, resourceId);
         if (resource == null)
-            return "Not Found";
+            return "Not found";
 
         switch (resourceType) {
             case Organization: return ((Organization)resource).getName();
             case Practitioner: return getHumanName(((Practitioner)resource).getName());
         }
 
-        return "Unknown Type";
+        return "Unknown type";
     }
 
     private String getHumanName(HumanName humanName) {

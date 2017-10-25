@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TemplateViewComponent } from './template-view.component';
+import {ResourcesService} from '../resources.service';
+import {MockResourcesService} from '../../mocks/mock.resources.service';
+import {ServicePatientResource} from '../../models/Resource';
+import {by, element} from 'protractor';
 
 describe('TemplateViewComponent', () => {
   let component: TemplateViewComponent;
@@ -8,7 +12,10 @@ describe('TemplateViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemplateViewComponent ]
+      declarations: [ TemplateViewComponent ],
+      providers: [
+        {provide : ResourcesService, useClass: MockResourcesService }
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +23,8 @@ describe('TemplateViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TemplateViewComponent);
     component = fixture.componentInstance;
+    component.resource = new ServicePatientResource();
+    component.resource.resourceJson = { resourceType: 'Patient' };
     fixture.detectChanges();
   });
 

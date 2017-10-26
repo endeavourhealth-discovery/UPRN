@@ -115,3 +115,35 @@ values (
   </div>
 </form>
 </div>');
+
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-Condition',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Code">Coding Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
+      </div>
+      <div class="form-group">
+        <label for="Display">Coding Display</label>
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Text">Code Text</label>
+        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
+      </div>
+      <div class="form-group">
+        <label for="Category">Category</label>
+        <input id="Category" class="form-control" type="text" disabled value="{{resource.resourceJson.category?.text}}">
+      </div>
+    </div>
+  </div>
+</form>
+</div>');

@@ -40,12 +40,12 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
     }
 
     @Override
-    public List<String> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
-        List<String> resources = new ArrayList<>();
+    public List<ResourceWrapper> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
+        List<ResourceWrapper> resources = new ArrayList<>();
 
         try {
             for (String resourceType : resourceTypes) {
-                List<String> resourcesByType = getPatientResourcesByType(serviceId, systemId, patientId, resourceType);
+                List<ResourceWrapper> resourcesByType = getPatientResourcesByType(serviceId, systemId, patientId, resourceType);
 
                 if (resourcesByType != null && resourcesByType.size() > 0)
                     resources.addAll(resourcesByType);
@@ -69,18 +69,11 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         }
     }
 
-    private List<String> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) throws Exception {
+    private List<ResourceWrapper> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) throws Exception {
         ResourceDalI resourceRepository = DalProvider.factoryResourceDal();
-        List<ResourceWrapper> resourceByPatientList = resourceRepository.getResourcesByPatientAllSystems(
+        return resourceRepository.getResourcesByPatientAllSystems(
             UUID.fromString(serviceId),
             UUID.fromString(patientId),
             resourceType);
-
-        List<String> resources = resourceByPatientList
-            .stream()
-            .map(resource -> resource.getResourceData())
-            .collect(Collectors.toList());
-
-        return resources;
     }
 }

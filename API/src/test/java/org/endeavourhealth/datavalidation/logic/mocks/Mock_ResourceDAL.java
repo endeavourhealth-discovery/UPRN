@@ -1,5 +1,6 @@
 package org.endeavourhealth.datavalidation.logic.mocks;
 
+import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.models.ResourceType;
 import org.hl7.fhir.instance.model.Resource;
@@ -19,10 +20,16 @@ public class Mock_ResourceDAL implements ResourceDAL {
     }
 
     @Override
-    public List<String> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
-        List<String> resources = new ArrayList<>();
+    public List<ResourceWrapper> getPatientResources(String serviceId, String systemId, String patientId, List<String> resourceTypes) {
+        List<ResourceWrapper> resources = new ArrayList<>();
 
-        resources.add("{ \"resourceType\": \"Condition\" }");
+        ResourceWrapper resourceWrapper = new ResourceWrapper();
+        resourceWrapper.setServiceId(UUID.fromString(serviceId));
+        resourceWrapper.setSystemId(UUID.fromString(systemId));
+        resourceWrapper.setPatientId(UUID.fromString(patientId));
+        resourceWrapper.setResourceData("{ \"resourceType\": \"Condition\" }");
+
+        resources.add(resourceWrapper);
 
         return resources;
     }

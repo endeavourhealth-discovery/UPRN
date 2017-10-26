@@ -1,6 +1,7 @@
 package org.endeavourhealth.datavalidation.logic;
 
 import org.endeavourhealth.common.cache.ObjectMapperPool;
+import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
@@ -36,7 +37,7 @@ public class ResourceLogic {
         for (ResourceId patient : patients) {
 
             if (serviceIds.contains(patient.getServiceId())) {
-                List<String> resourceStrings = dal.getPatientResources(
+                List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
                     patient.getServiceId(),
                     patient.getSystemId(),
                     patient.getPatientId(),
@@ -44,14 +45,14 @@ public class ResourceLogic {
 
                 ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
 
-                for (String resourceString : resourceStrings)
+                for (ResourceWrapper resourceWrapper : resourceWrappers)
                     resourceObjects.add(
                         new PatientResource(
-                            patient.getServiceId(),
-                            patient.getSystemId(),
-                            patient.getPatientId(),
-                            parserPool.readTree(resourceString))
-                    );
+                            resourceWrapper.getServiceId().toString(),
+                            resourceWrapper.getSystemId().toString(),
+                            resourceWrapper.getPatientId().toString(),
+                            parserPool.readTree(resourceWrapper.getResourceData())
+                    ));
             }
         }
 

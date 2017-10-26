@@ -346,8 +346,18 @@ export class ResourcesComponent implements OnInit {
 
   /** BASIC LOOKUPS **/
   private getPatientName(resource: ServicePatientResource): string {
-    if (resource.resourceJson.name && resource.resourceJson.name.length > 0)
-      return resource.resourceJson.name[0].text;
+    if (resource.resourceJson.name && resource.resourceJson.name.length > 0) {
+      const name = resource.resourceJson.name[0];
+
+      if (name.text && name.text !== '')
+        return name.text;
+
+      const surnames = (name.family == null) ? '' : name.family.join(' ') + ', ';
+      const forenames = (name.given == null) ? '' : name.given.join(' ');
+      const title = (name.title == null) ? '' : '(' + name.title.join(' ') + ')';
+
+      return surnames + forenames + title;
+    }
 
     return 'Not known';
   }

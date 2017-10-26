@@ -4,7 +4,6 @@ import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
-import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.ResourceId;
 import org.endeavourhealth.datavalidation.models.ResourceType;
 import org.endeavourhealth.datavalidation.models.PatientResource;
@@ -78,6 +77,7 @@ public class ResourceLogic {
         switch (resourceType) {
             case Organization: return ((Organization)resource).getName();
             case Practitioner: return getHumanName(((Practitioner)resource).getName());
+            case Location: return ((Location)resource).getName();
         }
 
         return "Unknown type";

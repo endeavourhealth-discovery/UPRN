@@ -5,7 +5,6 @@ import {
 import {ServicePatientResource} from '../../models/Resource';
 import {ResourcesService} from '../resources.service';
 import {CommonModule} from '@angular/common';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-template-view',
@@ -50,5 +49,4 @@ export class TemplateViewComponent implements AfterViewInit {
         this.dataContainer.insert(cmpRef.hostView);
       });
   }
-
 }

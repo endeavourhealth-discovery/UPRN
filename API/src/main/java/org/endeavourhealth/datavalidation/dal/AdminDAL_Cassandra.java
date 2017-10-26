@@ -18,11 +18,12 @@ public class AdminDAL_Cassandra implements AdminDAL {
     public String getServiceName(String serviceId) {
         ServiceDalI serviceRepository = DalProvider.factoryServiceDal();
 
-        Service service = null;
+        Service service;
         try {
             service = serviceRepository.getById(UUID.fromString(serviceId));
         } catch (Exception ex) {
-            throw new RuntimeException("Failed to retrieve service " + serviceId, ex);
+            LOG.error("Failed to retrieve service " + serviceId, ex);
+            return "Not known";
         }
 
         if (service == null) {
@@ -50,7 +51,8 @@ public class AdminDAL_Cassandra implements AdminDAL {
             return item.getTitle();
 
         } catch (Exception ex) {
-            throw new RuntimeException("Error retrieving system name", ex);
+            LOG.error("Error retrieving system name", ex);
+            return "Not known";
         }
     }
 }

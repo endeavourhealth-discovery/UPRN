@@ -8,12 +8,16 @@
   <ngb-tabset>
     <ngb-tab title="Raw">
       <ng-template ngbTabContent>
-        <app-raw-view [node]="resource.resourceJson"></app-raw-view>
+        <div class="scroll-box-500">
+          <app-raw-view [node]="resource.resourceJson"></app-raw-view>
+        </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="Template">
+    <ngb-tab title="Clinical">
       <ng-template ngbTabContent>
-        <app-template-view [resource]="resource"></app-template-view>
+        <div class="scroll-box-500">
+          <app-template-view [resource]="resource"></app-template-view>
+        </div>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>

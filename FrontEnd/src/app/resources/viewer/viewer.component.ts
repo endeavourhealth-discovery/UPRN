@@ -14,6 +14,7 @@ export class ViewerComponent implements OnInit {
   @Input() resource: ServicePatientResource;
   @Input() okText: string;
   @Input() cancelText: string;
+  private system = 'Loading...';
 
   public static open(modalService: NgbModal,
                      title: string,
@@ -33,7 +34,8 @@ export class ViewerComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private resourcesService: ResourcesService) {}
 
   ngOnInit() {
-    this.resolveReferences(this.resource.resourceJson);
+    this.resolveReferences(this.resource.resourceJson)
+    this.resolveSystemName(this.resource.systemId);
   }
 
   private resolveReferences(object: any) {
@@ -65,6 +67,19 @@ export class ViewerComponent implements OnInit {
       .subscribe(
         (result) => value.display = result,
         (error) => value.display = 'Not found'
+      );
+  }
+
+  private resolveSystemName(systemId: string) {
+    const vm = this;
+    vm.system = 'Loading...';
+    vm.resourcesService.getSystemName(systemId)
+      .subscribe(
+        (result) => vm.system = result,
+        (error) => {
+          vm.system = 'Not known';
+          console.error(error);
+        }
       );
   }
 

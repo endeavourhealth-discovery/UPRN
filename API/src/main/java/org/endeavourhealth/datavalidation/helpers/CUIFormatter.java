@@ -25,7 +25,7 @@ public class CUIFormatter {
         return String.join(" ", parts);
     }
 
-    String toSentenceCase(String sentence) {
+    public String toSentenceCase(String sentence) {
         if (sentence == null || sentence.isEmpty())
             return sentence;
 

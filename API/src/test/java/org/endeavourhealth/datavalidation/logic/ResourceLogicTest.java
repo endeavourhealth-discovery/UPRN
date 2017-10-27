@@ -13,7 +13,12 @@ public class ResourceLogicTest {
     private Mock_ResourceDAL dal;
     private ResourceLogic resourceLogic;
 
-    private Set<String> serviceIds = new HashSet<>(Arrays.asList("S1","S2","S3"));
+    private String service1 = UUID.randomUUID().toString();
+    private String service2 = UUID.randomUUID().toString();
+    private String service3 = UUID.randomUUID().toString();
+    private String service4 = UUID.randomUUID().toString();
+
+    private Set<String> serviceIds = new HashSet<>(Arrays.asList(service1, service2, service3));
     private List<String> resourceTypes = new ArrayList<>(Arrays.asList("R1","R2"));
 
     @Before
@@ -27,8 +32,8 @@ public class ResourceLogicTest {
     public void getServicePatientResourcesNullServiceList() throws Exception {
         List<ResourceId> patients = new ArrayList<>();
 
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P1"));
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P2"));
+        patients.add(new ResourceId().setServiceId(service1).setSystemId("C1").setPatientId("P1"));
+        patients.add(new ResourceId().setServiceId(service2).setSystemId("C1").setPatientId("P2"));
 
         List<PatientResource> actual = resourceLogic.getPatientResources(null, patients, resourceTypes);
 
@@ -39,8 +44,8 @@ public class ResourceLogicTest {
     public void getServicePatientResourcesEmptyServiceList() throws Exception {
         List<ResourceId> patients = new ArrayList<>();
 
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P1"));
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P2"));
+        patients.add(new ResourceId().setServiceId(service1).setSystemId("C1").setPatientId("P1"));
+        patients.add(new ResourceId().setServiceId(service2).setSystemId("C1").setPatientId("P2"));
 
         List<PatientResource> actual = resourceLogic.getPatientResources(new HashSet<>(), patients, resourceTypes);
 
@@ -51,8 +56,14 @@ public class ResourceLogicTest {
     public void getServicePatientResourcesValidService() throws Exception {
         List<ResourceId> patients = new ArrayList<>();
 
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P1"));
-        patients.add(new ResourceId().setServiceId("S1").setSystemId("C1").setPatientId("P2"));
+        patients.add(new ResourceId()
+            .setServiceId(service1)
+            .setSystemId(UUID.randomUUID().toString())
+            .setPatientId(UUID.randomUUID().toString()));
+        patients.add(new ResourceId()
+            .setServiceId(service2)
+            .setSystemId(UUID.randomUUID().toString())
+            .setPatientId(UUID.randomUUID().toString()));
 
         List<PatientResource> actual = resourceLogic.getPatientResources(serviceIds, patients, resourceTypes);
 
@@ -63,8 +74,8 @@ public class ResourceLogicTest {
     public void getServicePatientResourcesInvalidService() throws Exception {
         List<ResourceId> patients = new ArrayList<>();
 
-        patients.add(new ResourceId().setServiceId("S4").setSystemId("C1").setPatientId("P1"));
-        patients.add(new ResourceId().setServiceId("S4").setSystemId("C1").setPatientId("P2"));
+        patients.add(new ResourceId().setServiceId(service4).setSystemId("C1").setPatientId("P1"));
+        patients.add(new ResourceId().setServiceId(service4).setSystemId("C1").setPatientId("P2"));
 
         List<PatientResource> actual = resourceLogic.getPatientResources(serviceIds, patients, resourceTypes);
 

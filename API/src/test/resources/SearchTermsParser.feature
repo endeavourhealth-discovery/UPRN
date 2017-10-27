@@ -9,7 +9,7 @@ Feature: Search terms parser
     | "one"           |
     | "one two"       |
     | "one two three" |
-    | "one  two"      |
+    | "two  spaces"   |
 
   Scenario Outline: NHS number
     Given A search terms of <input>

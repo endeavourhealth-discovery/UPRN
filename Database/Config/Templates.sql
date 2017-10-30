@@ -136,8 +136,8 @@ values (
 
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Date">Date Recorded</label>
-        <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.dateRecorded}}">
+        <label for="Date">Effective Date</label>
+        <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
       <div class="form-group">
         <label for="Text">Code Text</label>

@@ -1,4 +1,4 @@
-package org.endeavourhealth.datavalidation;
+package org.endeavourhealth.datavalidation.helpers;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;

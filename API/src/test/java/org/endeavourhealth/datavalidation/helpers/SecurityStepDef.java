@@ -1,9 +1,7 @@
 package org.endeavourhealth.datavalidation.helpers;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import org.endeavourhealth.datavalidation.logic.mocks.Mock_SecurityContext;
-import org.junit.Assert;
 
 import javax.ws.rs.core.SecurityContext;
 import java.util.*;
@@ -13,25 +11,30 @@ import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class SecurityStepDef implements En {
-    private String[] organisations;
+    private SecurityContext securityContext;
+    private Set<String> actual;
+
     public SecurityStepDef() {
-        Given("^A security context containing (.*)$", (String arg0) -> {
-            organisations = arg0.split(",");
-        });
-
-        Then("^The user allowed organisations will be (.*)$", (String arg0) -> {
-            String[] expected = arg0.split(",");
-
+        Given("^A security context containing (.*)$", (String input) -> {
+            String[] organisations = input.split(",");
             List<Map<String, Object>> orgGroups = new ArrayList<>();
             for (String organisation : organisations) {
                 Map<String, Object> orgGroup = new HashMap<>();
                 orgGroup.put("organisationId", organisation);
                 orgGroups.add(orgGroup);
             }
-            SecurityContext securityContext = new Mock_SecurityContext(orgGroups);
-            Set<String> actual = new Security().getUserAllowedOrganisationIdsFromSecurityContext(securityContext);
-            assertEquals(expected.length, actual.size());
-            assertThat(actual, hasItems(expected));
+            securityContext = new Mock_SecurityContext(orgGroups);
+        });
+
+        When("^the allowed organisations are checked$", () -> {
+            actual = new Security().getUserAllowedOrganisationIdsFromSecurityContext(securityContext);
+        });
+
+        Then("^The user allowed organisations will be (.*)$", (String expected) -> {
+            String[] expectedList = expected.split(",");
+
+            assertEquals(expectedList.length, actual.size());
+            assertThat(actual, hasItems(expectedList));
         });
     }
 }

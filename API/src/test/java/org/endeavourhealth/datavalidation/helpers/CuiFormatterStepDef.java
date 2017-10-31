@@ -10,30 +10,34 @@ public class CuiFormatterStepDef extends BaseStepDef implements En {
     private String title;
     private String forename;
     private String surname;
+    private String actual;
 
     public CuiFormatterStepDef() {
-        Given("^A string of (.*)$", (String arg0) -> {
-            this.string = parseString(arg0);
+        Given("^A string of (.*)$", (String input) -> {
+            this.string = parseString(input);
+        });
+        When("^the sentence is formatted$", () -> {
+            actual = new CUIFormatter().toSentenceCase(this.string);
+        });
+        Then("^The formatted sentence will be (.*)", (String expected) -> {
+            assertEquals(parseString(expected), actual);
         });
 
-        Then("^The formatted sentence will be (.*)", (String arg0) -> {
-            String actual = new CUIFormatter().toSentenceCase(this.string);
-            assertEquals(parseString(arg0), actual);
-        });
 
-
-        Given("^A title of (.*)$", (String arg0) -> {
-            this.title = parseString(arg0);
+        Given("^A title of (.*)$", (String input) -> {
+            this.title = parseString(input);
         });
-        And("^A forename of (.*)$", (String arg0) -> {
-            this.forename = parseString(arg0);
+        And("^A forename of (.*)$", (String input) -> {
+            this.forename = parseString(input);
         });
-        And("^A surname of (.*)$", (String arg0) -> {
-            this.surname = parseString(arg0);
+        And("^A surname of (.*)$", (String input) -> {
+            this.surname = parseString(input);
         });
-        Then("^The formatted name will be (.*)$", (String arg0) -> {
-            String actual = new CUIFormatter().getFormattedName(this.title, this.forename, this.surname);
-            assertEquals(parseString(arg0), actual);
+        When("^the name is formatted$", () -> {
+            actual = new CUIFormatter().getFormattedName(this.title, this.forename, this.surname);
+        });
+        Then("^The formatted name will be (.*)$", (String expected) -> {
+            assertEquals(parseString(expected), actual);
         });
     }
 }

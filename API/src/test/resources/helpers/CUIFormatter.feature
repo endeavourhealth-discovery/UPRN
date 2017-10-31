@@ -1,6 +1,7 @@
 Feature: CUI Formatter
   Scenario Outline: toSentenceCase
     Given A string of <input>
+    When the sentence is formatted
     Then The formatted sentence will be <output>
     Examples:
     | input         | output        |
@@ -13,6 +14,7 @@ Feature: CUI Formatter
     Given A title of <title>
     And A forename of <forename>
     And A surname of <surname>
+    When the name is formatted
     Then The formatted name will be <output>
     Examples:
     | title | forename | surname | output               |

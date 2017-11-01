@@ -16,7 +16,7 @@ export class PersonFindDialogComponent implements OnInit {
   public selectedPerson: Person = null;
 
   public static open(modalService: NgbModal) {
-    const modalRef = modalService.open(PersonFindDialogComponent, { backdrop: 'static', size: 'lg'});
+    const modalRef = modalService.open(PersonFindDialogComponent, { backdrop: 'static'});
     return modalRef;
   }
 

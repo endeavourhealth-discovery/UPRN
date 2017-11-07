@@ -122,6 +122,8 @@ export class ResourcesComponent implements OnInit {
         this.loadSystemName(system);
       }
 
+      this.setPatientTooltip(patient);
+
       // Auto-select all patients
       this.patientFilter.push(patient.id);
     }
@@ -397,7 +399,7 @@ export class ResourcesComponent implements OnInit {
     }
     const pivot = Math.ceil(len / 2);
     return this.mergeResources(this.sortResources(array.slice(0, pivot)), this.sortResources(array.slice(pivot)));
-  };
+  }
 
   private mergeResources(left, right) {
     let result = [];
@@ -411,5 +413,10 @@ export class ResourcesComponent implements OnInit {
 
     result = result.concat(left, right);
     return result;
-  };
+  }
+
+  private setPatientTooltip(patient: any) {
+    patient.tooltip = 'Local ID(s)';
+    patient.tooltipKvp = patient.localIds;
+  }
 }

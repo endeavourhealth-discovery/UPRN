@@ -192,10 +192,11 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
     public List<Patient> getPatientsByNhsNumber(Set<String> serviceIds, String nhsNumber) {
         Connection conn = getConnection();
         try {
-            String sql = "select service_id, system_id, patient_id, forenames, surname, date_of_birth " +
-                "from patient_search " +
-                "where nhs_number = ? " +
-                "and service_id in ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +")";
+            String sql = "select ps.service_id, ps.system_id, ps.patient_id, ps.forenames, ps.surname, ps.date_of_birth, li.local_id, li.local_id_system " +
+                "from patient_search ps " +
+                "join patient_search_local_identifier li on li.service_id = ps.service_id and li.system_id = ps.system_id and li.patient_id = ps.patient_id " +
+                "where ps.nhs_number = ? " +
+                "and ps.service_id in ("+String.join(",", Collections.nCopies(serviceIds.size(), "?")) +")";
 
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 int i = 1;
@@ -208,9 +209,17 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
 
                 List<Patient> result = new ArrayList<>();
 
+                Patient lastPatient = null;
+
                 while (rs.next()) {
-                    Patient patient = getPatientFromResultSet(rs);
-                    result.add(patient);
+                    if (lastPatient == null || !lastPatient.getId().getPatientId().equals(rs.getString("patient_id"))) {
+                        Patient patient = getPatientFromResultSet(rs);
+                        result.add(patient);
+                        lastPatient = patient;
+                    }
+                    String system = rs.getString("local_id_system");
+                    system = system.substring(system.lastIndexOf('/') + 1);
+                    lastPatient.getLocalIds().put(system, rs.getString("local_id"));
                 }
 
                 return result;
@@ -226,11 +235,12 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
         Patient patient = null;
         Connection conn = getConnection();
         try {
-            String sql = "select service_id, system_id, patient_id, forenames, surname, date_of_birth " +
-                "from patient_search " +
-                "where service_id = ? " +
-                "and system_id = ? "+
-                "and patient_id = ? ";
+            String sql = "select ps.service_id, ps.system_id, ps.patient_id, ps.forenames, ps.surname, ps.date_of_birth, li.local_id, li.local_id_system " +
+                "from patient_search ps " +
+                "join patient_search_local_identifier li on li.service_id = ps.service_id and li.system_id = ps.system_id and li.patient_id = ps.patient_id " +
+                "where ps.service_id = ? " +
+                "and ps.system_id = ? "+
+                "and ps.patient_id = ? ";
 
             try (PreparedStatement statement = conn.prepareStatement(sql)) {
                 int i = 1;
@@ -238,8 +248,14 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 statement.setString(i++, systemId);
                 statement.setString(i++, patientId);
                 ResultSet rs = statement.executeQuery();
-                if (rs.next())
-                    patient = getPatientFromResultSet(rs);
+
+                while (rs.next()) {
+                    if (patient == null)
+                        patient = getPatientFromResultSet(rs);
+                    String system = rs.getString("local_id_system");
+                    system = system.substring(system.lastIndexOf('/') + 1);
+                    patient.getLocalIds().put(system, rs.getString("local_id"));
+                }
             }
         } catch (Exception e) {
             LOG.error("Error fetching patient [" + serviceId+ ", " + systemId + ", " + patientId + "]", e);

@@ -1,9 +1,13 @@
 package org.endeavourhealth.datavalidation.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Patient {
     private ResourceId id;
     private String patientName;
     private String dob;
+    private Map<String, String> localIds = new HashMap<>();
 
     public Patient() {}
 
@@ -40,6 +44,15 @@ public class Patient {
 
     public Patient setDob(String dob) {
         this.dob = dob;
+        return this;
+    }
+
+    public Map<String, String> getLocalIds() {
+        return localIds;
+    }
+
+    public Patient setLocalIds(Map<String, String> localIds) {
+        this.localIds = localIds;
         return this;
     }
 }

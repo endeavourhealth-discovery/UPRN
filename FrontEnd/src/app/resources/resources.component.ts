@@ -96,7 +96,7 @@ export class ResourcesComponent implements OnInit {
 
   }
 
-  private processPatients(patients: any) {
+  private processPatients(patients: Patient[]) {
     this.patients = [];
 
     if (!patients)
@@ -121,6 +121,9 @@ export class ResourcesComponent implements OnInit {
         this.systemMap[system.id] = system;
         this.loadSystemName(system);
       }
+
+      // Auto-select all patients
+      this.patientFilter.push(patient.id);
     }
   }
 
@@ -157,6 +160,18 @@ export class ResourcesComponent implements OnInit {
       return service.name;
 
     return 'Not Known';
+  }
+
+  private getLocalIds(patient: ServicePatientResource): string {
+    if (!patient.resourceJson.identifier || patient.resourceJson.identifier.length === 0)
+      return '';
+
+    const localIds: string[] = [];
+    for (const localId of patient.resourceJson.identifier) {
+      localIds.push(localId.value);
+    }
+
+    return localIds.join();
   }
 
   /** SYSTEMS **/

@@ -40,7 +40,7 @@
                             <th>Date Of Birth</th>
                             <th>Name</th>
                             <th>Service</th>
-                            <th>Internal ID</th>
+                            <th>Local ID(s)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@
                             <td>{{getDate(patient) | date:'dd-MMM-y'}}</td>
                             <td>{{getPatientName(patient)}}</td>
                             <td>{{getServiceName(patient)}}</td>
-                            <td>{{patient.resourceJson.id}}</td>
+                            <td>{{getLocalIds(patient)}}</td>
                           </tr>
                         </tbody>
                       </table>

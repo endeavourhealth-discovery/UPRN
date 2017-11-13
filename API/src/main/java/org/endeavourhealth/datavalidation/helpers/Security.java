@@ -13,11 +13,13 @@ public class Security {
         AccessToken accessToken = SecurityUtils.getToken(securityContext);
         List<Map<String, Object>> orgGroups = (List)accessToken.getOtherClaims().getOrDefault("orgGroups", null);
 
-        for (Object orgGroup1 : orgGroups) {
-            Map<String, Object> orgGroup = (Map) orgGroup1;
-            String orgGroupOrganisationId = (String) orgGroup.getOrDefault("organisationId", null);
-            if (orgGroupOrganisationId != null)
-                orgs.add(orgGroupOrganisationId);
+        if (orgGroups != null) {
+            for (Object orgGroup1 : orgGroups) {
+                Map<String, Object> orgGroup = (Map) orgGroup1;
+                String orgGroupOrganisationId = (String) orgGroup.getOrDefault("organisationId", null);
+                if (orgGroupOrganisationId != null)
+                    orgs.add(orgGroupOrganisationId);
+            }
         }
 
         return orgs;

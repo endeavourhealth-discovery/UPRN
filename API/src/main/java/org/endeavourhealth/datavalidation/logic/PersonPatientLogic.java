@@ -6,12 +6,15 @@ import org.endeavourhealth.datavalidation.dal.PersonPatientDAL_Jdbc;
 import org.endeavourhealth.datavalidation.helpers.SearchTermsParser;
 import org.endeavourhealth.datavalidation.models.Patient;
 import org.endeavourhealth.datavalidation.models.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class PersonPatientLogic {
+    private static final Logger LOG = LoggerFactory.getLogger(PersonPatientLogic.class);
     static PersonPatientDAL dal;
 
     public PersonPatientLogic() {
@@ -21,6 +24,11 @@ public class PersonPatientLogic {
 
     public List<Person> findPersonsInOrganisations(Set<String> organisationIds, String searchTerms) throws Exception {
         List<Person> result = new ArrayList<>();
+
+        if (organisationIds == null || organisationIds.size() == 0) {
+            LOG.error("No access to any organisations");
+            return result;
+        }
 
         if (!StringUtils.isEmpty(searchTerms)) {
 
@@ -36,6 +44,11 @@ public class PersonPatientLogic {
                 result.addAll(dal.searchByDateOfBirth(organisationIds, parser.getDateOfBirth()));
 
             result.addAll(dal.searchByNames(organisationIds, parser.getNames()));
+        }
+
+        for (Person person : result) {
+            if (person.getName() == null || person.getName().isEmpty())
+                person.setName("Unknown");
         }
 
         return result;

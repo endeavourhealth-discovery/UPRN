@@ -18,7 +18,10 @@ public class CUIFormatter {
             if (parts.size() == 0)
                 parts.add(surname.toUpperCase());
             else
-                parts.add(surname.toUpperCase()+",");
+                parts.add(surname.toUpperCase() + ",");
+
+        if (parts.size() == 0)
+            return "Unknown";
 
         Collections.reverse(parts);
 

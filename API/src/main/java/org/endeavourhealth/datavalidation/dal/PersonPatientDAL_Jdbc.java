@@ -265,6 +265,8 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
     }
 
     private Patient getPatientFromResultSet(ResultSet rs) throws SQLException {
+        Date dateOfBirth = rs.getDate("date_of_birth");
+        String dateOfBirthStr = (dateOfBirth == null) ? null : dateOfBirth.toString();
         return new Patient(
             rs.getString("service_id"),
             rs.getString("system_id"),
@@ -274,7 +276,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                 rs.getString("forenames"),
                 rs.getString("surname")
             ),
-            rs.getDate("date_of_birth").toString()
+            dateOfBirthStr
         );
     }
 

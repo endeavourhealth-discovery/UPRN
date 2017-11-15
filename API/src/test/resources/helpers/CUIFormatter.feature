@@ -18,8 +18,8 @@ Feature: CUI Formatter
     Then The formatted name will be <output>
     Examples:
     | title | forename | surname | output               |
-    |       |          |         | ""                   |
-    | ""    | ""       | ""      | ""                   |
+    |       |          |         | "Unknown"            |
+    | ""    | ""       | ""      | "Unknown"            |
     | "mr"  | ""       | ""      | "(Mr)"               |
     | ""    | "mickey" | ""      | "Mickey"             |
     | ""    | ""       | "mouse" | "MOUSE"              |

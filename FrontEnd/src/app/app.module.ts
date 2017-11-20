@@ -24,7 +24,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     LoggerModule,
     PersonFindModule,
     ResourcesModule,
-    RouterModule.forRoot(AppMenuService.getRoutes()),
+    RouterModule.forRoot(AppMenuService.getRoutes(), {useHash: true}),
     NgbModule.forRoot(),
     ToastModule.forRoot()
   ],

@@ -8,9 +8,9 @@
       <div class="form-group col-md-12">
         <label class="control-label">Search Criteria</label>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search term" aria-describedby="searchTerm"
-                 [(ngModel)]="searchTerms" (keyup)="$event.keyCode == 13 ? search() : null" autofocus name="searchData">
-          <span class="input-group-addon" (click)="search()" style="cursor: pointer">
+          <input type="text" class="form-control" placeholder="Search term" aria-describedby="searchTerm" name="searchData"
+                 [(ngModel)]="searchTerms" (keyup)="$event.keyCode == 13 ? search() : null" autofocus>
+          <span class="input-group-addon" (click)="search()" style="cursor: pointer" id="searchButton">
 						<i class="fa fa-search" id="searchTerm" aria-hidden="true"></i>
 					</span>
         </div>
@@ -21,11 +21,11 @@
         <loadingIndicator [done]="matches">
           <label class="control-label">Matches</label> <small class="text-muted"></small>
           <div class="scroll-box-300 form-control">
-            <table class="table table-striped table-hover table-sm">
+            <table class="table table-striped table-hover table-sm" *ngIf="matches && matches.length > 0">
               <thead>
                 <th class="w-75">Name</th><th class="w-25">NHS Number</th>
               </thead>
-              <tbody>
+              <tbody id="results">
                 <tr *ngFor="let match of matches" (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)">
                   <td>{{match.name}}</td><td>{{match.nhsNumber}}</td>
                 </tr>
@@ -38,6 +38,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn" (click)="cancel()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="ok();" [disabled]="selectedPerson == null">Ok</button>
+  <button type="button" class="btn" (click)="cancel()" name="cancel">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="ok();" [disabled]="selectedPerson == null" name="Ok">Ok</button>
 </div>

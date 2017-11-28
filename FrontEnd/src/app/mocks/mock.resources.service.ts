@@ -74,4 +74,9 @@ export class MockResourcesService extends AbstractMockObservable {
     this._fakeContent = '<h1>Test Template</h1>';
     return this;
   }
+
+  getSystemName() {
+    this._fakeContent = 'Unit test system';
+    return this;
+  }
 }

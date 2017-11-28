@@ -1,7 +1,8 @@
 import { AngularPage } from './app.po';
 import {$, browser, by, element} from 'protractor';
+import {StopPage} from './stop.po';
 
-describe('angular App', () => {
+describe('Logon with no permissions', () => {
   let page: AngularPage;
 
   beforeEach(() => {
@@ -15,7 +16,7 @@ describe('angular App', () => {
     browser.wait(browser.ExpectedConditions.urlContains('/auth/realms/endeavour/protocol/openid-connect'));
   });
 
-  it ('Perform login', () => {
+  it ('Perform no-access login', () => {
     element(by.name('username')).sendKeys('e2etest');
     element(by.name('password')).sendKeys('e2eTestPass');
     element(by.name('login')).click();
@@ -24,9 +25,16 @@ describe('angular App', () => {
     browser.wait(() => $('#content').isPresent());
   });
 
-  it ('Check page loaded', done => {
-    element(by.className('title-text')).getText()
-      .then(msg => expect(msg).toEqual('Data Validation'))
-      .then(done, done.fail);
+  it ('Check app loaded', () => {
+    expect(page.getTitleText()).toEqual('Data Validation');
+  });
+
+  it ('Check permission denied', () => {
+    expect(StopPage.isDisplayed()).toEqual(true);
+  });
+
+  it ('Logout', () => {
+    page.logout();
+    browser.wait(browser.ExpectedConditions.urlContains('/auth/realms/endeavour/protocol/openid-connect'));
   });
 });

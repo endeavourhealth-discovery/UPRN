@@ -1,9 +1,13 @@
-import {browser, by, element, protractor} from 'protractor';
+import {$, browser, by, element, protractor} from 'protractor';
 
 export class Application {
   initialize() {
     browser.waitForAngularEnabled(false);
     browser.get('/');
+  }
+
+  isLoaded() {
+    return element(by.id('content')).isPresent();
   }
 
   expandSidebar() {

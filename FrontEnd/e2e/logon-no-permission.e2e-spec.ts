@@ -1,40 +1,35 @@
 import { Application } from './app.po';
 import {$, browser, by, element} from 'protractor';
 import {StopPage} from './stop.po';
+import {LoginPage} from './login.po';
 
 describe('Logon with no permissions', () => {
-  let page: Application;
+  let app: Application;
 
   beforeEach(() => {
-    page = new Application();
+    app = new Application();
   });
 
-  it ('Initialize', () => {
-    page.initialize();
-
-    // Wait for login.
-    browser.wait(browser.ExpectedConditions.urlContains('/auth/realms/endeavour/protocol/openid-connect'));
+  it ('should initialize', () => {
+    app.initialize();
+    browser.wait(() => LoginPage.isDisplayed());
   });
 
-  it ('Perform no-access login', () => {
-    element(by.name('username')).sendKeys('e2etest');
-    element(by.name('password')).sendKeys('e2eTestPass');
-    element(by.name('login')).click();
-
-    // Wait for main app page
-    browser.wait(() => $('#content').isPresent());
+  it ('should login', () => {
+    LoginPage.login('e2etest', 'e2eTestPass');
+    browser.wait(() => app.isLoaded());
   });
 
-  it ('Check app loaded', () => {
-    expect(page.getTitleText()).toBe('Data Validation', 'Application failed to load');
+  it ('should load the application', () => {
+    expect(app.getTitleText()).toBe('Data Validation', 'Application failed to load');
   });
 
-  it ('Check permission denied', () => {
+  it ('should display "permission denied" message', () => {
     expect(StopPage.isDisplayed()).toBe(true, 'Stop page should be displayed for user with no permissions');
   });
 
-  it ('Logout', () => {
-    page.logout();
+  it ('should logout', () => {
+    app.logout();
     browser.wait(browser.ExpectedConditions.urlContains('/auth/realms/endeavour/protocol/openid-connect'));
   });
 });

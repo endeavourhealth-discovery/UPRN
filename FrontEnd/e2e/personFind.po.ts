@@ -1,4 +1,4 @@
-import {by, element} from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class PersonFindDialog {
   static isDisplayed() {
@@ -28,5 +28,11 @@ export class PersonFindDialog {
 
   static getCancelButton() {
     return element(by.name('Cancel'));
+  }
+
+  static search(s: string) {
+    PersonFindDialog.getSearchField().sendKeys('4444444444');
+    PersonFindDialog.getSearchButton().click();
+    browser.wait(() => PersonFindDialog.getResultTable().isPresent());
   }
 }

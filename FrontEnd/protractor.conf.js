@@ -1,10 +1,13 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-
+const failFast = require('protractor-fail-fast');
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 11000,
+  plugins: [
+    failFast.init(),
+  ],
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
@@ -44,5 +47,9 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({spec: {displayStacktrace: true}}));
+  },
+
+  afterLaunch: function() {
+    failFast.clean(); // Removes the fail file once all test runners have completed.
   }
 };

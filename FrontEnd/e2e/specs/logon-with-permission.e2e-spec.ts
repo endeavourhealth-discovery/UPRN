@@ -1,10 +1,10 @@
-import { Application } from './app.po';
+import { Application } from '../pageObjects/app.po';
 import {browser} from 'protractor';
-import {StopPage} from './stop.po';
-import {ResourcePage} from './resources.po';
-import {PersonFindDialog} from './personFind.po';
-import {ResourceViewerDialog} from './resourceViewer.po';
-import {LoginPage} from './login.po';
+import {StopPage} from '../pageObjects/stop.po';
+import {ResourcePage} from '../pageObjects/resources.po';
+import {PersonFindDialog} from '../pageObjects/personFind.po';
+import {ResourceViewerDialog} from '../pageObjects/resourceViewer.po';
+import {LoginPage} from '../pageObjects/login.po';
 
 describe('Logon with permissions', () => {
   let app: Application;

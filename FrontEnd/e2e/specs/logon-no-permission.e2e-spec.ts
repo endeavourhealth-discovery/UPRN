@@ -1,7 +1,7 @@
-import { Application } from './app.po';
+import { Application } from '../pageObjects/app.po';
 import {$, browser, by, element} from 'protractor';
-import {StopPage} from './stop.po';
-import {LoginPage} from './login.po';
+import {StopPage} from '../pageObjects/stop.po';
+import {LoginPage} from '../pageObjects/login.po';
 
 describe('Logon with no permissions', () => {
   let app: Application;

@@ -38,5 +38,20 @@ export class ResourcePage {
   static getLoadButton() {
     return element(by.id('load'));
   }
+
+  static getPatientTable() {
+    return element(by.id('patientTable'));
+  }
+  static getPatientTableRows() {
+    return ResourcePage.getPatientTable().all(by.tagName('tbody tr'));
+  }
+
+  static getResourceTable() {
+    return element(by.id('resourceTable'));
+  }
+
+  static getResourceTableRows() {
+    return ResourcePage.getResourceTable().all(by.tagName('tbody tr'));
+  }
 }
 

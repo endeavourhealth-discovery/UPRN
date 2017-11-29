@@ -15,11 +15,11 @@ export class PersonFindDialog {
   }
 
   static getResultTable() {
-    return element(by.id('results'));
+    return element(by.id('resultTable'));
   }
 
   static getResultsTableRows() {
-    return element(by.id('results')).all(by.css('tr'));
+    return PersonFindDialog.getResultTable().all(by.tagName('tbody tr'));
   }
 
   static getOkButton() {

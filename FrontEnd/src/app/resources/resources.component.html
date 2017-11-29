@@ -35,7 +35,7 @@
                       <h2>Patients <small>({{patientResourceList?.length}})</small></h2>
                       <loadingIndicator [done]="patientResourceList">
                         <div class="scroll-box-100">
-                          <table class="table table-sm table-hover">
+                          <table class="table table-sm table-hover" id="patientTable">
                         <thead>
                           <tr>
                             <th>Date Of Birth</th>
@@ -63,7 +63,7 @@
                       <h2>Resources <small>({{clinicalResourceList?.length}})</small></h2>
                       <loadingIndicator [done]="clinicalResourceList">
                         <div class="scroll-box-400">
-                          <table class="table table-sm table-hover">
+                          <table class="table table-sm table-hover" id="resourceTable">
                         <thead>
                           <tr>
                             <th>Recorded Date</th>

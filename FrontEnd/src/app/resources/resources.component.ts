@@ -393,7 +393,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   private viewResource(resource: ServicePatientResource) {
-    ViewerComponent.open(this.modal, this.getResourceName(resource), resource, null, 'Close');
+    ViewerComponent.open(this.modal, this.getResourceName(resource), resource);
   }
 
   private sortResources(array) {

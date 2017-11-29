@@ -2,7 +2,6 @@ import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {NgbActiveModal, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {ServicePatientResource} from '../../models/Resource';
 import {ResourcesService} from '../resources.service';
-import {isPrimitive} from 'util';
 
 @Component({
   selector: 'app-viewer',
@@ -12,21 +11,15 @@ import {isPrimitive} from 'util';
 export class ViewerComponent implements OnInit {
   @Input() title: string;
   @Input() resource: ServicePatientResource;
-  @Input() okText: string;
-  @Input() cancelText: string;
   private system = 'Loading...';
 
   public static open(modalService: NgbModal,
                      title: string,
-                     object: ServicePatientResource,
-                     okText: string,
-                     cancelText: string): NgbModalRef {
+                     object: ServicePatientResource): NgbModalRef {
 
     const modalRef = modalService.open(ViewerComponent, { backdrop : 'static', size: 'lg'});
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.resource = object;
-    modalRef.componentInstance.okText = okText;
-    modalRef.componentInstance.cancelText = cancelText;
 
     return modalRef;
   }

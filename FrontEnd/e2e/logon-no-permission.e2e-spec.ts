@@ -1,16 +1,16 @@
-import { AngularPage } from './app.po';
+import { Application } from './app.po';
 import {$, browser, by, element} from 'protractor';
 import {StopPage} from './stop.po';
 
 describe('Logon with no permissions', () => {
-  let page: AngularPage;
+  let page: Application;
 
   beforeEach(() => {
-    page = new AngularPage();
+    page = new Application();
   });
 
   it ('Initialize', () => {
-    page.navigateTo();
+    page.initialize();
 
     // Wait for login.
     browser.wait(browser.ExpectedConditions.urlContains('/auth/realms/endeavour/protocol/openid-connect'));

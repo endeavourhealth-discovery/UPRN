@@ -1,7 +1,7 @@
 import {browser, by, element, protractor} from 'protractor';
 
-export class AngularPage {
-  navigateTo() {
+export class Application {
+  initialize() {
     browser.waitForAngularEnabled(false);
     browser.get('/');
   }

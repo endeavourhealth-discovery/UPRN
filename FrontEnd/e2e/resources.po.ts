@@ -15,12 +15,28 @@ export class ResourcePage {
     return element(by.id('resourceCard'));
   }
 
+  static getResourceTypeDropdown() {
+    return element(by.name('resourceFilter'));
+  }
+
   static getResourceTypeDropdownOptions() {
-    return element(by.name('resourceFilter')).all(by.css('div.dropdown-item'));
+    return ResourcePage.getResourceTypeDropdown().all(by.css('div.dropdown-item'));
+  }
+
+  static getResourceTypeDropdownOptionByText(text: string) {
+    return ResourcePage.getResourceTypeDropdown().element(by.cssContainingText('div.dropdown-item', text));
+  }
+
+  static getPatientDropdown() {
+    return element(by.name('patientFilter'));
   }
 
   static getPatientDropdownOptions() {
-    return element(by.name('patientFilter')).all(by.css('div.dropdown-item'));
+    return ResourcePage.getPatientDropdown().all(by.css('div.dropdown-item'));
+  }
+
+  static getLoadButton() {
+    return element(by.id('load'));
   }
 }
 

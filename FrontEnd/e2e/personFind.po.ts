@@ -1,6 +1,6 @@
 import {by, element} from 'protractor';
 
-export class PatientFindDialog {
+export class PersonFindDialog {
   static isDisplayed() {
     const dialog = element(by.css('app-person-find-dialog'));
     return (dialog != null && dialog.isPresent());

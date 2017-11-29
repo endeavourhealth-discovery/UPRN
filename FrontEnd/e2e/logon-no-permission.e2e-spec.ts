@@ -26,11 +26,11 @@ describe('Logon with no permissions', () => {
   });
 
   it ('Check app loaded', () => {
-    expect(page.getTitleText()).toEqual('Data Validation');
+    expect(page.getTitleText()).toBe('Data Validation', 'Application failed to load');
   });
 
   it ('Check permission denied', () => {
-    expect(StopPage.isDisplayed()).toEqual(true);
+    expect(StopPage.isDisplayed()).toBe(true, 'Stop page should be displayed for user with no permissions');
   });
 
   it ('Logout', () => {

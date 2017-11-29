@@ -46,6 +46,10 @@ export class ResourcesComponent implements OnInit {
   ngOnInit() {
   }
 
+  private invalidSelection(): boolean {
+    return this.patientFilter == null || this.patientFilter.length == 0 || this.resourceFilter == null || this.resourceFilter.length == 0;
+  }
+
   /** RESOURCE TYPES **/
   private getResourceTypes(): void {
     const vm = this;

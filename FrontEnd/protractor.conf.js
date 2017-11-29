@@ -38,7 +38,7 @@ exports.config = {
     print: function () {
     }
   },
-  rootElement: 'app-main',
+  rootElement: 'app-root',
   onPrepare() {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'

@@ -6,15 +6,7 @@ files:
   - source: /API/target/API-1.0-SNAPSHOT
     destination: //opt/tomcat/webapps/data-validation
 hooks:
-  ApplicationStop:
-    - location: aws_scripts/stop_servers
-      timeout: 300
-      runas: root
   BeforeInstall:
     - location: aws_scripts/cleanup
-      timeout: 300
-      runas: root
-  ApplicationStart:
-    - location: aws_scripts/start_servers
       timeout: 300
       runas: root

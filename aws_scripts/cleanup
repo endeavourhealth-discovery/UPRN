@@ -1,1 +1,1 @@
-rm -rf /opt/tomcat/webapps/data-validation/*
+rm -rf /opt/tomcat/webapps/data-validation

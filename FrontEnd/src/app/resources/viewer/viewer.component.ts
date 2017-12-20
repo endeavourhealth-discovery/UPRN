@@ -11,7 +11,7 @@ import {ResourcesService} from '../resources.service';
 export class ViewerComponent implements OnInit {
   @Input() title: string;
   @Input() resource: ServicePatientResource;
-  private system = 'Loading...';
+  system = 'Loading...';
 
   public static open(modalService: NgbModal,
                      title: string,

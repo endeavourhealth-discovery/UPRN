@@ -5,9 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build",
-    "build-prod": "ng build --env=prod --no-sourcemap",
-    "build-aot": "ng build -prod",
+    "build": "ng build --prod",
     "test": "ng test --sourcemaps=false",
     "lint": "ng lint --type-check",
     "e2e": "ng e2e --proxy-config proxy.conf.json"

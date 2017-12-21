@@ -185,6 +185,9 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
 
             result.add(person);
         }
+
+        LOG.debug("Found " + result.size() + "rows");
+
         return result;
     }
 

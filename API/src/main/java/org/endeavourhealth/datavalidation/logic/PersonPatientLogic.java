@@ -34,14 +34,20 @@ public class PersonPatientLogic {
 
             SearchTermsParser parser = new SearchTermsParser(searchTerms);
 
-            if (parser.hasNhsNumber())
+            if (parser.hasNhsNumber()) {
+                LOG.debug("Searching NHS Number");
                 result.addAll(dal.searchByNhsNumber(organisationIds, parser.getNhsNumber()));
+            }
 
-            if (parser.hasEmisNumber())
+            if (parser.hasEmisNumber()) {
+                LOG.debug("Searching Local Id");
                 result.addAll(dal.searchByLocalId(organisationIds, parser.getEmisNumber()));
+            }
 
-            if (parser.hasDateOfBirth())
+            if (parser.hasDateOfBirth()) {
+                LOG.debug("Searching DOB");
                 result.addAll(dal.searchByDateOfBirth(organisationIds, parser.getDateOfBirth()));
+            }
 
             result.addAll(dal.searchByNames(organisationIds, parser.getNames()));
         }

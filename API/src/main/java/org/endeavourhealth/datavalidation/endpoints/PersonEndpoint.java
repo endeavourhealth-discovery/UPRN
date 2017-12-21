@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
+import java.util.Set;
 
 @Path("/person")
 @Metrics(registry = "dataValidationMetricRegistry")
@@ -32,9 +33,12 @@ public class PersonEndpoint {
     public Response get(@Context SecurityContext sc,
                         @ApiParam(value = "Mandatory Search terms") @QueryParam("searchTerms") String searchTerms
     ) throws Exception {
-        LOG.debug("Get Called");
+        LOG.debug("Get Person Called");
+        Set<String> orgs = new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc);
 
-        List<Person> matches = new PersonPatientLogic().findPersonsInOrganisations(new Security().getUserAllowedOrganisationIdsFromSecurityContext(sc), searchTerms);
+        LOG.debug("Searching [" + searchTerms + "] in orgs [" + String.join(",", orgs)+ "]");
+
+        List<Person> matches = new PersonPatientLogic().findPersonsInOrganisations(orgs, searchTerms);
 
         return Response
             .ok()

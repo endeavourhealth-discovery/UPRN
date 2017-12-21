@@ -49,7 +49,10 @@ public class PersonPatientLogic {
                 result.addAll(dal.searchByDateOfBirth(organisationIds, parser.getDateOfBirth()));
             }
 
-            result.addAll(dal.searchByNames(organisationIds, parser.getNames()));
+            if (parser.hasNames()) {
+                LOG.debug("Searching names");
+                result.addAll(dal.searchByNames(organisationIds, parser.getNames()));
+            }
         }
 
         for (Person person : result) {

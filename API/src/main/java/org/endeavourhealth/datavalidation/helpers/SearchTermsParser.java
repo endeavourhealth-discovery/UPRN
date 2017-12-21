@@ -117,4 +117,8 @@ public class SearchTermsParser {
         result.add(combined);
         return result;
     }
+
+    public boolean hasNames() {
+        return names.size() > 0;
+    }
 }

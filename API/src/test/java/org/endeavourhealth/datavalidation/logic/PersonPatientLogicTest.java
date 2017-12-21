@@ -48,7 +48,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(1, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertTrue(mockDal.searchByNhsNumberCalled);
         Assert.assertFalse(mockDal.searchByLocalIdCalled);
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
@@ -60,7 +60,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(0, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertTrue(mockDal.searchByNhsNumberCalled);
         Assert.assertFalse(mockDal.searchByLocalIdCalled);
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
@@ -72,7 +72,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(1, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertFalse(mockDal.searchByNhsNumberCalled);
         Assert.assertTrue(mockDal.searchByLocalIdCalled);
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
@@ -84,7 +84,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(0, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertFalse(mockDal.searchByNhsNumberCalled);
         Assert.assertTrue(mockDal.searchByLocalIdCalled);
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
@@ -96,7 +96,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(1, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertFalse(mockDal.searchByNhsNumberCalled);
         Assert.assertFalse(mockDal.searchByLocalIdCalled);
         Assert.assertTrue(mockDal.searchByDateOfBirthCalled);
@@ -108,7 +108,7 @@ public class PersonPatientLogicTest {
 
         Assert.assertNotNull(persons);
         Assert.assertEquals(0, persons.size());
-        Assert.assertTrue(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNamesCalled);
         Assert.assertFalse(mockDal.searchByNhsNumberCalled);
         Assert.assertFalse(mockDal.searchByLocalIdCalled);
         Assert.assertTrue(mockDal.searchByDateOfBirthCalled);
@@ -149,4 +149,19 @@ public class PersonPatientLogicTest {
         Assert.assertFalse(mockDal.searchByNhsNumberCalled);
         Assert.assertFalse(mockDal.searchByLocalIdCalled);
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
-    }}
+    }
+
+    @Test
+    public void findPersonsInOrganisationsNonNumericLocalId() throws Exception {
+        List<Person> persons = personPatient.findPersonsInOrganisations(mockDal.organisationsPresent, mockDal.nonNumericLocalId);
+
+        Assert.assertNotNull(persons);
+        Assert.assertEquals(0, persons.size());
+        Assert.assertFalse(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNhsNumberCalled);
+        Assert.assertTrue(mockDal.searchByLocalIdCalled);
+        Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
+    }
+
+}
+

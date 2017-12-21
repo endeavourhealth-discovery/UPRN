@@ -16,6 +16,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
 
     public String emisNumberPresent = "12345";
     public String emisNumberMissing = "54321";
+    public String nonNumericLocalId = "N54321";
 
     public String dobPresent = "01-Jan-1981";
     private Date dobPresentDate;

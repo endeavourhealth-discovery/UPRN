@@ -31,12 +31,7 @@ public class SearchTermsParser {
 
         for (String token : tokens) {
 
-            if (StringUtils.isNumeric(token)) {
-                if (token.length() == 10)
-                    this.nhsNumber = token;
-                else
-                    this.emisNumber = token;
-            } else if ((token.length() == 10 || token.length() == 11) && StringUtils.countMatches(token, "-")==2) {
+            if (isDate(token)) {
                 // Assume its a date dd-MMM-yyyy & attempt to parse
                 SimpleDateFormat sf = new SimpleDateFormat("dd-MMM-yyyy");
                 try {
@@ -44,10 +39,19 @@ public class SearchTermsParser {
                 } catch (ParseException e) {
                     // Not a valid date, continue and treat as regular token
                 }
+            } else if (!StringUtils.isAlpha(token)) {
+                if (token.length() == 10)
+                    this.nhsNumber = token;
+                else
+                    this.emisNumber = token;
+            } else {
+                this.names.add(token);
             }
-
-            this.names.add(token);
         }
+    }
+
+    public boolean isDate(String token) {
+        return (token.length() == 10 || token.length() == 11) && StringUtils.countMatches(token, "-")==2;
     }
 
     public boolean hasNhsNumber() {

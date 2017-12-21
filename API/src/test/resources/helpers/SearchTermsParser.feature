@@ -29,6 +29,7 @@ Feature: Search terms parser
       | input                  | output                 |
       | "12345678901234567890" | "12345678901234567890" |
       | "12345"                | "12345"                |
+      | "N7546541"             | "N7546541"             |
 
   Scenario: Date of birth
     Given A search terms of "23-Apr-1985"

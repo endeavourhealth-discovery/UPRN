@@ -294,7 +294,7 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
 
     private Connection createConnection() {
         try {
-            JsonNode json = ConfigManager.getConfigurationAsJson("eds_db");
+            JsonNode json = ConfigManager.getConfigurationAsJson("eds", "db_common");
             String url = json.get("url").asText();
             String user = json.get("username").asText();
             String pass = json.get("password").asText();

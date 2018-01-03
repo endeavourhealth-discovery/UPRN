@@ -35,7 +35,7 @@ public class Mock_ResourceDAL implements ResourceDAL {
     }
 
     @Override
-    public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId) {
+    public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId, String serviceId) {
         String reference = resourceType.name() + "/" + resourceId;
 
         if (MISSING_REFERENCE.equals(reference))

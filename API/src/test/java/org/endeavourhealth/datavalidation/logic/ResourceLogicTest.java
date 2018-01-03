@@ -84,31 +84,31 @@ public class ResourceLogicTest {
 
     @Test
     public void getReferenceDescriptionNull() throws Exception {
-        String actual = resourceLogic.getReferenceDescription(null);
+        String actual = resourceLogic.getReferenceDescription(UUID.randomUUID().toString(), null);
         Assert.assertNull(actual);
     }
 
     @Test
     public void getReferenceDescriptionEmpty() throws Exception {
-        String actual = resourceLogic.getReferenceDescription("");
+        String actual = resourceLogic.getReferenceDescription(UUID.randomUUID().toString(), "");
         Assert.assertNull(actual);
     }
 
     @Test
     public void getReferenceDescriptionInvalid() throws Exception {
-        String actual = resourceLogic.getReferenceDescription("INVALIDREFERENCE");
+        String actual = resourceLogic.getReferenceDescription(UUID.randomUUID().toString(), "INVALIDREFERENCE");
         Assert.assertEquals("Invalid reference", actual);
     }
 
     @Test
     public void getReferenceDescriptionMissingReference() throws Exception {
-        String actual = resourceLogic.getReferenceDescription(dal.MISSING_REFERENCE);
+        String actual = resourceLogic.getReferenceDescription(UUID.randomUUID().toString(), dal.MISSING_REFERENCE);
         Assert.assertEquals("Not found", actual);
     }
 
     @Test
     public void getReferenceDescriptionUnknownReference() throws Exception {
-        String actual = resourceLogic.getReferenceDescription(dal.UNKNOWN_REFERENCE);
+        String actual = resourceLogic.getReferenceDescription(UUID.randomUUID().toString(), dal.UNKNOWN_REFERENCE);
         Assert.assertEquals("Unknown type", actual);
     }
 }

@@ -56,7 +56,7 @@ export class ViewerComponent implements OnInit {
     const vm = this;
     value.display = 'Resolving...';
 
-    vm.resourcesService.getReferenceDescription(value.reference)
+    vm.resourcesService.getReferenceDescription(vm.resource.serviceId, value.reference)
       .subscribe(
         (result) => value.display = result,
         (error) => value.display = 'Not found'

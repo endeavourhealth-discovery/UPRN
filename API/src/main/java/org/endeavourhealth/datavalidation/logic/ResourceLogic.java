@@ -59,7 +59,7 @@ public class ResourceLogic {
         return resourceObjects;
     }
 
-    public String getReferenceDescription(String reference) {
+    public String getReferenceDescription(String serviceId, String reference) {
         if (reference == null || reference.isEmpty())
             return null;
 
@@ -71,7 +71,7 @@ public class ResourceLogic {
         org.hl7.fhir.instance.model.ResourceType resourceType = org.hl7.fhir.instance.model.ResourceType.valueOf(resourceTypeStr);
         String resourceId = reference.substring(slashPos + 1);
 
-        Resource resource = dal.getResource(resourceType, resourceId);
+        Resource resource = dal.getResource(resourceType, resourceId, serviceId);
         if (resource == null)
             return "Not found";
 

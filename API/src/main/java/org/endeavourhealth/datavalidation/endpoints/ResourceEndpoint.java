@@ -74,10 +74,11 @@ public class ResourceEndpoint {
     @Path("/reference")
     @ApiOperation(value = "Returns the description for a given service, system and reference")
     public Response reference(@Context SecurityContext sc,
+                              @ApiParam(value = "Mandatory ServiceId") @QueryParam("serviceId") String serviceId,
                               @ApiParam(value = "Mandatory reference") @QueryParam("reference") String reference) throws Exception {
         LOG.debug("Get Reference Called");
 
-        String referenceDescription = new ResourceLogic().getReferenceDescription(reference);
+        String referenceDescription = new ResourceLogic().getReferenceDescription(serviceId, reference);
 
         return Response
             .ok(referenceDescription)

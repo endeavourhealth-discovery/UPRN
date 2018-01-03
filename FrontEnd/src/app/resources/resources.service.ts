@@ -74,8 +74,9 @@ export class ResourcesService {
       .map((response) => response.text());
   }
 
-  public getReferenceDescription(reference: string): Observable<string> {
+  public getReferenceDescription(serviceId: string, reference: string): Observable<string> {
     const params: URLSearchParams = new URLSearchParams();
+    params.append('serviceId', serviceId);
     params.append('reference', reference);
 
     return this.http.get('api/resource/reference', {search: params, withCredentials: true})

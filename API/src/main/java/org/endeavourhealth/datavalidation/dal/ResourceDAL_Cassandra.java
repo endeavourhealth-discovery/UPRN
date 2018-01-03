@@ -8,8 +8,9 @@ import org.hl7.fhir.instance.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class ResourceDAL_Cassandra implements ResourceDAL {
     private static final Logger LOG = LoggerFactory.getLogger(ResourceDAL_Cassandra.class);
@@ -59,10 +60,11 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
     }
 
     @Override
-    public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId) {
+    public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId, String serviceId) {
         ResourceDalI resourceRepository = DalProvider.factoryResourceDal();
         try {
-            return resourceRepository.getCurrentVersionAsResource(resourceType, resourceId);
+
+            return resourceRepository.getCurrentVersionAsResource(UUID.fromString(serviceId), resourceType, resourceId);
         } catch (Exception e) {
             LOG.error("Error fetching resource", e);
             return null;

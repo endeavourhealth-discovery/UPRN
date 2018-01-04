@@ -278,7 +278,7 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Display">Drug</label>
+        <label for="Display">Display Term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].display}}">
       </div>
       <div class="form-group">
@@ -400,7 +400,52 @@ values (
 </form>
 </div>');
 
--- TODO: Immunisation
+delete from config where config_id = 'Template-Immunization';
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-Immunization',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Display">Display Term</label>
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[1].display}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.explanation.reason!=null">
+        <label for="Reason">Reason</label>
+        <input id="Reason" class="form-control" type="text" disabled value="{{resource.resourceJson.explanation.reason[0].text}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.route!=null">
+        <label for="Route">Route</label>
+        <input id="Route" class="form-control" type="text" disabled value="{{resource.resourceJson.route.text}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.lotNumber!=null">
+        <label for="Lot">Lot No.</label>
+        <input id="Lot" class="form-control" type="text" disabled value="{{resource.resourceJson.lotNumber}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Code">Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[1].code}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.performer!=null">
+        <label for="Performer">Performer</label>
+        <input id="Performer" class="form-control" type="text" disabled value="{{resource.resourceJson.performer.display}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.site!=null">
+        <label for="Site">Site</label>
+        <input id="Site" class="form-control" type="text" disabled value="{{resource.resourceJson.site.text}}">
+      </div>
+    </div>
+  </div>
+</form>
+</div>');
+
+-- TODO: FamilyMemberHistory
+
 
 
 

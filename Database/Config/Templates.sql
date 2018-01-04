@@ -1,6 +1,9 @@
+use config;
+
+delete from config where config_id = 'Template-Patient';
 insert into config (app_id, config_id, config_data)
 values (
-    'eds-data-validation',
+  'eds-data-validation',
   'Template-Patient',
   '<div class="container">
  <form>
@@ -44,7 +47,7 @@ values (
        </div>
        <div class="form-group">
          <label for="DOB">D.O.B.</label>
-         <input id="DOB" class="form-control" type="text" disabled value="{{resource.resourceJson.birthDate}}">
+         <input id="DOB" class="form-control" type="text" disabled value="{{resource.resourceJson.birthDate | date:''dd/MM/y''}}">
        </div>
        <div *ngFor="let extension of resource.resourceJson.extension">
          <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-ethnic-category-extension''" >
@@ -67,25 +70,7 @@ values (
  </form>
  </div>');
 
-insert into config (app_id, config_id, config_data)
-values (
-  'eds-data-validation',
-  'Template-Encounter',
-  '<div class="container">
-<form>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="PatientType">Patient type</label>
-        <input id="PatientType" class="form-control" type="text" disabled value="{{resource.resourceJson.class}}">
-      </div>
-    </div>
-    <div class="col-md-6">
-    </div>
-  </div>
-</form>
-</div>');
-
+delete from config where config_id = 'Template-EpisodeOfCare';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -96,8 +81,18 @@ values (
     <div class="col-md-6">
       <div class="form-group">
         <label for="Registered">Registered date</label>
-        <input id="Registered" class="form-control" type="text" disabled value="{{resource.resourceJson.period?.start}}">
+        <input id="Registered" class="form-control" type="text" disabled value="{{resource.resourceJson.period?.start | date:''dd/MM/y''}}">
       </div>
+      <div class="form-group">
+        <label for="CareManager">Care Manager</label>
+        <input id="CareManager" class="form-control" type="text" disabled value="{{resource.resourceJson.careManager.display}}">
+      </div>
+       <div *ngFor="let extension of resource.resourceJson.extension">
+         <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-patient-registration-type-extension''" >
+          <label for="RegType">Registration Type</label>
+        <input id="RegType" class="form-control" type="text" disabled value="{{extension.valueCoding.display}}">
+         </div>
+       </div>
       <div *ngFor="let identifier of resource.resourceJson.identifier">
         <div class="form-group" *ngIf="identifier.system==''http://endeavourhealth.org/fhir/id/v2-local-episode-id/barts-fin''" >
           <label for="FIN">Financial No.</label>
@@ -108,13 +103,22 @@ values (
     <div class="col-md-6">
       <div class="form-group">
         <label for="Discharged">Discharged date</label>
-        <input id="Discharged" class="form-control" type="text" disabled value="{{resource.resourceJson.period?.end}}">
+        <input id="Discharged" class="form-control" type="text" disabled value="{{resource.resourceJson.period?.end  | date:''dd/MM/y''}}">
+      </div>
+      <div class="form-group">
+        <label for="CareOrg">Organisation</label>
+        <input id="CareOrg" class="form-control" type="text" disabled value="{{resource.resourceJson.managingOrganization.display}}">
+      </div>
+      <div class="form-group">
+        <label for="Status">Status</label>
+        <input id="Status" class="form-control" type="text" disabled value="{{resource.resourceJson.status}}">
       </div>
     </div>
   </div>
 </form>
 </div>');
 
+delete from config where config_id = 'Template-Condition';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -150,6 +154,7 @@ values (
 </form>
 </div>');
 
+delete from config where config_id = 'Template-Procedure';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -185,6 +190,7 @@ values (
  </form>
  </div>');
 
+delete from config where config_id = 'Template-Observation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -234,6 +240,7 @@ values (
 </form>
 </div>');
 
+delete from config where config_id = 'Template-AllergyIntolerance';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -261,6 +268,7 @@ values (
 </form>
 </div>');
 
+delete from config where config_id = 'Template-MedicationOrder';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -304,6 +312,7 @@ values (
 </form>
 </div>');
 
+delete from config where config_id = 'Template-MedicationStatement';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -335,23 +344,57 @@ values (
     </div>
     <div class="col-md-6">
 	    <div class="form-group">
-        <label for="Code">Code</label>
-        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].code}}">
+			<label for="Code">Code</label>
+			<input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].code}}">
+		</div>
+		<div *ngFor="let extension of resource.resourceJson.extension">
+			<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-medication-authorisation-quantity-extension''" >
+				<label for="Qty">Quantity</label>
+				<input id="Qty" class="form-control" type="text" disabled value="{{extension.valueQuantity.value}} {{extension.valueQuantity.unit}}">
+			</div>
+			<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-medication-authorisation-type-extension''">
+				<label for="Type">Type</label>
+				<input id="Type" class="form-control" type="text" disabled value="{{extension.valueCoding.display}}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="Source">Source</label>
+			<input id="Source" class="form-control" type="text" disabled value="{{resource.resourceJson.informationSource.display}}">
+		</div>
+    </div>
+  </div>
+</form>
+</div>');
+
+delete from config where config_id = 'Template-Encounter';
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-Encounter',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Date">Date</label>
+        <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''dd/MM/y''}}">
       </div>
-      <div *ngFor="let extension of resource.resourceJson.extension">
-         <div class="form-group" *ngIf="extension.valueQuantity!=null" >
-           <label for="Qty">Quantity</label>
-           <input id="Qty" class="form-control" type="text" disabled value="{{extension.valueQuantity.value}} {{extension.valueQuantity.unit}}">
-         </div>
-         <div class="form-group" *ngIf="extension.valueCoding!=null" >
-           <label for="Type">Type</label>
-           <input id="Type" class="form-control" type="text" disabled value="{{extension.valueCoding.display}}">
-         </div>
-		     <div class="form-group" *ngIf="extension.valueReference!=null" >
-           <label for="Source">Source</label>
-           <input id="Source" class="form-control" type="text" disabled value="{{extension.valueReference.display}}">
-         </div>
-       </div>
+      <div class="form-group">
+        <label for="Practitioner">Practitioner</label>
+        <input id="Practitioner" class="form-control" type="text" disabled value="{{resource.resourceJson.participant[0].individual.display}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+		<div *ngFor="let extension of resource.resourceJson.extension">
+			<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-encounter-source''" >
+				<label for="Type">Type</label>
+				<input id="Type" class="form-control" type="text" disabled value="{{extension.valueCodeableConcept.text}}">
+			</div>
+		</div>
+        <div class="form-group">
+			<label for="Place">Place</label>
+			<input id="Place" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceProvider.display}}">
+		</div>
     </div>
   </div>
 </form>

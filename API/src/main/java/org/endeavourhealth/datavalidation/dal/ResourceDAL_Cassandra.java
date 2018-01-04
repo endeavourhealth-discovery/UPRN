@@ -28,7 +28,7 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         resourceTypes.add(new ResourceType("Encounter", "Encounter"));
         resourceTypes.add(new ResourceType("EpisodeOfCare", "Episode Of Care"));
         resourceTypes.add(new ResourceType("FamilyMemberHistory", "Family Member History"));
-        resourceTypes.add(new ResourceType("Immunisation", "Immunisation"));
+        resourceTypes.add(new ResourceType("Immunization", "Immunization"));
         resourceTypes.add(new ResourceType("MedicationOrder", "Medication Order"));
         resourceTypes.add(new ResourceType("MedicationStatement", "Medication Statement"));
         resourceTypes.add(new ResourceType("Medication", "Medication"));

@@ -267,7 +267,7 @@ export class ResourcesComponent implements OnInit {
       case 'Encounter': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
       case 'EpisodeOfCare': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);       // Period.start!?
       case 'FamilyMemberHistory': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
-      case 'Immunisation': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
+      case 'Immunization': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
       case 'MedicationOrder': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
       case 'MedicationStatement': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
       case 'Medication': return resource.recordedDate = this.getRecordedDateExtension(resource.resourceJson);
@@ -308,7 +308,7 @@ export class ResourcesComponent implements OnInit {
       case 'Encounter': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period.start);
       case 'EpisodeOfCare': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period.start);
       case 'FamilyMemberHistory': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
-      case 'Immunisation': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
+      case 'Immunization': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
       case 'MedicationOrder': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.dateWritten);
       case 'MedicationStatement': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.dateAsserted);
       case 'Medication': return resource.effectiveDate = DateHelper.NOT_KNOWN;
@@ -352,7 +352,7 @@ export class ResourcesComponent implements OnInit {
       case 'Encounter': return (resource.reason && resource.reason.length > 0) ? resource.reason[0] : null;
       case 'EpisodeOfCare': return resource.type;
       case 'FamilyMemberHistory': return (resource.condition && resource.condition.length > 0) ? resource.condition[0].code : null;
-      case 'Immunisation': return resource.vaccineCode;
+      case 'Immunization': return resource.vaccineCode;
       case 'MedicationOrder': return (resource.medicationCodeableConcept) ? resource.medicationCodeableConcept : null;
       case 'MedicationStatement': return (resource.medicationCodeableConcept) ? resource.medicationCodeableConcept : null;
       case 'Medication': return resource.code;

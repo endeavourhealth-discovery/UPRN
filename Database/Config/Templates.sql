@@ -80,7 +80,6 @@ values (
         <input id="PatientType" class="form-control" type="text" disabled value="{{resource.resourceJson.class}}">
       </div>
     </div>
-
     <div class="col-md-6">
     </div>
   </div>
@@ -106,7 +105,6 @@ values (
         </div>
       </div>
     </div>
-
     <div class="col-md-6">
       <div class="form-group">
         <label for="Discharged">Discharged date</label>
@@ -126,23 +124,22 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Code">Coding Code</label>
-        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
-      </div>
-      <div class="form-group">
-        <label for="Display">Coding Display</label>
+        <label for="Display">Display Term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
       </div>
-    </div>
-
-    <div class="col-md-6">
       <div class="form-group">
         <label for="Date">Effective Date</label>
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
-      <div class="form-group">
+	  <div class="form-group">
         <label for="Text">Code Text</label>
         <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+	  <div class="form-group">
+        <label for="Code">Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
       </div>
       <div class="form-group">
         <label for="Category">Category</label>
@@ -158,28 +155,35 @@ values (
   'eds-data-validation',
   'Template-Procedure',
   '<div class="container">
-<form>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="Code">Coding Code</label>
-        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
-      </div>
-      <div class="form-group">
-        <label for="Display">Coding Display</label>
-        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="Text">Code Text</label>
-        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
-      </div>
-    </div>
-  </div>
-</form>
-</div>');
+ <form>
+   <div class="row">
+     <div class="col-md-6">
+       <div class="form-group">
+         <label for="Display">Display Term</label>
+         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
+       </div>
+ 	  <div class="form-group">
+         <label for="Performer">Performed By</label>
+         <input id="Performer" class="form-control" type="text" disabled value="{{resource.resourceJson.performer[0].actor.display}}">
+       </div>
+       <div class="form-group" *ngIf="resource.resourceJson.notes!=null">
+         <label for="Text">Comments</label>
+         <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.notes[0].text}}">
+       </div>
+     </div>
+     <div class="col-md-6">
+       <div class="form-group">
+         <label for="Code">Code</label>
+         <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
+       </div>
+       <div class="form-group">
+         <label for="Date">Date</label>
+         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.performedDateTime | date:''dd/MM/y''}}">
+       </div>
+     </div>
+   </div>
+ </form>
+ </div>');
 
 insert into config (app_id, config_id, config_data)
 values (
@@ -230,10 +234,130 @@ values (
 </form>
 </div>');
 
--- TODO: Medication Statement
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-AllergyIntolerance',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Display">Display Term</label>
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.substance.coding[0].display}}">
+      </div>
+      <div class="form-group">
+        <label for="Text">Comments</label>
+        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.note.text}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Code">Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.substance.coding[0].code}}">
+      </div>
+    </div>
+  </div>
+</form>
+</div>');
+
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-MedicationOrder',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Display">Drug</label>
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].display}}">
+      </div>
+      <div class="form-group">
+        <label for="Dosage">Dosage</label>
+        <input id="Dosage" class="form-control" type="text" disabled value="{{resource.resourceJson.dosageInstruction[0].text}}">
+      </div>
+      <div class="form-group">
+        <label for="Date">Issued</label>
+        <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.dateWritten | date:''dd/MM/y''}}">
+      </div>
+	  <div class="form-group" *ngIf="resource.resourceJson.notes!=null">
+        <label for="Text">Comments</label>
+        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.notes}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+	  <div class="form-group">
+        <label for="Code">Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].code}}">
+      </div>
+      <div class="form-group">
+        <label for="Qty">Quantity</label>
+        <input id="Qty" class="form-control" type="text" disabled value="{{resource.resourceJson.dispenseRequest.quantity.value}} {{resource.resourceJson.dispenseRequest.quantity.unit}}">
+      </div>
+       <div class="form-group">
+        <label for="Prescriber">Prescriber</label>
+        <input id="Prescriber" class="form-control" type="text" disabled value="{{resource.resourceJson.prescriber.display}}">
+      </div>
+    </div>
+  </div>
+</form>
+</div>');
+
+insert into config (app_id, config_id, config_data)
+values (
+  'eds-data-validation',
+  'Template-MedicationStatement',
+  '<div class="container">
+<form>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="Display">Drug</label>
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].display}}">
+      </div>
+      <div class="form-group">
+        <label for="Dosage">Dosage</label>
+        <input id="Dosage" class="form-control" type="text" disabled value="{{resource.resourceJson.dosage[0].text}}">
+      </div>
+      <div class="form-group">
+        <label for="Date">Date</label>
+        <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.dateAsserted | date:''dd/MM/y''}}">
+      </div>
+      <div class="form-group">
+        <label for="Status">Status</label>
+        <input id="Status" class="form-control" type="text" disabled value="{{resource.resourceJson.status}}">
+      </div>
+	    <div class="form-group" *ngIf="resource.resourceJson.notes!=null">
+        <label for="Text">Comments</label>
+        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.notes}}">
+      </div>
+    </div>
+    <div class="col-md-6">
+	    <div class="form-group">
+        <label for="Code">Code</label>
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].code}}">
+      </div>
+      <div *ngFor="let extension of resource.resourceJson.extension">
+         <div class="form-group" *ngIf="extension.valueQuantity!=null" >
+           <label for="Qty">Quantity</label>
+           <input id="Qty" class="form-control" type="text" disabled value="{{extension.valueQuantity.value}} {{extension.valueQuantity.unit}}">
+         </div>
+         <div class="form-group" *ngIf="extension.valueCoding!=null" >
+           <label for="Type">Type</label>
+           <input id="Type" class="form-control" type="text" disabled value="{{extension.valueCoding.display}}">
+         </div>
+		     <div class="form-group" *ngIf="extension.valueReference!=null" >
+           <label for="Source">Source</label>
+           <input id="Source" class="form-control" type="text" disabled value="{{extension.valueReference.display}}">
+         </div>
+       </div>
+    </div>
+  </div>
+</form>
+</div>');
 
 -- TODO: Immunisation
 
--- TODO: Allergy
 
--- TODO: Procedure
+

@@ -136,7 +136,7 @@ values (
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
 	  <div class="form-group">
-        <label for="Text">Code Text</label>
+        <label for="Text">Comments</label>
         <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
       </div>
     </div>

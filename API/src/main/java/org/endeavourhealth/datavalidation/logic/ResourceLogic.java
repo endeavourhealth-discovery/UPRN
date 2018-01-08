@@ -1,18 +1,26 @@
 package org.endeavourhealth.datavalidation.logic;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
+import org.endeavourhealth.core.database.dal.DalProvider;
+import org.endeavourhealth.core.database.dal.admin.ServiceDalI;
+import org.endeavourhealth.core.database.dal.admin.models.Service;
 import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
+import org.endeavourhealth.core.fhirStorage.JsonServiceInterfaceEndpoint;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
+import org.endeavourhealth.datavalidation.models.PatientResource;
 import org.endeavourhealth.datavalidation.models.ResourceId;
 import org.endeavourhealth.datavalidation.models.ResourceType;
-import org.endeavourhealth.datavalidation.models.PatientResource;
 import org.hl7.fhir.instance.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class ResourceLogic {
     static ResourceDAL dal;
@@ -36,23 +44,37 @@ public class ResourceLogic {
 
         for (ResourceId patient : patients) {
 
-            if (serviceIds.contains(patient.getServiceId())) {
-                List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
-                    patient.getServiceId(),
-                    patient.getSystemId(),
-                    patient.getPatientId(),
-                    resourceTypes);
+            String serviceId = patient.getServiceId();
+            if (serviceIds.contains(serviceId)) {
 
-                ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
+                //get distinct system_id's for each service and get resource for each.
+                ServiceDalI serviceDalI = DalProvider.factoryServiceDal();
+                Service service = serviceDalI.getById(UUID.fromString(serviceId));
+                List<UUID> systemIds = findSystemIds(service);
+                for (UUID systemId : systemIds) {
+//                    List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
+//                            patient.getServiceId(),
+//                            patient.getSystemId(),
+//                            patient.getPatientId(),
+//                            resourceTypes);
+                    List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
+                            patient.getServiceId(),
+                            systemId.toString(),
+                            patient.getPatientId(),
+                            resourceTypes);
 
-                for (ResourceWrapper resourceWrapper : resourceWrappers)
-                    resourceObjects.add(
-                        new PatientResource(
-                            resourceWrapper.getServiceId().toString(),
-                            resourceWrapper.getSystemId().toString(),
-                            resourceWrapper.getPatientId().toString(),
-                            parserPool.readTree(resourceWrapper.getResourceData())
-                    ));
+                    ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
+
+                    for (ResourceWrapper resourceWrapper : resourceWrappers)
+                        resourceObjects.add(
+                                new PatientResource(
+                                        resourceWrapper.getServiceId().toString(),
+                                        resourceWrapper.getSystemId().toString(),
+                                        resourceWrapper.getPatientId().toString(),
+                                        parserPool.readTree(resourceWrapper.getResourceData())
+                                ));
+
+                }
             }
         }
 
@@ -106,5 +128,23 @@ public class ResourceLogic {
             humanNameStr = new CUIFormatter().getFormattedName(title, givenName, surname);
         }
         return humanNameStr;
+    }
+
+    private static List<UUID> findSystemIds(Service service) throws Exception {
+
+        List<UUID> ret = new ArrayList<>();
+
+        List<JsonServiceInterfaceEndpoint> endpoints = null;
+        try {
+            endpoints = ObjectMapperPool.getInstance().readValue(service.getEndpoints(), new TypeReference<List<JsonServiceInterfaceEndpoint>>() {});
+            for (JsonServiceInterfaceEndpoint endpoint: endpoints) {
+                UUID endpointSystemId = endpoint.getSystemUuid();
+                ret.add(endpointSystemId);
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to process endpoints from service " + service.getId());
+        }
+
+        return ret;
     }
 }

@@ -73,9 +73,16 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
 
     private List<ResourceWrapper> getPatientResourcesByType(String serviceId, String systemId, String patientId, String resourceType) throws Exception {
         ResourceDalI resourceRepository = DalProvider.factoryResourceDal();
-        return resourceRepository.getResourcesByPatientAllSystems(
-            UUID.fromString(serviceId),
-            UUID.fromString(patientId),
-            resourceType);
+
+        return resourceRepository.getResourcesByPatient(
+                UUID.fromString(serviceId),
+                UUID.fromString(systemId),
+                UUID.fromString(patientId),
+                resourceType);
+
+//        return resourceRepository.getResourcesByPatientAllSystems(
+//            UUID.fromString(serviceId),
+//            UUID.fromString(patientId),
+//            resourceType);
     }
 }

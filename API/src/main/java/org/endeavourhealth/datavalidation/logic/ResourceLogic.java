@@ -46,34 +46,35 @@ public class ResourceLogic {
 
             String serviceId = patient.getServiceId();
             if (serviceIds.contains(serviceId)) {
-
-                //get distinct system_id's for each service and get resource for each.
+                //get distinct system_id's for each service and get resource for each. Temporary performance
+                // improvement alternative to creating a new index on the ehr.resource_current table
                 ServiceDalI serviceDalI = DalProvider.factoryServiceDal();
                 Service service = serviceDalI.getById(UUID.fromString(serviceId));
-                List<UUID> systemIds = findSystemIds(service);
-                for (UUID systemId : systemIds) {
-//                    List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
-//                            patient.getServiceId(),
-//                            patient.getSystemId(),
-//                            patient.getPatientId(),
-//                            resourceTypes);
-                    List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
-                            patient.getServiceId(),
-                            systemId.toString(),
-                            patient.getPatientId(),
-                            resourceTypes);
+                if (service != null) {
+                    List<UUID> systemIds = findSystemIds(service);
+                    for (UUID systemId : systemIds) {
+//                List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
+//                        patient.getServiceId(),
+//                        patient.getSystemId(),
+//                        patient.getPatientId(),
+//                        resourceTypes);
+                        List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
+                                patient.getServiceId(),
+                                systemId.toString(),
+                                patient.getPatientId(),
+                                resourceTypes);
 
-                    ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
+                        ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
 
-                    for (ResourceWrapper resourceWrapper : resourceWrappers)
-                        resourceObjects.add(
-                                new PatientResource(
-                                        resourceWrapper.getServiceId().toString(),
-                                        resourceWrapper.getSystemId().toString(),
-                                        resourceWrapper.getPatientId().toString(),
-                                        parserPool.readTree(resourceWrapper.getResourceData())
-                                ));
-
+                        for (ResourceWrapper resourceWrapper : resourceWrappers)
+                            resourceObjects.add(
+                                    new PatientResource(
+                                            resourceWrapper.getServiceId().toString(),
+                                            resourceWrapper.getSystemId().toString(),
+                                            resourceWrapper.getPatientId().toString(),
+                                            parserPool.readTree(resourceWrapper.getResourceData())
+                                    ));
+                    }
                 }
             }
         }

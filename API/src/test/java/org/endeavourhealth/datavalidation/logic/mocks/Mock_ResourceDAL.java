@@ -49,4 +49,11 @@ public class Mock_ResourceDAL implements ResourceDAL {
 
         throw new IllegalArgumentException("Invalid test data used for mock!");
     }
+
+    @Override
+    public List<UUID> getServiceSystems(String serviceId) {
+        List<UUID> systems = new ArrayList<>();
+        systems.add(UUID.randomUUID());
+        return systems;
+    }
 }

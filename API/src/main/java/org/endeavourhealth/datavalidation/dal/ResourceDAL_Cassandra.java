@@ -1,8 +1,13 @@
 package org.endeavourhealth.datavalidation.dal;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.core.database.dal.DalProvider;
+import org.endeavourhealth.core.database.dal.admin.ServiceDalI;
+import org.endeavourhealth.core.database.dal.admin.models.Service;
 import org.endeavourhealth.core.database.dal.ehr.ResourceDalI;
 import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
+import org.endeavourhealth.core.fhirStorage.JsonServiceInterfaceEndpoint;
 import org.endeavourhealth.datavalidation.models.ResourceType;
 import org.hl7.fhir.instance.model.Resource;
 import org.slf4j.Logger;
@@ -84,5 +89,35 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
 //            UUID.fromString(serviceId),
 //            UUID.fromString(patientId),
 //            resourceType);
+    }
+
+    @Override
+    public List<UUID> getServiceSystems(String serviceId) {
+        ServiceDalI serviceRepository = DalProvider.factoryServiceDal();
+        try {
+            Service service = serviceRepository.getById(UUID.fromString(serviceId));
+            List<UUID> systemIds = findSystemIds(service);
+            return systemIds;
+        } catch (Exception e) {
+            LOG.error("Error fetching service systems", e);
+            return null;
+        }
+    }
+
+    private static List<UUID> findSystemIds(Service service) throws Exception {
+        List<UUID> ret = new ArrayList<>();
+
+        List<JsonServiceInterfaceEndpoint> endpoints = null;
+        try {
+            endpoints = ObjectMapperPool.getInstance().readValue(service.getEndpoints(), new TypeReference<List<JsonServiceInterfaceEndpoint>>() {});
+            for (JsonServiceInterfaceEndpoint endpoint: endpoints) {
+                UUID endpointSystemId = endpoint.getSystemUuid();
+                ret.add(endpointSystemId);
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to get system endpoints from service " + service.getId());
+        }
+
+        return ret;
     }
 }

@@ -136,8 +136,8 @@ values (
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
 	  <div class="form-group">
-        <label for="Text">Comments</label>
-        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
+        <label for="Recorder">Recorded By</label>
+        <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.asserter.display}}">
       </div>
     </div>
     <div class="col-md-6">
@@ -149,6 +149,11 @@ values (
         <label for="Category">Category</label>
         <input id="Category" class="form-control" type="text" disabled value="{{resource.resourceJson.category.coding[0].code}}">
       </div>
+      <div class="form-group">
+        <label for="Text">Comments</label>
+        <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
+      </div>
+    </div>
     </div>
   </div>
 </form>
@@ -203,6 +208,10 @@ values (
 			<label for="Display">Display Term</label>
 			<input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
 		</div>
+        <div class="form-group">
+			<label for="Date">Effective Date</label>
+			<input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.effectiveDateTime | date:''dd/MM/y''}}">
+		</div>
         <div class="form-group" *ngIf="resource.resourceJson.valueQuantity!=null">
 			<label for="Value">Value</label>
 			<input id="Value" class="form-control" type="text" disabled value="{{resource.resourceJson.valueQuantity.value}}">
@@ -230,6 +239,10 @@ values (
 		<div class="form-group">
 			<label for="Code">Code</label>
 			<input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
+		</div>
+        <div class="form-group">
+			<label for="Recorder">Recorded By</label>
+			<input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.performer[0].display}}">
 		</div>
 		<div class="form-group" *ngIf="resource.resourceJson.valueQuantity!=null">
 			<label for="Value1Units">Units</label>
@@ -415,7 +428,7 @@ values (
     <div class="col-md-6">
       <div class="form-group">
         <label for="Display">Display Term</label>
-        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[1].display}}">
+        <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[0].display}}">
       </div>
       <div class="form-group" *ngIf="resource.resourceJson.explanation.reason!=null">
         <label for="Reason">Reason</label>
@@ -437,7 +450,7 @@ values (
     <div class="col-md-6">
       <div class="form-group">
         <label for="Code">Code</label>
-        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[1].code}}">
+        <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[0].code}}">
       </div>
       <div class="form-group">
         <label for="Performer">Performer</label>

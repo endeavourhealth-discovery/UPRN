@@ -81,7 +81,7 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
 
         return resourceRepository.getResourcesByPatient(
                 UUID.fromString(serviceId),
-                UUID.fromString(systemId),
+                null,
                 UUID.fromString(patientId),
                 resourceType);
 
@@ -89,19 +89,6 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
 //            UUID.fromString(serviceId),
 //            UUID.fromString(patientId),
 //            resourceType);
-    }
-
-    @Override
-    public List<UUID> getServiceSystems(String serviceId) {
-        ServiceDalI serviceRepository = DalProvider.factoryServiceDal();
-        try {
-            Service service = serviceRepository.getById(UUID.fromString(serviceId));
-            List<UUID> systemIds = findSystemIds(service);
-            return systemIds;
-        } catch (Exception e) {
-            LOG.error("Error fetching service systems", e);
-            return null;
-        }
     }
 
     private static List<UUID> findSystemIds(Service service) throws Exception {

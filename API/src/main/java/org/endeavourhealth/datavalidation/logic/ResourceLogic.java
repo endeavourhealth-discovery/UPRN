@@ -41,29 +41,24 @@ public class ResourceLogic {
 
             String serviceId = patient.getServiceId();
             if (serviceIds.contains(serviceId)) {
-                // get distinct system_id's for each service and get resource for each. Temporary performance
-                // improvement alternative to creating a new index on the ehr.resource_current table
-                List<UUID> systemIds = dal.getServiceSystems(serviceId);
-                for (UUID systemId : systemIds) {
-                    List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
-                            patient.getServiceId(),
-                            systemId.toString(),
-                            patient.getPatientId(),
-                            resourceTypes);
+                List<ResourceWrapper> resourceWrappers = dal.getPatientResources(
+                    patient.getServiceId(),
+                    null,
+                    patient.getPatientId(),
+                    resourceTypes);
 
-                    ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
+                ObjectMapperPool parserPool = ObjectMapperPool.getInstance();
 
-                    for (ResourceWrapper resourceWrapper : resourceWrappers)
-                        resourceObjects.add(
-                                new PatientResource(
-                                        resourceWrapper.getServiceId().toString(),
-                                        resourceWrapper.getSystemId().toString(),
-                                        resourceWrapper.getPatientId().toString(),
-                                        parserPool.readTree(resourceWrapper.getResourceData())
-                                ));
-                }
-                }
+                for (ResourceWrapper resourceWrapper : resourceWrappers)
+                    resourceObjects.add(
+                        new PatientResource(
+                            resourceWrapper.getServiceId().toString(),
+                            null,
+                            resourceWrapper.getPatientId().toString(),
+                            parserPool.readTree(resourceWrapper.getResourceData())
+                        ));
             }
+        }
         return resourceObjects;
     }
 

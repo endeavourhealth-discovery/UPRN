@@ -18,8 +18,4 @@ public class AdminLogic {
     public String getServiceName(String serviceId) {
         return dal.getServiceName(serviceId);
     }
-
-    public String getSystemName(String systemId) {
-        return dal.getSystemName(systemId);
-    }
 }

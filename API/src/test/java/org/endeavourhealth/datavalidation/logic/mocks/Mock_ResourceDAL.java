@@ -25,7 +25,6 @@ public class Mock_ResourceDAL implements ResourceDAL {
 
         ResourceWrapper resourceWrapper = new ResourceWrapper();
         resourceWrapper.setServiceId(UUID.fromString(serviceId));
-        resourceWrapper.setSystemId(UUID.fromString(systemId));
         resourceWrapper.setPatientId(UUID.fromString(patientId));
         resourceWrapper.setResourceData("{ \"resourceType\": \"Condition\" }");
 
@@ -48,12 +47,5 @@ public class Mock_ResourceDAL implements ResourceDAL {
             return new MockResource(org.hl7.fhir.instance.model.ResourceType.TestScript);
 
         throw new IllegalArgumentException("Invalid test data used for mock!");
-    }
-
-    @Override
-    public List<UUID> getServiceSystems(String serviceId) {
-        List<UUID> systems = new ArrayList<>();
-        systems.add(UUID.randomUUID());
-        return systems;
     }
 }

@@ -39,23 +39,4 @@ public class AdminEndpoint {
             .build();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Timed(absolute = true, name = "DataValidation.AdminEndpoint.System.Name")
-    @Path("/system/name")
-    @ApiOperation(value = "Returns a the name for the given system id")
-    public Response getResource(@Context SecurityContext sc,
-                                @ApiParam(value = "Mandatory System Id") @QueryParam("systemId") String systemId
-    ) throws Exception {
-        LOG.debug("Get System Name Called");
-
-        String resourceData = new AdminLogic().getSystemName(systemId);
-
-        return Response
-            .ok()
-            .entity(resourceData)
-            .build();
-    }
-
 }

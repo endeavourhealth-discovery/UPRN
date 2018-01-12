@@ -32,27 +32,4 @@ public class AdminDAL_Cassandra implements AdminDAL {
 
         return service.getName();
     }
-
-    @Override
-    public String getSystemName(String systemId) {
-
-        try {
-            LibraryDalI libraryRepository = DalProvider.factoryLibraryDal();
-            ActiveItem activeItem = libraryRepository.getActiveItemByItemId(UUID.fromString(systemId));
-            if (activeItem == null) {
-                return "Not known";
-            }
-
-            Item item = libraryRepository.getItemByKey(activeItem.getItemId(), activeItem.getAuditId());
-            if (item == null) {
-                return "Not known";
-            }
-
-            return item.getTitle();
-
-        } catch (Exception ex) {
-            LOG.error("Error retrieving system name", ex);
-            return "Not known";
-        }
-    }
 }

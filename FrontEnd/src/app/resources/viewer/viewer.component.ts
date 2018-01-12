@@ -28,7 +28,6 @@ export class ViewerComponent implements OnInit {
 
   ngOnInit() {
     this.resolveReferences(this.resource.resourceJson)
-    this.resolveSystemName(this.resource.systemId);
   }
 
   private resolveReferences(object: any) {
@@ -60,19 +59,6 @@ export class ViewerComponent implements OnInit {
       .subscribe(
         (result) => value.display = result,
         (error) => value.display = 'Not found'
-      );
-  }
-
-  private resolveSystemName(systemId: string) {
-    const vm = this;
-    vm.system = 'Loading...';
-    vm.resourcesService.getSystemName(systemId)
-      .subscribe(
-        (result) => vm.system = result,
-        (error) => {
-          vm.system = 'Not known';
-          console.error(error);
-        }
       );
   }
 

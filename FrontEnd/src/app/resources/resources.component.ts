@@ -22,7 +22,6 @@ export class ResourcesComponent implements OnInit {
 
   private resourceMap: any;
   private serviceMap: any;
-  private systemMap: any;
 
   protected resourceTypes: ResourceType[] = [];
   protected resourceFilter: string[];
@@ -47,7 +46,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   private invalidSelection(): boolean {
-    return this.patientFilter == null || this.patientFilter.length == 0 || this.resourceFilter == null || this.resourceFilter.length == 0;
+    return this.patientFilter == null || this.patientFilter.length === 0 || this.resourceFilter == null || this.resourceFilter.length === 0;
   }
 
   /** RESOURCE TYPES **/
@@ -109,7 +108,6 @@ export class ResourcesComponent implements OnInit {
     this.patients = patients;
 
     this.serviceMap = {};
-    this.systemMap = {};
 
     for (const patient of patients) {
       if (!this.serviceMap[patient.id.serviceId]) {
@@ -117,13 +115,6 @@ export class ResourcesComponent implements OnInit {
         service.id = patient.id.serviceId;
         this.serviceMap[service.id] = service;
         this.loadServiceName(service);
-      }
-
-      if (!this.systemMap[patient.id.systemId]) {
-        const system: System = new System();
-        system.id = patient.id.systemId;
-        this.systemMap[system.id] = system;
-        this.loadSystemName(system);
       }
 
       this.setPatientTooltip(patient);
@@ -180,43 +171,8 @@ export class ResourcesComponent implements OnInit {
     return localIds.join();
   }
 
-  /** SYSTEMS **/
-  private loadSystemName(system: System) {
-    if (system.name != null && system.name !== '')
-      return;
-
-    system.name = 'Loading...';
-
-    const vm = this;
-    vm.resourceService.getSystemName(system.id)
-      .subscribe(
-        (result) => vm.processSystemName(system, result),
-        (error) => { vm.logger.log(error); system.name = 'Error!'; }
-      );
-  }
-
-  private processSystemName(system: System, name: string) {
-    system.name = (name == null) ? 'Not Known' : name;
-
-    for (const patient of this.patients) {
-      if (patient.id.systemId === system.id) {
-        patient.systemName = system.name;
-        this.updatePatientDisplayName(patient)
-      }
-    }
-  }
-
   private updatePatientDisplayName(patient: Patient) {
-    patient.name = patient.patientName + ' @ ' + patient.serviceName + ' (' + patient.systemName + ')';
-  }
-
-  private getSystemName(systemId: string): string {
-    const system: System = this.systemMap[systemId];
-
-    if (system)
-      return system.name;
-
-    return 'Not Known';
+    patient.name = patient.patientName + ' @ ' + patient.serviceName;
   }
 
   /** RESOURCE DATA LOAD **/

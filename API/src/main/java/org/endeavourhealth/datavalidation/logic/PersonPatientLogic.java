@@ -36,22 +36,30 @@ public class PersonPatientLogic {
 
             if (parser.hasNhsNumber()) {
                 LOG.debug("Searching NHS Number");
-                result.addAll(dal.searchByNhsNumber(organisationIds, parser.getNhsNumber()));
+                List<Person> matches = dal.searchByNhsNumber(organisationIds, parser.getNhsNumber());
+                if (matches != null && matches.size() > 0)
+                    result.addAll(matches);
             }
 
             if (parser.hasEmisNumber()) {
                 LOG.debug("Searching Local Id");
-                result.addAll(dal.searchByLocalId(organisationIds, parser.getEmisNumber()));
+                List<Person> matches = dal.searchByLocalId(organisationIds, parser.getEmisNumber());
+                if (matches != null && matches.size() > 0)
+                    result.addAll(matches);
             }
 
             if (parser.hasDateOfBirth()) {
                 LOG.debug("Searching DOB");
-                result.addAll(dal.searchByDateOfBirth(organisationIds, parser.getDateOfBirth()));
+                List<Person> matches = dal.searchByDateOfBirth(organisationIds, parser.getDateOfBirth());
+                if (matches != null && matches.size() > 0)
+                    result.addAll(matches);
             }
 
             if (parser.hasNames()) {
                 LOG.debug("Searching names");
-                result.addAll(dal.searchByNames(organisationIds, parser.getNames()));
+                List<Person> matches = dal.searchByNames(organisationIds, parser.getNames());
+                if (matches != null && matches.size() > 0)
+                    result.addAll(matches);
             }
         }
 

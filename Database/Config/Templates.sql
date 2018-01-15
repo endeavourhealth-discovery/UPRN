@@ -85,7 +85,7 @@ values (
       </div>
       <div class="form-group">
         <label for="CareManager">Care Manager</label>
-        <input id="CareManager" class="form-control" type="text" disabled value="{{resource.resourceJson.careManager.display}}">
+        <input id="CareManager" class="form-control" type="text" disabled value="{{resource.resourceJson.careManager?.display}}">
       </div>
        <div *ngFor="let extension of resource.resourceJson.extension">
          <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-patient-registration-type-extension''" >
@@ -107,7 +107,7 @@ values (
       </div>
       <div class="form-group">
         <label for="CareOrg">Organisation</label>
-        <input id="CareOrg" class="form-control" type="text" disabled value="{{resource.resourceJson.managingOrganization.display}}">
+        <input id="CareOrg" class="form-control" type="text" disabled value="{{resource.resourceJson.managingOrganization?.display}}">
       </div>
       <div class="form-group">
         <label for="Status">Status</label>
@@ -137,7 +137,7 @@ values (
       </div>
 	  <div class="form-group">
         <label for="Recorder">Recorded By</label>
-        <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.asserter.display}}">
+        <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.asserter?.display}}">
       </div>
     </div>
     <div class="col-md-6">
@@ -268,7 +268,7 @@ values (
       </div>
       <div class="form-group">
         <label for="Recorder">Recorded By</label>
-        <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.recorder.display}}">
+        <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.recorder?.display}}">
       </div>
     </div>
     <div class="col-md-6">
@@ -318,11 +318,11 @@ values (
       </div>
       <div class="form-group">
         <label for="Qty">Quantity</label>
-        <input id="Qty" class="form-control" type="text" disabled value="{{resource.resourceJson.dispenseRequest.quantity.value}} {{resource.resourceJson.dispenseRequest.quantity.unit}}">
+        <input id="Qty" class="form-control" type="text" disabled value="{{resource.resourceJson.dispenseRequest?.quantity.value}} {{resource.resourceJson.dispenseRequest?.quantity.unit}}">
       </div>
        <div class="form-group">
         <label for="Prescriber">Prescriber</label>
-        <input id="Prescriber" class="form-control" type="text" disabled value="{{resource.resourceJson.prescriber.display}}">
+        <input id="Prescriber" class="form-control" type="text" disabled value="{{resource.resourceJson.prescriber?.display}}">
       </div>
     </div>
   </div>
@@ -376,7 +376,7 @@ values (
 		</div>
 		<div class="form-group">
 			<label for="Source">Source</label>
-			<input id="Source" class="form-control" type="text" disabled value="{{resource.resourceJson.informationSource.display}}">
+			<input id="Source" class="form-control" type="text" disabled value="{{resource.resourceJson.informationSource?.display}}">
 		</div>
     </div>
   </div>
@@ -396,7 +396,7 @@ values (
         <label for="Date">Date</label>
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''dd/MM/y''}}">
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="resource.resourceJson.participant!=null">
         <label for="Practitioner">Practitioner</label>
         <input id="Practitioner" class="form-control" type="text" disabled value="{{resource.resourceJson.participant[0].individual.display}}">
       </div>
@@ -410,7 +410,7 @@ values (
 		</div>
         <div class="form-group">
 			<label for="Place">Place</label>
-			<input id="Place" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceProvider.display}}">
+			<input id="Place" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceProvider?.display}}">
 		</div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 package org.endeavourhealth.datavalidation.logic;
 
+import com.google.common.base.Strings;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
 import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
@@ -15,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public class ResourceLogic {
     static ResourceDAL dal;
@@ -82,9 +82,33 @@ public class ResourceLogic {
             case Organization: return ((Organization)resource).getName();
             case Practitioner: return getHumanName(((Practitioner)resource).getName());
             case Location: return ((Location)resource).getName();
+            case Observation: return getObservationDisplay((Observation)resource);
         }
 
         return "Unknown type";
+    }
+
+    private String getObservationDisplay(Observation obs) {
+        String obsDisplay = "";
+        try {
+            List<Coding> codes = obs.getCode().getCoding();
+            if (codes.size() > 0) {
+                obsDisplay = codes.get(0).getDisplay();
+            }
+            Quantity qty = obs.getValueQuantity();
+            if (qty != null) {
+                obsDisplay = obsDisplay.concat(" "+qty.getValue().toPlainString());
+                String units = qty.getUnit();
+                if (!Strings.isNullOrEmpty(units)) {
+                    obsDisplay = obsDisplay.concat(" "+units);
+                }
+            }
+        }
+        catch (Exception e) {
+            obsDisplay = "Error resolving Observation reference";
+        }
+
+        return obsDisplay;
     }
 
     private String getHumanName(HumanName humanName) {

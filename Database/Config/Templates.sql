@@ -400,17 +400,23 @@ values (
         <label for="Practitioner">Practitioner</label>
         <input id="Practitioner" class="form-control" type="text" disabled value="{{resource.resourceJson.participant[0].individual.display}}">
       </div>
+      <div class="form-group" *ngIf="resource.resourceJson.contained!=null">
+        <label for="Linked">Linked resources</label>
+        <div class="form-group" *ngFor="let linkedResource of resource.resourceJson.contained[0].entry">
+          <input id="Linked" class="form-control" type="text" disabled value="{{linkedResource.item.display}}">
+        </div>
+      </div>
     </div>
     <div class="col-md-6">
-		<div *ngFor="let extension of resource.resourceJson.extension">
-			<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-encounter-source''" >
-				<label for="Type">Type</label>
-				<input id="Type" class="form-control" type="text" disabled value="{{extension.valueCodeableConcept.text}}">
-			</div>
-		</div>
-        <div class="form-group">
-			<label for="Place">Place</label>
-			<input id="Place" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceProvider?.display}}">
+		  <div *ngFor="let extension of resource.resourceJson.extension">
+			  <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-encounter-source''" >
+				  <label for="Type">Type</label>
+				  <input id="Type" class="form-control" type="text" disabled value="{{extension.valueCodeableConcept.text}}">
+			  </div>
+		  </div>
+      <div class="form-group">
+			  <label for="Place">Place</label>
+			  <input id="Place" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceProvider?.display}}">
 		</div>
     </div>
   </div>

@@ -83,22 +83,30 @@ public class ResourceLogic {
             case Practitioner: return getHumanName(((Practitioner)resource).getName());
             case Location: return ((Location)resource).getName();
             case Observation: return getObservationDisplay((Observation)resource);
+            case Condition: return getConditionDisplay((Condition)resource);
+            case Procedure: return getProcedureDisplay((Procedure)resource);
+            case Immunization: return getImmsDisplay((Immunization)resource);
+            case FamilyMemberHistory: return getFamiltyHistoryDisplay((FamilyMemberHistory)resource);
+            case MedicationStatement: return getMedicationStatementDisplay((MedicationStatement)resource);
+            case MedicationOrder: return getMedicationOrderDisplay((MedicationOrder)resource);
+            case AllergyIntolerance: return getAllergyDisplay((AllergyIntolerance)resource);
         }
 
         return "Unknown type";
     }
 
-    private String getObservationDisplay(Observation obs) {
+    private String getObservationDisplay(Observation resource) {
         String obsDisplay = "";
         try {
-            List<Coding> codes = obs.getCode().getCoding();
+            // the basic display term
+            List<Coding> codes = resource.getCode().getCoding();
             if (codes.size() > 0) {
                 obsDisplay = codes.get(0).getDisplay();
             }
 
-            // value type
-            if (obs.getValue()!=null) {
-                Quantity qty = obs.getValueQuantity();
+            // value type? => value + units
+            if (resource.getValue()!=null) {
+                Quantity qty = resource.getValueQuantity();
                 if (qty != null) {
                     obsDisplay = obsDisplay.concat(" " + qty.getValue().toPlainString());
                     String units = qty.getUnit();
@@ -107,12 +115,111 @@ public class ResourceLogic {
                     }
                 }
             }
+            // has additional BP value components
+            List<Observation.ObservationComponentComponent> comps = resource.getComponent();
+            if (comps.size() == 2) {
+                obsDisplay = obsDisplay.concat(" BP "+comps.get(0).getValueQuantity().getValue());
+                obsDisplay = obsDisplay.concat(" / "+comps.get(1).getValueQuantity().getValue());
+            }
+            // additional comments/notes
+            String comments = resource.getComments();
+            if (!Strings.isNullOrEmpty(comments)) {
+                obsDisplay = obsDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             obsDisplay = "Error resolving Observation reference";
         }
-
         return obsDisplay;
+    }
+
+    //TODO
+    private String getConditionDisplay(Condition resource) {
+        String conditionDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            conditionDisplay = "Error resolving Condition reference";
+        }
+        return conditionDisplay;
+    }
+
+    //TODO
+    private String getProcedureDisplay(Procedure resource) {
+        String procedureDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            procedureDisplay = "Error resolving Procedure reference";
+        }
+        return procedureDisplay;
+    }
+
+    //TODO
+    private String getImmsDisplay(Immunization resource) {
+        String immsDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            immsDisplay = "Error resolving Immunization reference";
+        }
+        return immsDisplay;
+    }
+
+    //TODO
+    private String getFamiltyHistoryDisplay(FamilyMemberHistory resource) {
+        String familyHistoryDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            familyHistoryDisplay = "Error resolving FamilyMemberHistory reference";
+        }
+        return familyHistoryDisplay;
+    }
+
+    //TODO
+    private String getMedicationStatementDisplay(MedicationStatement resource) {
+        String medicationStatementDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            medicationStatementDisplay = "Error resolving MedicationStatement reference";
+        }
+        return medicationStatementDisplay;
+    }
+
+    //TODO
+    private String getMedicationOrderDisplay(MedicationOrder resource) {
+        String medicationOrderDisplay = "TO DO";
+        try {
+
+        }
+        catch (Exception e) {
+            medicationOrderDisplay = "Error resolving MedicationOrder reference";
+        }
+        return medicationOrderDisplay;
+    }
+
+    //TODO
+    private String getAllergyDisplay(AllergyIntolerance resource) {
+        String allergyDisplay = "TO DO";
+        try {
+
+            // additional comments/notes
+            String comments = resource.getNote().getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                allergyDisplay = allergyDisplay.concat(" ("+comments+")");
+            }
+        }
+        catch (Exception e) {
+            allergyDisplay = "Error resolving AllergyIntolerance reference";
+        }
+        return allergyDisplay;
     }
 
     private String getHumanName(HumanName humanName) {

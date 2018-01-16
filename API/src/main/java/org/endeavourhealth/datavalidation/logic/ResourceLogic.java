@@ -95,12 +95,16 @@ public class ResourceLogic {
             if (codes.size() > 0) {
                 obsDisplay = codes.get(0).getDisplay();
             }
-            Quantity qty = obs.getValueQuantity();
-            if (qty != null) {
-                obsDisplay = obsDisplay.concat(" "+qty.getValue().toPlainString());
-                String units = qty.getUnit();
-                if (!Strings.isNullOrEmpty(units)) {
-                    obsDisplay = obsDisplay.concat(" "+units);
+
+            // value type
+            if (obs.getValue()!=null) {
+                Quantity qty = obs.getValueQuantity();
+                if (qty != null) {
+                    obsDisplay = obsDisplay.concat(" " + qty.getValue().toPlainString());
+                    String units = qty.getUnit();
+                    if (!Strings.isNullOrEmpty(units)) {
+                        obsDisplay = obsDisplay.concat(" " + units);
+                    }
                 }
             }
         }

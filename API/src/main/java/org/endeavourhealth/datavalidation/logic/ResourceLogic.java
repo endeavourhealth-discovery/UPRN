@@ -118,8 +118,8 @@ public class ResourceLogic {
             // has additional BP value components
             List<Observation.ObservationComponentComponent> comps = resource.getComponent();
             if (comps.size() == 2) {
-                obsDisplay = obsDisplay.concat(" BP "+comps.get(0).getValueQuantity().getValue());
-                obsDisplay = obsDisplay.concat(" / "+comps.get(1).getValueQuantity().getValue());
+                obsDisplay = obsDisplay.concat(", BP "+comps.get(0).getValueQuantity().getValue().toPlainString());
+                obsDisplay = obsDisplay.concat(" / "+comps.get(1).getValueQuantity().getValue().toPlainString());
             }
             // additional comments/notes
             String comments = resource.getComments();
@@ -133,11 +133,19 @@ public class ResourceLogic {
         return obsDisplay;
     }
 
-    //TODO
     private String getConditionDisplay(Condition resource) {
-        String conditionDisplay = "TO DO";
+        String conditionDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getCode().getCoding();
+            if (codes.size() > 0) {
+                conditionDisplay = codes.get(0).getDisplay();
+            }
+            // additional comments/notes
+            String comments = resource.getNotes();
+            if (!Strings.isNullOrEmpty(comments)) {
+                conditionDisplay = conditionDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             conditionDisplay = "Error resolving Condition reference";
@@ -145,11 +153,19 @@ public class ResourceLogic {
         return conditionDisplay;
     }
 
-    //TODO
     private String getProcedureDisplay(Procedure resource) {
-        String procedureDisplay = "TO DO";
+        String procedureDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getCode().getCoding();
+            if (codes.size() > 0) {
+                procedureDisplay = codes.get(0).getDisplay();
+            }
+            // additional comments/notes
+            String comments = resource.getNotes().get(0).getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                procedureDisplay = procedureDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             procedureDisplay = "Error resolving Procedure reference";
@@ -157,11 +173,19 @@ public class ResourceLogic {
         return procedureDisplay;
     }
 
-    //TODO
     private String getImmsDisplay(Immunization resource) {
-        String immsDisplay = "TO DO";
+        String immsDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getVaccineCode().getCoding();
+            if (codes.size() > 0) {
+                immsDisplay = codes.get(0).getDisplay();
+            }
+            // additional comments/notes
+            String comments = resource.getNote().get(0).getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                immsDisplay = immsDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             immsDisplay = "Error resolving Immunization reference";
@@ -169,11 +193,19 @@ public class ResourceLogic {
         return immsDisplay;
     }
 
-    //TODO
     private String getFamiltyHistoryDisplay(FamilyMemberHistory resource) {
-        String familyHistoryDisplay = "TO DO";
+        String familyHistoryDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getCondition().get(0).getCode().getCoding();
+            if (codes.size() > 0) {
+                familyHistoryDisplay = codes.get(0).getDisplay();
+            }
+            // additional comments/notes
+            String comments = resource.getNote().getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                familyHistoryDisplay = familyHistoryDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             familyHistoryDisplay = "Error resolving FamilyMemberHistory reference";
@@ -181,11 +213,23 @@ public class ResourceLogic {
         return familyHistoryDisplay;
     }
 
-    //TODO
     private String getMedicationStatementDisplay(MedicationStatement resource) {
-        String medicationStatementDisplay = "TO DO";
+        String medicationStatementDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getMedicationCodeableConcept().getCoding();
+            if (codes.size() > 0) {
+                medicationStatementDisplay = codes.get(0).getDisplay();
+            }
+            // get dosage
+            if (resource.getDosage().size() >0) {
+                medicationStatementDisplay = medicationStatementDisplay.concat(" " + resource.getDosage().get(0).getText());
+            }
+            // additional comments/notes
+            String comments = resource.getNote();
+            if (!Strings.isNullOrEmpty(comments)) {
+                medicationStatementDisplay = medicationStatementDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             medicationStatementDisplay = "Error resolving MedicationStatement reference";
@@ -193,11 +237,23 @@ public class ResourceLogic {
         return medicationStatementDisplay;
     }
 
-    //TODO
     private String getMedicationOrderDisplay(MedicationOrder resource) {
-        String medicationOrderDisplay = "TO DO";
+        String medicationOrderDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getMedicationCodeableConcept().getCoding();
+            if (codes.size() > 0) {
+                medicationOrderDisplay = codes.get(0).getDisplay();
+            }
+            // get dosage
+            if (resource.getDosageInstruction().size() >0) {
+                medicationOrderDisplay = medicationOrderDisplay.concat(" " + resource.getDosageInstruction().get(0).getText());
+            }
+            // additional comments/notes
+            String comments = resource.getNote();
+            if (!Strings.isNullOrEmpty(comments)) {
+                medicationOrderDisplay = medicationOrderDisplay.concat(" ("+comments+")");
+            }
         }
         catch (Exception e) {
             medicationOrderDisplay = "Error resolving MedicationOrder reference";
@@ -205,11 +261,14 @@ public class ResourceLogic {
         return medicationOrderDisplay;
     }
 
-    //TODO
     private String getAllergyDisplay(AllergyIntolerance resource) {
-        String allergyDisplay = "TO DO";
+        String allergyDisplay = "";
         try {
-
+            // the basic display term
+            List<Coding> codes = resource.getSubstance().getCoding();
+            if (codes.size() > 0) {
+                allergyDisplay = codes.get(0).getDisplay();
+            }
             // additional comments/notes
             String comments = resource.getNote().getText();
             if (!Strings.isNullOrEmpty(comments)) {

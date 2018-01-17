@@ -162,9 +162,11 @@ public class ResourceLogic {
                 procedureDisplay = codes.get(0).getDisplay();
             }
             // additional comments/notes
-            String comments = resource.getNotes().get(0).getText();
-            if (!Strings.isNullOrEmpty(comments)) {
-                procedureDisplay = procedureDisplay.concat(" ("+comments+")");
+            if (resource.getNotes().size() > 0) {
+                String comments = resource.getNotes().get(0).getText();
+                if (!Strings.isNullOrEmpty(comments)) {
+                    procedureDisplay = procedureDisplay.concat(" (" + comments + ")");
+                }
             }
         }
         catch (Exception e) {
@@ -182,9 +184,11 @@ public class ResourceLogic {
                 immsDisplay = codes.get(0).getDisplay();
             }
             // additional comments/notes
-            String comments = resource.getNote().get(0).getText();
-            if (!Strings.isNullOrEmpty(comments)) {
-                immsDisplay = immsDisplay.concat(" ("+comments+")");
+            if (resource.getNote().size() > 0) {
+                String comments = resource.getNote().get(0).getText();
+                if (!Strings.isNullOrEmpty(comments)) {
+                    immsDisplay = immsDisplay.concat(" (" + comments + ")");
+                }
             }
         }
         catch (Exception e) {

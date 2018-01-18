@@ -1,6 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/0.13/config/configuration-file.html
 process.env.CHROME_BIN = '/usr/bin/chromium-browser';
+process.env.NO_PROXY = 'localhost, 0.0.0.0/4201, 0.0.0.0/9876';
 
 module.exports = function (config) {
   config.set({
@@ -31,8 +32,15 @@ module.exports = function (config) {
     browsers: ['ChromeHeadlessNoSandbox'],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox','--disable-setuid-sandbox','--remote-debugging-port=9222']
+        base: 'Chrome',
+        flags: [
+          '--disable-translate',
+          '--headless',
+          '--disable-gpu',
+          '--disable-extensions',
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--remote-debugging-port=9222']
       }
     },
     singleRun: true

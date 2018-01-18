@@ -28,21 +28,21 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
-    // browsers: ['ChromeHeadlessNoSandbox'],
-    // customLaunchers: {
-    //   ChromeHeadlessNoSandbox: {
-    //     base: 'Chrome',
-    //     flags: [
+    browsers: ['ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+       ChromeHeadlessNoSandbox: {
+         base: 'ChromeHeadless',
+         flags: [
     //       '--disable-translate',
     //       '--headless',
     //       '--disable-gpu',
     //       '--disable-extensions',
-    //       '--no-sandbox',
+           '--no-sandbox',
     //       '--disable-setuid-sandbox',
-    //       '--remote-debugging-port=9222']
-    //   }
-    //},
+    //       '--remote-debugging-port=9222'
+         ]
+       }
+    },
     singleRun: true
   });
 };

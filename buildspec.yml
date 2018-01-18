@@ -4,8 +4,7 @@ phases:
   install:
     commands:
       - apt-get -y update
-      - apt-get -y install libXss1+
-      - apt-get -y install libatk1.0-0+
+      - apt-get install chromium-browser
   pre_build:
     commands:
       - IP=$(curl http://checkip.amazonaws.com)/32

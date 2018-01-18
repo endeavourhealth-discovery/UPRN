@@ -35,11 +35,11 @@ module.exports = function (config) {
          flags: [
     //       '--disable-translate',
     //       '--headless',
-    //       '--disable-gpu',
+           '--disable-gpu',
     //       '--disable-extensions',
            '--no-sandbox',
     //       '--disable-setuid-sandbox',
-    //       '--remote-debugging-port=9222'
+           '--remote-debugging-port=9222'
          ]
        }
     },

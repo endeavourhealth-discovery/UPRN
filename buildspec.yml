@@ -5,6 +5,7 @@ phases:
     commands:
       - apt-get -y update
       - apt-get -y install libXss1+
+      - apt-get -y install libatk-bridge-2.0
   pre_build:
     commands:
       - IP=$(curl http://checkip.amazonaws.com)/32

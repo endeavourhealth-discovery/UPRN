@@ -33,13 +33,13 @@ module.exports = function (config) {
        ChromeHeadlessNoSandbox: {
          base: 'ChromeHeadless',
          flags: [
-    //       '--disable-translate',
-    //       '--headless',
            '--disable-gpu',
-    //       '--disable-extensions',
            '--no-sandbox',
-    //       '--disable-setuid-sandbox',
-           '--remote-debugging-port=9222'
+           '--homedir=/tmp',
+           '--single-process',
+           '--data-path=/tmp/data-path',
+           '--disk-cache-dir=/tmp/cache-dir',
+           '--remote-debugging-port=9222',
          ]
        }
     },

@@ -36,7 +36,6 @@ module.exports = function (config) {
            '--disable-gpu',
            '--no-sandbox',
            '--homedir=/tmp',
-           '--single-process',
            '--data-path=/tmp/data-path',
            '--disk-cache-dir=/tmp/cache-dir',
            '--remote-debugging-port=9222',

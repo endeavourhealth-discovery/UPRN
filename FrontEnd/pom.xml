@@ -56,12 +56,8 @@
           <execution>
             <id>javascript tests</id>
             <goals>
-              <goal>npm</goal>
+              <goal>karma</goal>
             </goals>
-            <configuration>
-              <arguments>run test</arguments>
-              <!--<failOnError>true</failOnError>-->
-            </configuration>
             <phase>test</phase>
           </execution>
         </executions>

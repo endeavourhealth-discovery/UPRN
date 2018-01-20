@@ -7,7 +7,6 @@ phases:
       - apt-get -y install chromium-codecs-ffmpeg-extra=34.0.1847.116-0ubuntu2
       - apt-get -y install chromium-browser=34.0.1847.116-0ubuntu2
       - export DISPLAY=:0.0
-      - xhost local:root
   pre_build:
     commands:
       - IP=$(curl http://checkip.amazonaws.com)/32

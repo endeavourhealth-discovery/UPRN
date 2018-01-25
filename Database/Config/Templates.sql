@@ -1,6 +1,6 @@
 use config;
 
-delete from config where config_id = 'Template-Patient';
+delete from config where config_id = 'Template-Patient' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -70,7 +70,7 @@ values (
  </form>
  </div>');
 
-delete from config where config_id = 'Template-EpisodeOfCare';
+delete from config where config_id = 'Template-EpisodeOfCare' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -118,7 +118,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Condition';
+delete from config where config_id = 'Template-Condition' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -154,12 +154,11 @@ values (
         <input id="Text" class="form-control" type="text" disabled value="{{resource.resourceJson.code.text}}">
       </div>
     </div>
-    </div>
   </div>
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Procedure';
+delete from config where config_id = 'Template-Procedure' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -195,7 +194,7 @@ values (
  </form>
  </div>');
 
-delete from config where config_id = 'Template-Observation';
+delete from config where config_id = 'Template-Observation' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -253,7 +252,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-AllergyIntolerance';
+delete from config where config_id = 'Template-AllergyIntolerance' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -285,7 +284,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-MedicationOrder';
+delete from config where config_id = 'Template-MedicationOrder' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -329,7 +328,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-MedicationStatement';
+delete from config where config_id = 'Template-MedicationStatement' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -383,7 +382,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Encounter';
+delete from config where config_id = 'Template-Encounter' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -423,7 +422,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Immunization';
+delete from config where config_id = 'Template-Immunization' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -475,7 +474,7 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-FamilyMemberHistory';
+delete from config where config_id = 'Template-FamilyMemberHistory' and app_id = 'eds-data-validation';
 insert into config (app_id, config_id, config_data)
 values (
   'eds-data-validation',
@@ -512,7 +511,3 @@ values (
   </div>
 </form>
 </div>');
-
-
-
-

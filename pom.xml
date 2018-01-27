@@ -17,7 +17,7 @@
         <node.version>v6.10.1</node.version>
         <swagger.version>1.5.13</swagger.version>
 
-        <eds-api.version>1.5-SNAPSHOT</eds-api.version>
+        <eds-api.version>1.7-SNAPSHOT</eds-api.version>
         <eds-core.version>1.82-SNAPSHOT</eds-core.version>
         <eds-transforms.version>1.134-SNAPSHOT</eds-transforms.version>
 

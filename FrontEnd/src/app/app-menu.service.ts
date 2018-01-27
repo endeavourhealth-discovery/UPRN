@@ -17,7 +17,7 @@ export class AppMenuService implements  AbstractMenuProvider {
     return 'data-validator';
   }
   getApplicationTitle(): string {
-    return 'Data Validation';
+    return 'Data Assurance';
   }
   getMenuOptions(): MenuOption[] {
     return [

@@ -26,7 +26,7 @@
                 <th class="w-75">Name</th><th class="w-25">NHS Number</th>
               </thead>
               <tbody>
-                <tr *ngFor="let match of matches" (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)">
+                <tr *ngFor="let match of matches" (click)="selectPerson(match, false)" (dblclick)="selectPerson(match, true)" [ngClass]="{'table-active': match === selectedPerson}">
                   <td>{{match.name}}</td><td>{{match.nhsNumber}}</td>
                 </tr>
               </tbody>

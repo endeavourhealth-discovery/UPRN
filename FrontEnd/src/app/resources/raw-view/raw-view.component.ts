@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class RawViewComponent implements OnInit {
   @Input() node: any;
+  @Input() path = '';
 
   constructor() { }
 
@@ -31,5 +32,12 @@ export class RawViewComponent implements OnInit {
 
   public isPrimitive(value: any): boolean {
     return !Array.isArray(value) && typeof value !== 'object';
+  }
+
+  public getSource(path: string, property: string) {
+    if (path === '')
+      return property;
+    else
+      return path + '.' + property;
   }
 }

@@ -392,12 +392,8 @@ values (
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="Class">Encounter Class</label>
-          <input id="Class" class="form-control" type="text" disabled value="{{resource.resourceJson.class}}">
-        </div>
-        <div class="form-group">
           <label for="Date">Appointment Date</label>
-          <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''''dd/MM/y''''}}">
+          <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''dd/MM/y''}}">
         </div>
         <div class="form-group" *ngIf="resource.resourceJson.participant!=null">
           <label for="Practitioner">Practitioner</label>
@@ -411,12 +407,12 @@ values (
         </div>
       </div>
       <div class="col-md-6">
-        <div class="form-group" *ngIf="resource.resourceJson.type!=null">
-          <label for="Type">Encounter Type</label>
-          <input id="Type" class="form-control" type="text" disabled value="{{resource.resourceJson.type[0].text}}">
+        <div class="form-group">
+          <label for="Class">Class</label>
+          <input id="Class" class="form-control" type="text" disabled value="{{resource.resourceJson.class}}">
         </div>
         <div *ngFor="let extension of resource.resourceJson.extension">
-          <div class="form-group" *ngIf="extension.url==''''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-encounter-source''''" >
+          <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-encounter-source''" >
             <label for="Source">Source</label>
             <input id="Source" class="form-control" type="text" disabled value="{{extension.valueCodeableConcept.text}}">
           </div>

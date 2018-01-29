@@ -5,6 +5,7 @@ import {Patient} from '../models/Patient';
 import {ResourceType} from '../models/ResourceType';
 import {ServicePatientResource} from '../models/Resource';
 import {ResourceId} from '../models/ResourceId';
+import {ResourceFieldMapping} from '../models/ResourceFieldMapping';
 
 @Injectable()
 export class ResourcesService {
@@ -73,5 +74,15 @@ export class ResourcesService {
 
     return this.http.get('api/resource/reference', {search: params, withCredentials: true})
       .map((response) => response.text());
+  }
+
+  public getFieldMappings(serviceId: string, resourceType: string, resourceId: string): Observable<ResourceFieldMapping[]> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('serviceId', serviceId);
+    params.append('resourceType', resourceType);
+    params.append('resourceId', resourceId);
+
+    return this.http.get('api/resource/fieldMappings', {search: params, withCredentials: true})
+      .map((response) => response.json());
   }
 }

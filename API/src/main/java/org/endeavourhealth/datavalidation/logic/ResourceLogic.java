@@ -2,7 +2,10 @@ package org.endeavourhealth.datavalidation.logic;
 
 import com.google.common.base.Strings;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
+import org.endeavourhealth.core.database.dal.DalProvider;
 import org.endeavourhealth.core.database.dal.ehr.models.ResourceWrapper;
+import org.endeavourhealth.core.database.dal.publisherTransform.SourceFileMappingDalI;
+import org.endeavourhealth.core.database.dal.publisherTransform.models.ResourceFieldMapping;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL;
 import org.endeavourhealth.datavalidation.dal.ResourceDAL_Cassandra;
 import org.endeavourhealth.datavalidation.helpers.CUIFormatter;
@@ -16,14 +19,20 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class ResourceLogic {
-    static ResourceDAL dal;
+    static ResourceDAL dal = null;
+    static SourceFileMappingDalI fileMappingDal = null;
+
     private static final Logger LOG = LoggerFactory.getLogger(ResourceLogic.class);
 
     public ResourceLogic() {
         if (dal == null)
             dal = new ResourceDAL_Cassandra();
+
+        if (fileMappingDal == null)
+            fileMappingDal = DalProvider.factorySourceFileMappingDal();
     }
 
     public List<ResourceType> getTypes() {
@@ -307,5 +316,14 @@ public class ResourceLogic {
             humanNameStr = new CUIFormatter().getFormattedName(title, givenName, surname);
         }
         return humanNameStr;
+    }
+
+    public List<ResourceFieldMapping> getResourceMappings(String serviceId, String resourceType, String resourceId) {
+        try {
+            return fileMappingDal.findFieldMappings(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId));
+        } catch (Exception e) {
+            LOG.error("Error getting resource mappings", e);
+            return new ArrayList<>();
+        }
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.endeavourhealth.common.cache.ObjectMapperPool;
+import org.endeavourhealth.core.database.dal.publisherTransform.models.ResourceFieldMapping;
 import org.endeavourhealth.datavalidation.logic.ResourceLogic;
 import org.endeavourhealth.datavalidation.helpers.Security;
 import org.endeavourhealth.datavalidation.models.ResourceRequest;
@@ -82,6 +83,26 @@ public class ResourceEndpoint {
 
         return Response
             .ok(referenceDescription)
+            .build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.FieldMappings")
+    @Path("/fieldMappings")
+    @ApiOperation(value = "Returns the field mappings for a given resource")
+    public Response fieldMappings(@Context SecurityContext sc,
+                                  @ApiParam(value = "Mandatory ServiceId") @QueryParam("serviceId") String serviceId,
+                                  @ApiParam(value = "Mandatory ResourceType") @QueryParam("resourceType") String resourceType,
+                                  @ApiParam(value = "Mandatory ResourceId") @QueryParam("resourceId") String resourceId
+                                  ) {
+        LOG.debug("Get Field Mappings Called");
+
+        List<ResourceFieldMapping> fieldMappings = new ResourceLogic().getResourceMappings(serviceId, resourceType, resourceId);
+
+        return Response
+            .ok(fieldMappings)
             .build();
     }
 

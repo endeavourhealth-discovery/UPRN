@@ -1,0 +1,19 @@
+<loadingIndicator [done]="fieldMappings">
+  <table class="table table-striped table-sm">
+    <thead>
+      <th class="d-inline-block col-4">Discovery Field</th>
+      <th class="d-inline-block col-4">Data Source</th>
+      <th class="d-inline-block col-4">Source Value</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fieldMap of fieldMappings">
+        <td class="d-inline-block col-4">{{fieldMap.resourceField}}</td>
+        <td class="d-inline-block col-4">
+          <span *ngIf="fieldMap.sourceLocation">{{fieldMap.sourceLocation}}</span>
+          <span *ngIf="fieldMap.sourceFileName">{{getFilename(fieldMap.sourceFileName)}} [{{fieldMap.sourceFileRow}}, {{fieldMap.sourceFileColumn}}]</span>
+        </td>
+        <td class="d-inline-block col-4">{{fieldMap.value}}</td>
+      </tr>
+    </tbody>
+  </table>
+</loadingIndicator>

@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
   - source: /FrontEnd/dist
-    destination: //opt/tomcat/webapps/data-validation
+    destination: //opt/tomcat/webapps/data-assurance
   - source: /API/target/API-1.0-SNAPSHOT
-    destination: //opt/tomcat/webapps/data-validation
+    destination: //opt/tomcat/webapps/data-assurance
 hooks:
   BeforeInstall:
     - location: aws_scripts/cleanup

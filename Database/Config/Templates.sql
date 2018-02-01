@@ -11,11 +11,11 @@ values (
      <div class="col-md-6">
        <div *ngFor="let identifier of resource.resourceJson.identifier">
          <div class="form-group" *ngIf="identifier.system==''http://endeavourhealth.org/fhir/id/v2-local-patient-id/barts-mrn''" >
-           <label for="MRN">MRN Number</label>
+           <label for="MRN">MRN number</label>
            <input id="MRN" class="form-control" type="text" disabled value="{{identifier.value}}">
          </div>
          <div class="form-group" *ngIf="identifier.system==''http://fhir.nhs.net/Id/nhs-number''" >
-           <label for="NHS">NHS Number</label>
+           <label for="NHS">NHS number</label>
            <input id="NHS" class="form-control" type="text" disabled value="{{identifier.value}}">
          </div>
        </div>
@@ -24,11 +24,11 @@ values (
          <input id="Title" class="form-control" type="text" disabled value="{{resource.resourceJson.name[0].prefix}}">
        </div>
        <div class="form-group">
-         <label for="Given">Given Name</label>
+         <label for="Given">Given name</label>
          <input id="Given" class="form-control" type="text" disabled value="{{resource.resourceJson.name[0].given}}">
        </div>
        <div class="form-group">
-         <label for="Family">Family Name</label>
+         <label for="Family">Family name</label>
          <input id="Family" class="form-control" type="text" disabled value="{{resource.resourceJson.name[0].family}}">
        </div>
        <div class="form-group">
@@ -36,7 +36,7 @@ values (
          <input id="Address" class="form-control" type="text" disabled value="{{resource.resourceJson.address[0].text}}">
        </div>
        <div class="form-group" *ngIf="resource.resourceJson.maritalStatus">
-         <label for="Marital">Marital Status</label>
+         <label for="Marital">Marital status</label>
          <input id="Marital" class="form-control" type="text" disabled value="{{resource.resourceJson.maritalStatus.coding[0].display}}">
        </div>
      </div>
@@ -46,7 +46,7 @@ values (
          <input id="Gender" class="form-control" type="text" disabled value="{{resource.resourceJson.gender}}">
        </div>
        <div class="form-group">
-         <label for="DOB">D.O.B.</label>
+         <label for="DOB">Date of birth</label>
          <input id="DOB" class="form-control" type="text" disabled value="{{resource.resourceJson.birthDate | date:''dd/MM/y''}}">
        </div>
        <div *ngFor="let extension of resource.resourceJson.extension">
@@ -84,18 +84,18 @@ values (
         <input id="Registered" class="form-control" type="text" disabled value="{{resource.resourceJson.period?.start | date:''dd/MM/y''}}">
       </div>
       <div class="form-group">
-        <label for="CareManager">Care Manager</label>
+        <label for="CareManager">Care manager</label>
         <input id="CareManager" class="form-control" type="text" disabled value="{{resource.resourceJson.careManager?.display}}">
       </div>
        <div *ngFor="let extension of resource.resourceJson.extension">
          <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-patient-registration-type-extension''" >
-          <label for="RegType">Registration Type</label>
+          <label for="RegType">Registration type</label>
         <input id="RegType" class="form-control" type="text" disabled value="{{extension.valueCoding.display}}">
          </div>
        </div>
       <div *ngFor="let identifier of resource.resourceJson.identifier">
         <div class="form-group" *ngIf="identifier.system==''http://endeavourhealth.org/fhir/id/v2-local-episode-id/barts-fin''" >
-          <label for="FIN">Financial No.</label>
+          <label for="FIN">Financial number</label>
           <input id="FIN" class="form-control" type="text" disabled value="{{identifier.value}}">
         </div>
       </div>
@@ -128,15 +128,15 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Display">Display Term</label>
+        <label for="Display">Display term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
       </div>
       <div class="form-group">
-        <label for="Date">Effective Date</label>
+        <label for="Date">Effective date</label>
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
 	  <div class="form-group">
-        <label for="Recorder">Recorded By</label>
+        <label for="Recorder">Recorded by</label>
         <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.asserter?.display}}">
       </div>
     </div>
@@ -168,11 +168,11 @@ values (
    <div class="row">
      <div class="col-md-6">
        <div class="form-group">
-         <label for="Display">Display Term</label>
+         <label for="Display">Display term</label>
          <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
        </div>
  	  <div class="form-group" *ngIf="resource.resourceJson.performer!=null">
-         <label for="Performer">Performed By</label>
+         <label for="Performer">Performed by</label>
          <input id="Performer" class="form-control" type="text" disabled value="{{resource.resourceJson.performer[0].actor.display}}">
        </div>
        <div class="form-group" *ngIf="resource.resourceJson.notes!=null">
@@ -204,11 +204,11 @@ values (
   <div class="row">
     <div class="col-md-6">
 		<div class="form-group">
-			<label for="Display">Display Term</label>
+			<label for="Display">Display term</label>
 			<input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
 		</div>
         <div class="form-group">
-			<label for="Date">Effective Date</label>
+			<label for="Date">Effective date</label>
 			<input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.effectiveDateTime | date:''dd/MM/y''}}">
 		</div>
         <div class="form-group" *ngIf="resource.resourceJson.valueQuantity!=null">
@@ -221,7 +221,7 @@ values (
 				<input id="code" class="form-control" type="text" disabled value="{{component.code.coding[0].code}}">
 			</div>
             <div class="form-group">
-				<label for="display">Display Term</label>
+				<label for="display">Display term</label>
 				<input id="display" class="form-control" type="text" disabled value="{{component.code.coding[0].display}}">
 			</div>
             <div class="form-group">
@@ -240,7 +240,7 @@ values (
 			<input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
 		</div>
         <div class="form-group">
-			<label for="Recorder">Recorded By</label>
+			<label for="Recorder">Recorded by</label>
 			<input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.performer[0].display}}">
 		</div>
 		<div class="form-group" *ngIf="resource.resourceJson.valueQuantity!=null">
@@ -262,11 +262,11 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Display">Display Term</label>
+        <label for="Display">Display term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.substance.coding[0].display}}">
       </div>
       <div class="form-group">
-        <label for="Recorder">Recorded By</label>
+        <label for="Recorder">Recorded by</label>
         <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.recorder?.display}}">
       </div>
     </div>
@@ -294,7 +294,7 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Display">Display Term</label>
+        <label for="Display">Display term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.medicationCodeableConcept.coding[0].display}}">
       </div>
       <div class="form-group">
@@ -392,7 +392,7 @@ values (
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="Date">Appointment Date</label>
+          <label for="Date">Appointment date</label>
           <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''dd/MM/y''}}">
         </div>
         <div class="form-group" *ngIf="resource.resourceJson.participant!=null">
@@ -405,7 +405,15 @@ values (
             <input id="Linked" class="form-control" type="text" disabled value="{{linkedResource.item.display}}">
           </div>
         </div>
-      </div>
+        <div class="form-group" *ngIf="resource.resourceJson.type!=null">
+          <label for="Place">Type history</label>
+          <div class="form-control looks-disabled">
+			<div class="scrollbox-100">
+			  <div *ngFor="let item of resource.resourceJson.type">{{item.text}}</div>
+			</div>
+          </div>
+        </div>
+	  </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="Class">Class</label>
@@ -436,7 +444,7 @@ values (
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="Display">Display Term</label>
+        <label for="Display">Display term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[0].display}}">
       </div>
       <div class="form-group" *ngIf="resource.resourceJson.explanation.reason!=null">
@@ -452,7 +460,7 @@ values (
         <input id="Route" class="form-control" type="text" disabled value="{{resource.resourceJson.route?.text}}">
       </div>
       <div class="form-group">
-        <label for="Lot">Lot No.</label>
+        <label for="Lot">Lot number</label>
         <input id="Lot" class="form-control" type="text" disabled value="{{resource.resourceJson.lotNumber}}">
       </div>
     </div>
@@ -488,7 +496,7 @@ values (
   <div class="row">
     <div class="col-md-6">
 		<div class="form-group">
-			<label for="Display">Display Term</label>
+			<label for="Display">Display term</label>
 			<input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.condition[0].code.coding[0].display}}">
 		</div>
         <div class="form-group">
@@ -507,7 +515,7 @@ values (
 		</div>
         <div *ngFor="let extension of resource.resourceJson.extension">
 			<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-family-member-history-reporter-extension''" >
-				<label for="Reporter">Reported By</label>
+				<label for="Reporter">Reported by</label>
 				<input id="Reporter" class="form-control" type="text" disabled value="{{extension.valueReference.display}}">
 			</div>
 		</div>

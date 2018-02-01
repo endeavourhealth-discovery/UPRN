@@ -14,14 +14,14 @@ export class AppMenuService implements  AbstractMenuProvider {
   }
 
   getClientId(): string {
-    return 'data-validator';
+    return 'data-assurance';
   }
   getApplicationTitle(): string {
     return 'Data Assurance';
   }
   getMenuOptions(): MenuOption[] {
     return [
-      {caption: 'Resources', state: 'resources', icon: 'fa fa-archive', role: 'data-validator:resources'},
+      {caption: 'Resources', state: 'resources', icon: 'fa fa-archive', role: 'data-assurance:resources'},
     ];
   }
 }

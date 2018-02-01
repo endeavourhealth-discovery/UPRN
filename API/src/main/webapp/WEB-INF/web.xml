@@ -6,7 +6,7 @@
 
     <!-- ===== MAIN API SERVLET ===== -->
     <servlet>
-        <servlet-name>Data Validation API</servlet-name>
+        <servlet-name>Data Assurance API</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
@@ -30,7 +30,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Data Validation API</servlet-name>
+        <servlet-name>Data Assurance API</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
@@ -75,7 +75,7 @@
     <!-- ===== STARTUP ===== -->
     <context-param>
         <param-name>app_id</param-name>
-        <param-value>eds-data-validation</param-value>
+        <param-value>data-assurance</param-value>
     </context-param>
 
     <listener>

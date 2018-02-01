@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
   <ngb-tabset>
-    <ngb-tab title="Raw">
+    <ngb-tab title="Technical">
       <ng-template ngbTabContent>
         <div class="scroll-box-500">
           <app-raw-view [node]="resource.resourceJson"></app-raw-view>
@@ -18,15 +18,6 @@
         <app-template-view [resource]="resource"></app-template-view>
       </ng-template>
     </ngb-tab>
-<!--
-    <ngb-tab title="Map">
-      <ng-template ngbTabContent>
-        <div class="scroll-box-500">
-          <app-map-view [resource]="resource"></app-map-view>
-        </div>
-      </ng-template>
-    </ngb-tab>
--->
   </ngb-tabset>
 </div>
 <div class="modal-footer">

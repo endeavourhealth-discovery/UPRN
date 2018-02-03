@@ -22,29 +22,23 @@
                   <tr class="hover-box show-child-on-hover" [ngClass]="{'selection': item == selectedItem}" *ngFor="let item of getSummaryList()" (click)="selectRow(item)">
                     <td>
                       {{item.name}} <span class="fa fa-info-circle fa-right-pad text-muted" ngbTooltip="{{item.description}}" *ngIf="item.description"></span>
-                      <div class="problem-detail" [hidden]="!libraryItem || libraryItem.uuid != item.uuid">
-                        <table style="width: 100%">
-                          <tr>
-                            <td class="d-inline-block col-2"><button type="button" (click)="runReport()">Run report now</button></td>
-                            <td class="d-inline-block col-2"><button type="button" (click)="exportNHSNumber()">Export ID's only</button></td>
-                            <td class="d-inline-block col-2"><button type="button" (click)="exportData()">Export all data</button></td>
-                            <td class="d-inline-block col-6">
-                              <table style="width: 100%">
-                                <tr>
-                                  <td><b>Last run : </b></td>
-                                  <td>
-                                    <span [hidden]="!libraryItem?.countReport?.lastRun">{{libraryItem?.countReport?.lastRun | date:'dd-MMM-yyyy HH:mm:ss'}}</span>
-                                    <span [hidden]="libraryItem?.countReport?.lastRun">Never</span>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td><b>Result : </b></td>
-                                  <td>{{libraryItem?.countReport?.count}} row(s)</td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
+                      <div class="row" [hidden]="!libraryItem || libraryItem.uuid != item.uuid">
+                        <div class="col-md-2"><button type="button" class="btn btn-sm btn-success" (click)="runReport()">Run report now</button></div>
+                        <div class="col-md-2"><button type="button" class="btn btn-sm btn-warning" (click)="exportNHSNumber()">Export ID's only</button></div>
+                        <div class="col-md-2"><button type="button" class="btn btn-sm btn-warning" (click)="exportData()">Export all data</button></div>
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-4"><b>Last run :</b></div>
+                            <div class="col-md-8">
+                              <span [hidden]="!libraryItem?.countReport?.lastRun">{{libraryItem?.countReport?.lastRun | date:'dd-MMM-yyyy HH:mm:ss'}}</span>
+                              <span [hidden]="libraryItem?.countReport?.lastRun">Never</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4"><b>Result :</b></div>
+                            <div class="col-md-8">{{libraryItem?.countReport?.count}} row(s)</div>
+                          </div>
+                        </div>
                       </div>
                     </td>
                   </tr>

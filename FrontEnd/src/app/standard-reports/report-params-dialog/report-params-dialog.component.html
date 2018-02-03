@@ -7,18 +7,18 @@
 
     <div class="row">
       <div class="form-group col-md-3">
-        <label class="control-label">Run date <small>(mandatory)</small></label>
+        <label class="control-label">Run date<span class="text-danger">*</span></label>
         <cui-date-picker [(ngModel)]="runDate" name="runDate"></cui-date-picker>
       </div>
       <div class="form-group col-md-3">
-        <label class="control-label">Deceased patients</label>
+        <label class="control-label">Deceased patients<span class="text-danger">*</span></label>
         <select class="form-control" [(ngModel)]="includeDeceased" name="Deceased">
           <option [ngValue]="true">Include</option>
           <option [ngValue]="false">Exclude</option>
         </select>
       </div>
       <div class="form-group col-md-3">
-        <label class="control-label">Organisation <small>(mandatory)</small></label>
+        <label class="control-label">Organisation<span class="text-danger">*</span></label>
         <select class="form-control" [(ngModel)]="organisation" name="Organisation">
           <option *ngFor="let item of userOrganisations" value="{{item.id}}">{{item.name}}</option>
         </select>
@@ -162,6 +162,11 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-12">
+        <small><span class="text-danger">*</span> Required field</small>
+      </div>
+    </div>
   </form>
 </div>
 

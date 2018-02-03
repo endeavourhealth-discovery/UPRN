@@ -1,9 +1,9 @@
 use config;
 
-delete from config where config_id = 'Template-Patient' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Patient' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Patient',
   '<div class="container">
  <form>
@@ -70,10 +70,10 @@ values (
  </form>
  </div>');
 
-delete from config where config_id = 'Template-EpisodeOfCare' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-EpisodeOfCare' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-EpisodeOfCare',
   '<div class="container">
 <form>
@@ -118,10 +118,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Condition' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Condition' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Condition',
   '<div class="container">
 <form>
@@ -158,10 +158,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Procedure' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Procedure' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Procedure',
   '<div class="container">
  <form>
@@ -194,10 +194,10 @@ values (
  </form>
  </div>');
 
-delete from config where config_id = 'Template-Observation' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Observation' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Observation',
   '<div class="container">
 <form>
@@ -252,10 +252,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-AllergyIntolerance' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-AllergyIntolerance' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-AllergyIntolerance',
   '<div class="container">
 <form>
@@ -284,10 +284,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-MedicationOrder' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-MedicationOrder' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-MedicationOrder',
   '<div class="container">
 <form>
@@ -328,10 +328,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-MedicationStatement' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-MedicationStatement' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-MedicationStatement',
   '<div class="container">
 <form>
@@ -382,10 +382,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-Encounter' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Encounter' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Encounter',
   '<div class="container">
   <form>
@@ -434,10 +434,10 @@ values (
   </form>
 </div>');
 
-delete from config where config_id = 'Template-Immunization' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-Immunization' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-Immunization',
   '<div class="container">
 <form>
@@ -486,10 +486,10 @@ values (
 </form>
 </div>');
 
-delete from config where config_id = 'Template-FamilyMemberHistory' and app_id = 'eds-data-validation';
+delete from config where config_id = 'Template-FamilyMemberHistory' and app_id = 'data-assurance';
 insert into config (app_id, config_id, config_data)
 values (
-  'eds-data-validation',
+  'data-assurance',
   'Template-FamilyMemberHistory',
   '<div class="container">
 <form>

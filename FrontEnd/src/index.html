@@ -10,7 +10,11 @@
   <script src="assets/javascript/keycloak.js"></script>
 </head>
 <body>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="assets/javascript/jquery.min.js"></script>
+  <script src="assets/javascript/FileSaver.min.js"></script>
+  <script>
+    window.jQuery = window.$ = jQuery;
+  </script>
   <app-root>
     <style type="text/css">
 
@@ -54,12 +58,8 @@
       <div class="messaging">
 
         <h1>
-          <i class="fa fa-spinner fa-spin"></i> Please wait...
+          <i class="fa fa-spinner fa-spin"></i> Data Assurance is loading
         </h1>
-
-        <p>
-          The Data Assurance tool is loading!
-        </p>
 
       </div>
     </div>

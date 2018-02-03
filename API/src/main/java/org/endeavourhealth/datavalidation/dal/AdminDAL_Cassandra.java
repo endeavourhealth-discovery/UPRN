@@ -16,6 +16,9 @@ public class AdminDAL_Cassandra implements AdminDAL {
 
     @Override
     public String getServiceName(String serviceId) {
+        if (serviceId == null || serviceId.isEmpty())
+            return "Not known";
+
         ServiceDalI serviceRepository = DalProvider.factoryServiceDal();
 
         Service service;

@@ -13,17 +13,24 @@ import {LayoutComponent} from 'eds-angular4/dist/layout/layout.component';
 import {PersonFindModule} from './person-find/person-find.module';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {StandardReportsModule} from './standard-reports/standard-reports.module';
+import {FolderModule} from 'eds-angular4/dist/folder';
+import {CuiControlsModule} from './cuicontrols/cuicontrols.module';
 
 @NgModule({
-  declarations: [],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     LayoutModule,
     LoggerModule,
+    FolderModule,
+    CuiControlsModule,
+
     PersonFindModule,
     ResourcesModule,
+    StandardReportsModule,
+
     RouterModule.forRoot(AppMenuService.getRoutes(), {useHash: true}),
     NgbModule.forRoot(),
     ToastModule.forRoot()

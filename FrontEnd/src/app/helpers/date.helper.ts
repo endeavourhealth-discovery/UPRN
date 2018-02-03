@@ -12,5 +12,14 @@ export class DateHelper {
 
       return date;
   }
+
+  public static toSqlDateString(date: Date): string {
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate().toString();
+    const monthNumber = date.getMonth() + 1;
+    const month = monthNumber < 10 ? '0' + monthNumber : monthNumber.toString();
+    const year = date.getFullYear();
+
+    return year + '-' + month + '-' + day;
+  }
 }
 

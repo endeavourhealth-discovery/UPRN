@@ -10,7 +10,6 @@ import {LoggerService} from 'eds-angular4';
 import {ViewerComponent} from './viewer/viewer.component';
 import {ServicePatientResource} from '../models/Resource';
 import { DateHelper} from '../helpers/date.helper';
-import {System} from '../models/System';
 import {ResourceId} from '../models/ResourceId';
 
 @Component({

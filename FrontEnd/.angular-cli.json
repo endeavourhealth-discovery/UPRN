@@ -24,7 +24,10 @@
         "scssStyles.scss",
         "lessStyles.less"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../node_modules/primeng/resources/primeng.min.css"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

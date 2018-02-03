@@ -10,13 +10,13 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>io.swagger.jaxrs.listing,org.endeavourhealth.coreui.endpoints,org.endeavourhealth.datavalidation.endpoints</param-value>
+            <param-value>io.swagger.jaxrs.listing,org.endeavourhealth.coreui.endpoints,org.endeavourhealth.dataassurance.endpoints</param-value>
         </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>org.glassfish.jersey.jackson.JacksonFeature,
                 org.endeavourhealth.common.security.CustomRolesAllowedFeature,
-                org.endeavourhealth.datavalidation.framework.exceptions.BaseExceptionMapper
+                org.endeavourhealth.dataassurance.framework.exceptions.BaseExceptionMapper
             </param-value>
         </init-param>
 

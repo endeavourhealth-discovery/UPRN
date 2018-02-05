@@ -257,11 +257,11 @@ export class ResourcesComponent implements OnInit {
       case 'Patient': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.birthDate);
       case 'AllergyIntolerance': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.onset);
       case 'Condition': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.onsetDateTime);
-      case 'DiagnosticOrder': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.event.dateTime);
+      case 'DiagnosticOrder': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.event ? resource.resourceJson.event.dateTime : null);
       case 'DiagnosticReport': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.effectiveDateTime);
       case 'ProcedureRequest': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.scheduledDateTime);
-      case 'Encounter': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period.start);
-      case 'EpisodeOfCare': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period.start);
+      case 'Encounter': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period ? resource.resourceJson.period.start : null);
+      case 'EpisodeOfCare': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.period ? resource.resourceJson.period.start : null);
       case 'FamilyMemberHistory': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
       case 'Immunization': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
       case 'MedicationOrder': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.dateWritten);
@@ -270,7 +270,7 @@ export class ResourcesComponent implements OnInit {
       case 'Observation': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.effectiveDateTime);
       case 'Procedure': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.performedDateTime);
       case 'ReferralRequest': return resource.effectiveDate = DateHelper.parse(resource.resourceJson.date);
-      case 'Specimen':  return resource.effectiveDate = DateHelper.parse(resource.resourceJson.collection.collectedDateTime);
+      case 'Specimen':  return resource.effectiveDate = DateHelper.parse(resource.resourceJson.collection ? resource.resourceJson.collection.collectedDateTime : null);
       default: return resource.effectiveDate = DateHelper.NOT_KNOWN;
     }
   }

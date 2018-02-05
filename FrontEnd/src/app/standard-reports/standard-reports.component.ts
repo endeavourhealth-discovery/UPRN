@@ -103,7 +103,7 @@ export class StandardReportsComponent {
           const filename = 'Report_' + reportId + '_NHS.csv';
           vm.downloadFile(filename, result)
         },
-        (error) => vm.logger.error('Error exporting HNS numbers', error, 'Error')
+        (error) => vm.logger.error('Error exporting NHS numbers', error, 'Error')
       );
   }
 

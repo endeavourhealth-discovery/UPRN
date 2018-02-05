@@ -18,7 +18,16 @@ import {NgbDateParserFormatter, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap'
 export class CuiDatePickerComponent implements ControlValueAccessor {
   private changed = [];
 
+  minDate: NgbDateStruct;
+  maxDate: NgbDateStruct;
   value: NgbDateStruct;
+
+  constructor() {
+    let date: Date = new Date();
+    this.maxDate = this.dateToNgbDateStruct(date);
+    this.minDate = this.dateToNgbDateStruct(date);
+    this.minDate.year = this.minDate.year - 100;
+  }
 
   private dateToNgbDateStruct(date: Date): NgbDateStruct {
     if (!date)

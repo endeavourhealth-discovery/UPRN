@@ -31,15 +31,22 @@ values (
          <label for="Family">Family name</label>
          <input id="Family" class="form-control" type="text" disabled value="{{resource.resourceJson.name[0].family}}">
        </div>
-       <div class="form-group">
-         <label for="Address">Address</label>
-         <input id="Address" class="form-control" type="text" disabled value="{{resource.resourceJson.address[0].text}}">
-       </div>
        <div class="form-group" *ngIf="resource.resourceJson.maritalStatus">
          <label for="Marital">Marital status</label>
          <input id="Marital" class="form-control" type="text" disabled value="{{resource.resourceJson.maritalStatus.coding[0].display}}">
        </div>
-     </div>
+	   <div class="form-group" *ngIf="resource.resourceJson.address">
+          <label for="Address">Address ({{resource.resourceJson.address[0].use}})</label>
+          <div class="form-control looks-disabled">
+			<div class="scrollbox-100">
+			  <div *ngFor="let item of resource.resourceJson.address[0].line">{{item}}</div>
+              <div>{{resource.resourceJson.address[0].city}}</div>
+              <div>{{resource.resourceJson.address[0].district}}</div>
+              <div>{{resource.resourceJson.address[0].postalCode}}</div>
+			</div>
+          </div>
+        </div>
+	  </div>
       <div class="col-md-6">
        <div class="form-group">
          <label for="Gender">Gender</label>

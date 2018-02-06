@@ -24,7 +24,7 @@
                       {{item.name}} <span class="fa fa-info-circle fa-right-pad text-muted" ngbTooltip="{{item.description}}" *ngIf="item.description"></span>
                       <div class="row" [hidden]="!libraryItem || libraryItem.uuid != item.uuid">
                         <div class="col-md-2"><button type="button" class="btn btn-sm btn-success" (click)="runReport()">Run report now</button></div>
-                        <div class="col-md-2"><button type="button" class="btn btn-sm btn-warning" (click)="exportNHSNumber()">Export ID's only</button></div>
+                        <div class="col-md-2"><button type="button" class="btn btn-sm btn-warning" (click)="exportNHSNumber()">Export IDs only</button></div>
                         <div class="col-md-2"><button type="button" class="btn btn-sm btn-warning" (click)="exportData()">Export all data</button></div>
                         <div class="col-md-6">
                           <div class="row">

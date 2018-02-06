@@ -5,7 +5,7 @@ import {PractitionerPickerDialogComponent} from '../practitioner-picker-dialog/p
 import {Report} from '../../models/Report';
 import {Concept} from 'eds-angular4/dist/coding/models/Concept';
 import {CodeSetValue} from 'eds-angular4/dist/coding/models/CodeSetValue';
-import {SecurityService} from 'eds-angular4';
+import {LoggerService, SecurityService} from 'eds-angular4';
 import {StandardReportsService} from '../standard-reports.service';
 import {Organisation} from '../../models/Organisation';
 import {DateHelper} from '../../helpers/date.helper';
@@ -53,6 +53,7 @@ export class ReportParamsDialogComponent implements OnInit {
   }
 
   constructor(protected modalService: NgbModal,
+              protected log: LoggerService,
               protected activeModal: NgbActiveModal,
               protected codingService: CodingService,
               protected securityService: SecurityService,
@@ -98,7 +99,8 @@ export class ReportParamsDialogComponent implements OnInit {
     const vm = this;
     vm.standardReportsService.getEncounterTypeCodes()
       .subscribe(
-        (result) => vm.encounterTypes = result
+        (result) => vm.encounterTypes = result,
+        (error) => vm.log.error('Error loading encounter types', error, 'Error')
       );
   }
 
@@ -106,7 +108,8 @@ export class ReportParamsDialogComponent implements OnInit {
     const vm = this;
     vm.standardReportsService.getReferralTypes()
       .subscribe(
-        (result) => vm.referralTypes = result
+        (result) => vm.referralTypes = result,
+        (error) => vm.log.error('Error loading referral types', error, 'Error')
       );
   }
 
@@ -114,7 +117,8 @@ export class ReportParamsDialogComponent implements OnInit {
     const vm = this;
     vm.standardReportsService.getReferralPriorities()
       .subscribe(
-        (result) => vm.referralPriorities = result
+        (result) => vm.referralPriorities = result,
+        (error) => vm.log.error('Error loading referral priorities', error, 'Error')
       );
   }
 
@@ -128,7 +132,8 @@ export class ReportParamsDialogComponent implements OnInit {
           vm.snomedCode.term = 'Loading...';
           vm.codingService.getPreferredTerm(vm.snomedCode.code)
             .subscribe(
-              (term) => vm.snomedCode.term = term.preferredTerm
+              (term) => vm.snomedCode.term = term.preferredTerm,
+              (error) => vm.log.error('Error loading SNOMED term', error, 'Error')
             );
         }
       }
@@ -149,7 +154,8 @@ export class ReportParamsDialogComponent implements OnInit {
           vm.referralSnomedCode.term = 'Loading...';
           vm.codingService.getPreferredTerm(vm.referralSnomedCode.code)
             .subscribe(
-              (term) => vm.referralSnomedCode.term = term.preferredTerm
+              (term) => vm.referralSnomedCode.term = term.preferredTerm,
+              (error) => vm.log.error('Error loading SNOMED term', error, 'Error')
             );
         }
       }
@@ -202,16 +208,12 @@ export class ReportParamsDialogComponent implements OnInit {
         vm.standardReportsService.getServiceName(orgRole.id)
           .subscribe(
             (result) => {
-              if (result != null && result !== '') {
+              if (result != null && result !== '' && result != 'Not known') {
                 orgRole.name = result;
                 vm.userOrganisations.push(orgRole);
               }
             },
-            (error) => {
-              console.log(error);
-              orgRole.name = 'Unknown';
-              vm.userOrganisations.push(orgRole);
-            }
+            (error) => vm.log.error(error)
           );
       }
     }
@@ -230,7 +232,7 @@ export class ReportParamsDialogComponent implements OnInit {
     params.DobMin = (this.dobMin) ? '\'' + DateHelper.toSqlDateString(this.dobMin) + '\'' : 'null';
     params.DobMax = (this.dobMax) ? '\'' + DateHelper.toSqlDateString(this.dobMax) + '\'' : 'null';
     params.SnomedCode = (this.snomedCode) ? this.snomedCode.code : 'null';
-    params.OriginalCode = (this.originalCode) ? '\'' + this.originalCode + '\'' : 'null';
+    params.OriginalCode = (this.originalCode) ? this.originalCode : 'null';
     params.ValueMin = (this.valueMin) ? this.valueMin : 'null';
     params.ValueMax = (this.valueMax) ? this.valueMax  : 'null';
     params.AuthType = (this.authType) ? this.authType : 'null';

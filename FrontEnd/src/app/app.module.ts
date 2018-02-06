@@ -15,7 +15,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StandardReportsModule} from './standard-reports/standard-reports.module';
 import {FolderModule} from 'eds-angular4/dist/folder';
-import {CuiControlsModule} from './cuicontrols/cuicontrols.module';
+import {CuiControlsModule} from 'eds-angular4/dist/cuicontrols/cuicontrols.module';
 
 @NgModule({
   imports: [

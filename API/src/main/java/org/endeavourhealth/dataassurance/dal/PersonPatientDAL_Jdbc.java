@@ -104,8 +104,8 @@ public class PersonPatientDAL_Jdbc implements PersonPatientDAL, ContextShutdownH
                     "and service_id in (" + String.join(",", Collections.nCopies(serviceIds.size(), "?")) + ") "+
                     "group by nhs_number, forenames, surname, service_id, patient_id";
             } else {
-                name1 = (names.remove(names.size() - 1)).replace(",", "") + "%";
-                name2 = String.join("% ", names).replace(",", "") + "%";
+                name1 = (names.get(0)).replace(",", "") + "%";
+                name2 = (names.get(1)).replace(",", "") + "%";
                 sql = "select distinct nhs_number, forenames, surname, count(*) as cnt, service_id, patient_id " +
                     "from patient_search " +
                     "where (" +

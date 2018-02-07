@@ -76,7 +76,7 @@ public class PersonPatientLogic {
     }
 
     public Patient getPatient(Set<String> serviceIds, String serviceId, String systemId, String patientId) {
-        if (!serviceId.contains(serviceId))
+        if (!serviceIds.contains(serviceId))
             return null;
 
         return dal.getPatient(serviceId, systemId, patientId);

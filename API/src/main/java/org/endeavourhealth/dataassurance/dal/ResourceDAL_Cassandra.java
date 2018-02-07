@@ -26,20 +26,23 @@ public class ResourceDAL_Cassandra implements ResourceDAL {
         // Hard-coded list as you cant do a simple distinct in cassandra!
 
         resourceTypes.add(new ResourceType("AllergyIntolerance", "Allergy/Intolerance"));
+        resourceTypes.add(new ResourceType("Appointment", "Appointment"));
         resourceTypes.add(new ResourceType("Condition", "Condition"));
         resourceTypes.add(new ResourceType("DiagnosticOrder", "Diagnostic Order"));
         resourceTypes.add(new ResourceType("DiagnosticReport", "Diagnostic Report"));
-        resourceTypes.add(new ResourceType("ProcedureRequest", "Procedure Request"));
         resourceTypes.add(new ResourceType("Encounter", "Encounter"));
         resourceTypes.add(new ResourceType("EpisodeOfCare", "Episode Of Care"));
         resourceTypes.add(new ResourceType("FamilyMemberHistory", "Family Member History"));
         resourceTypes.add(new ResourceType("Immunization", "Immunization"));
+        resourceTypes.add(new ResourceType("Medication", "Medication"));
         resourceTypes.add(new ResourceType("MedicationOrder", "Medication Order"));
         resourceTypes.add(new ResourceType("MedicationStatement", "Medication Statement"));
-        resourceTypes.add(new ResourceType("Medication", "Medication"));
         resourceTypes.add(new ResourceType("Observation", "Observation"));
         resourceTypes.add(new ResourceType("Procedure", "Procedure"));
+        resourceTypes.add(new ResourceType("ProcedureRequest", "Procedure Request"));
         resourceTypes.add(new ResourceType("ReferralRequest", "Referral Request"));
+        resourceTypes.add(new ResourceType("Schedule", "Schedule"));
+        resourceTypes.add(new ResourceType("Slot", "Slot"));
         resourceTypes.add(new ResourceType("Specimen", "Specimen"));
 
         return resourceTypes;

@@ -21,6 +21,15 @@ import java.util.UUID;
 
 public class FolderLogic{
     private static final Logger LOG = LoggerFactory.getLogger(FolderEndpoint.class);
+    LibraryDalI _libraryDal;
+
+    public FolderLogic() {
+        _libraryDal = DalProvider.factoryLibraryDal();
+    }
+
+    FolderLogic(LibraryDalI libraryDal) {
+        _libraryDal = libraryDal;
+    }
 
     public FolderList getFolderList(int folderType, String parentUuidStr, UUID orgUuid) throws Exception {
         //convert the nominal folder type to the actual Item DefinitionType
@@ -37,17 +46,15 @@ public class FolderLogic{
         List<Item> items = new ArrayList();
         Iterable<ItemDependency> itemDependency = null;
 
-        LibraryDalI repository = DalProvider.factoryLibraryDal();
-
         //if we have no parent, then we're looking for the TOP-LEVEL folder
         if (parentUuidStr == null) {
-            activeItems = repository.getActiveItemByOrgAndTypeId(orgUuid, itemType.getValue(), false);
+            activeItems = _libraryDal.getActiveItemByOrgAndTypeId(orgUuid, itemType.getValue(), false);
 
             for (ActiveItem activeItem: activeItems) {
-                itemDependency = repository.getItemDependencyByItemId(activeItem.getItemId());
+                itemDependency = _libraryDal.getItemDependencyByItemId(activeItem.getItemId());
 
                 if (!itemDependency.iterator().hasNext()) {
-                    Item item = repository.getItemByKey(activeItem.getItemId(), activeItem.getAuditId());
+                    Item item = _libraryDal.getItemByKey(activeItem.getItemId(), activeItem.getAuditId());
                     if (!item.isDeleted()) {
                         items.add(item);
                     }
@@ -58,12 +65,12 @@ public class FolderLogic{
         else {
             UUID parentUuid = parseUuidFromStr(parentUuidStr);
 
-            itemDependency = repository.getItemDependencyByDependentItemId(parentUuid, DependencyType.IsChildOf.getValue());
+            itemDependency = _libraryDal.getItemDependencyByDependentItemId(parentUuid, DependencyType.IsChildOf.getValue());
 
             for (ItemDependency dependency: itemDependency) {
-                Iterable<ActiveItem> aItem = repository.getActiveItemByAuditId(dependency.getAuditId());
+                Iterable<ActiveItem> aItem = _libraryDal.getActiveItemByAuditId(dependency.getAuditId());
                 for (ActiveItem activeItem: aItem) {
-                    Item item = repository.getItemByKey(activeItem.getItemId(), activeItem.getAuditId());
+                    Item item = _libraryDal.getItemByKey(activeItem.getItemId(), activeItem.getAuditId());
                     items.add(item);
                 }
             }

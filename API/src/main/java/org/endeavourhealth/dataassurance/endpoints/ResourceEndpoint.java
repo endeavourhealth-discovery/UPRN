@@ -69,8 +69,8 @@ public class ResourceEndpoint {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Timed(absolute = true, name = "DataAssurance.ResourceEndpoint.Reference")
     @Path("/reference")
     @ApiOperation(value = "Returns the description for a given service, system and reference")
@@ -96,7 +96,7 @@ public class ResourceEndpoint {
                                   @ApiParam(value = "Mandatory ServiceId") @QueryParam("serviceId") String serviceId,
                                   @ApiParam(value = "Mandatory ResourceType") @QueryParam("resourceType") String resourceType,
                                   @ApiParam(value = "Mandatory ResourceId") @QueryParam("resourceId") String resourceId
-                                  ) {
+    ) {
         LOG.debug("Get Field Mappings Called");
 
         List<ResourceFieldMapping> fieldMappings = new ResourceLogic().getResourceMappings(serviceId, resourceType, resourceId);
@@ -106,4 +106,24 @@ public class ResourceEndpoint {
             .build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Timed(absolute = true, name = "DataValidation.ResourceEndpoint.FieldMappingForField")
+    @Path("/fieldMappingForField")
+    @ApiOperation(value = "Returns the field mappings for a given resource and field")
+    public Response fieldMappingForField(@Context SecurityContext sc,
+                                         @ApiParam(value = "Mandatory ServiceId") @QueryParam("serviceId") String serviceId,
+                                         @ApiParam(value = "Mandatory ResourceType") @QueryParam("resourceType") String resourceType,
+                                         @ApiParam(value = "Mandatory ResourceId") @QueryParam("resourceId") String resourceId,
+                                         @ApiParam(value = "Mandatory Field") @QueryParam("field") String field
+    ) {
+        LOG.debug("Get Field Mapping For Field Called");
+
+        ResourceFieldMapping fieldMapping = new ResourceLogic().getResourceMappingForField(serviceId, resourceType, resourceId, field);
+
+        return Response
+            .ok(fieldMapping)
+            .build();
+    }
 }

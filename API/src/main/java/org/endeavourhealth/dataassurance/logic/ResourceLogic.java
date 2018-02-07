@@ -83,6 +83,12 @@ public class ResourceLogic {
         org.hl7.fhir.instance.model.ResourceType resourceType = org.hl7.fhir.instance.model.ResourceType.valueOf(resourceTypeStr);
         String resourceId = reference.substring(slashPos + 1);
 
+        try {
+            UUID.fromString(resourceId);
+        } catch (IllegalArgumentException e) {
+            return "Invalid reference id";
+        }
+
         Resource resource = dal.getResource(resourceType, resourceId, serviceId);
         if (resource == null)
             return "Not found";
@@ -95,7 +101,7 @@ public class ResourceLogic {
             case Condition: return getConditionDisplay((Condition)resource);
             case Procedure: return getProcedureDisplay((Procedure)resource);
             case Immunization: return getImmsDisplay((Immunization)resource);
-            case FamilyMemberHistory: return getFamiltyHistoryDisplay((FamilyMemberHistory)resource);
+            case FamilyMemberHistory: return getFamilyHistoryDisplay((FamilyMemberHistory)resource);
             case MedicationStatement: return getMedicationStatementDisplay((MedicationStatement)resource);
             case MedicationOrder: return getMedicationOrderDisplay((MedicationOrder)resource);
             case AllergyIntolerance: return getAllergyDisplay((AllergyIntolerance)resource);
@@ -144,84 +150,67 @@ public class ResourceLogic {
 
     private String getConditionDisplay(Condition resource) {
         String conditionDisplay = "";
-        try {
-            // the basic display term
-            List<Coding> codes = resource.getCode().getCoding();
-            if (codes.size() > 0) {
-                conditionDisplay = codes.get(0).getDisplay();
-            }
-            // additional comments/notes
-            String comments = resource.getNotes();
-            if (!Strings.isNullOrEmpty(comments)) {
-                conditionDisplay = conditionDisplay.concat(" ("+comments+")");
-            }
+        // the basic display term
+        List<Coding> codes = resource.getCode().getCoding();
+        if (codes.size() > 0) {
+            conditionDisplay = codes.get(0).getDisplay();
         }
-        catch (Exception e) {
-            conditionDisplay = "Error resolving Condition reference";
+        // additional comments/notes
+        String comments = resource.getNotes();
+        if (!Strings.isNullOrEmpty(comments)) {
+            conditionDisplay = conditionDisplay.concat(" ("+comments+")");
         }
         return conditionDisplay;
     }
 
     private String getProcedureDisplay(Procedure resource) {
         String procedureDisplay = "";
-        try {
-            // the basic display term
-            List<Coding> codes = resource.getCode().getCoding();
-            if (codes.size() > 0) {
-                procedureDisplay = codes.get(0).getDisplay();
-            }
-            // additional comments/notes
-            if (resource.getNotes().size() > 0) {
-                String comments = resource.getNotes().get(0).getText();
-                if (!Strings.isNullOrEmpty(comments)) {
-                    procedureDisplay = procedureDisplay.concat(" (" + comments + ")");
-                }
+
+        // the basic display term
+        List<Coding> codes = resource.getCode().getCoding();
+        if (codes.size() > 0) {
+            procedureDisplay = codes.get(0).getDisplay();
+        }
+        // additional comments/notes
+        if (resource.getNotes().size() > 0) {
+            String comments = resource.getNotes().get(0).getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                procedureDisplay = procedureDisplay.concat(" (" + comments + ")");
             }
         }
-        catch (Exception e) {
-            procedureDisplay = "Error resolving Procedure reference";
-        }
+
         return procedureDisplay;
     }
 
     private String getImmsDisplay(Immunization resource) {
         String immsDisplay = "";
-        try {
-            // the basic display term
-            List<Coding> codes = resource.getVaccineCode().getCoding();
-            if (codes.size() > 0) {
-                immsDisplay = codes.get(0).getDisplay();
-            }
-            // additional comments/notes
-            if (resource.getNote().size() > 0) {
-                String comments = resource.getNote().get(0).getText();
-                if (!Strings.isNullOrEmpty(comments)) {
-                    immsDisplay = immsDisplay.concat(" (" + comments + ")");
-                }
+        // the basic display term
+        List<Coding> codes = resource.getVaccineCode().getCoding();
+        if (codes.size() > 0) {
+            immsDisplay = codes.get(0).getDisplay();
+        }
+        // additional comments/notes
+        if (resource.getNote().size() > 0) {
+            String comments = resource.getNote().get(0).getText();
+            if (!Strings.isNullOrEmpty(comments)) {
+                immsDisplay = immsDisplay.concat(" (" + comments + ")");
             }
         }
-        catch (Exception e) {
-            immsDisplay = "Error resolving Immunization reference";
-        }
+
         return immsDisplay;
     }
 
-    private String getFamiltyHistoryDisplay(FamilyMemberHistory resource) {
+    private String getFamilyHistoryDisplay(FamilyMemberHistory resource) {
         String familyHistoryDisplay = "";
-        try {
-            // the basic display term
-            List<Coding> codes = resource.getCondition().get(0).getCode().getCoding();
-            if (codes.size() > 0) {
-                familyHistoryDisplay = codes.get(0).getDisplay();
-            }
-            // additional comments/notes
-            String comments = resource.getNote().getText();
-            if (!Strings.isNullOrEmpty(comments)) {
-                familyHistoryDisplay = familyHistoryDisplay.concat(" ("+comments+")");
-            }
+        // the basic display term
+        List<Coding> codes = resource.getCondition().get(0).getCode().getCoding();
+        if (codes.size() > 0) {
+            familyHistoryDisplay = codes.get(0).getDisplay();
         }
-        catch (Exception e) {
-            familyHistoryDisplay = "Error resolving FamilyMemberHistory reference";
+        // additional comments/notes
+        String comments = resource.getNote().getText();
+        if (!Strings.isNullOrEmpty(comments)) {
+            familyHistoryDisplay = familyHistoryDisplay.concat(" (" + comments + ")");
         }
         return familyHistoryDisplay;
     }
@@ -276,21 +265,18 @@ public class ResourceLogic {
 
     private String getAllergyDisplay(AllergyIntolerance resource) {
         String allergyDisplay = "";
-        try {
-            // the basic display term
-            List<Coding> codes = resource.getSubstance().getCoding();
-            if (codes.size() > 0) {
-                allergyDisplay = codes.get(0).getDisplay();
-            }
-            // additional comments/notes
-            String comments = resource.getNote().getText();
-            if (!Strings.isNullOrEmpty(comments)) {
-                allergyDisplay = allergyDisplay.concat(" ("+comments+")");
-            }
+
+        // the basic display term
+        List<Coding> codes = resource.getSubstance().getCoding();
+        if (codes.size() > 0) {
+            allergyDisplay = codes.get(0).getDisplay();
         }
-        catch (Exception e) {
-            allergyDisplay = "Error resolving AllergyIntolerance reference";
+        // additional comments/notes
+        String comments = resource.getNote().getText();
+        if (!Strings.isNullOrEmpty(comments)) {
+            allergyDisplay = allergyDisplay.concat(" (" + comments + ")");
         }
+
         return allergyDisplay;
     }
 
@@ -324,6 +310,32 @@ public class ResourceLogic {
         } catch (Exception e) {
             LOG.error("Error getting resource mappings", e);
             return new ArrayList<>();
+        }
+    }
+
+    public ResourceFieldMapping getResourceMappingForField(String serviceId, String resourceType, String resourceId, String field) {
+        try {
+            if (field == null || field.isEmpty())
+                return new ResourceFieldMapping();
+
+            ResourceFieldMapping fieldMapping = fileMappingDal.findFieldMappingForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
+            if (fieldMapping != null)
+                return fieldMapping;
+
+            // Try the parent
+            Integer idx = field.lastIndexOf('.');
+            if (idx > 0)
+                field = field.substring(0, idx);
+
+            fieldMapping = fileMappingDal.findFieldMappingForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
+
+            if (fieldMapping != null)
+                return fieldMapping;
+            else
+                return new ResourceFieldMapping();
+        } catch (Exception e) {
+            LOG.error("Error getting resource mappings", e);
+            return null;
         }
     }
 }

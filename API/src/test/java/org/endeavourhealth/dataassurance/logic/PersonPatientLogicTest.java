@@ -1,6 +1,7 @@
 package org.endeavourhealth.dataassurance.logic;
 
 import org.endeavourhealth.dataassurance.logic.mocks.Mock_PersonPatientDAL;
+import org.endeavourhealth.dataassurance.models.Patient;
 import org.endeavourhealth.dataassurance.models.Person;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,6 +17,18 @@ public class PersonPatientLogicTest {
         mockDal = new Mock_PersonPatientDAL();
         PersonPatientLogic.dal = mockDal;
         personPatient = new PersonPatientLogic();
+    }
+
+    @Test
+    public void findPersonsInOrganisationsNULLOrg() throws Exception {
+        List<Person> persons = personPatient.findPersonsInOrganisations(null, null);
+
+        Assert.assertNotNull(persons);
+        Assert.assertEquals(0, persons.size());
+        Assert.assertFalse(mockDal.searchByNamesCalled);
+        Assert.assertFalse(mockDal.searchByNhsNumberCalled);
+        Assert.assertFalse(mockDal.searchByLocalIdCalled);
+        Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
     }
 
     @Test
@@ -163,5 +176,11 @@ public class PersonPatientLogicTest {
         Assert.assertFalse(mockDal.searchByDateOfBirthCalled);
     }
 
+    @Test
+    public void getPatient() {
+        Patient patient = personPatient.getPatient(mockDal.organisationsPresent, mockDal.organisationMissing, null, null);
+        Assert.assertNull(patient);
+        Assert.assertFalse(mockDal.getPatientCalled);
+    }
 }
 

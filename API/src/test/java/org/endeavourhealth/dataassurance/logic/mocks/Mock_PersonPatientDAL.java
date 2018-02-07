@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Mock_PersonPatientDAL implements PersonPatientDAL {
     public Set<String> organisationsPresent = new HashSet<>(Arrays.asList("1", "2"));
-    public Set<String> organisationsMissing = new HashSet<>(Arrays.asList("1", "2"));
+    public String organisationMissing = "3";
 
     public String nhsNumberPresent = "1234567890";
     public String nhsNumberMissing = "0987654321";
@@ -32,6 +32,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
     public boolean searchByDateOfBirthCalled = false;
     public boolean searchByNamesCalled = false;
     public boolean getPatientsByNhsNumberCalled = false;
+    public boolean getPatientCalled = false;
 
     public Mock_PersonPatientDAL () {
         try {
@@ -96,6 +97,7 @@ public class Mock_PersonPatientDAL implements PersonPatientDAL {
 
     @Override
     public Patient getPatient(String serviceId, String systemId, String patientId) {
+        getPatientCalled = true;
         return new Patient();
     }
 }

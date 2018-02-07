@@ -105,9 +105,25 @@ public class ResourceLogic {
             case MedicationStatement: return getMedicationStatementDisplay((MedicationStatement)resource);
             case MedicationOrder: return getMedicationOrderDisplay((MedicationOrder)resource);
             case AllergyIntolerance: return getAllergyDisplay((AllergyIntolerance)resource);
+            case ReferralRequest: return getReferralRequest((ReferralRequest)resource);
         }
 
         return "Unknown type";
+    }
+
+    private String getReferralRequest(ReferralRequest resource) {
+        List<CodeableConcept> services = resource.getServiceRequested();
+        if (services != null && services.size() > 0) {
+            CodeableConcept service = services.get(0);
+
+            if (service.hasText())
+                return service.getText();
+
+            if (service.hasCoding() && service.getCoding().size() > 0)
+                return  service.getCoding().get(0).getDisplay();
+        }
+
+        return "";
     }
 
     private String getObservationDisplay(Observation resource) {

@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Mock_ResourceDAL implements ResourceDAL {
-    public String MISSING_REFERENCE = "Patient/" + UUID.randomUUID().toString();
-    public String VALID_REFERENCE = "Organization/" + UUID.randomUUID().toString();
-    public String UNKNOWN_REFERENCE = "TestScript/" + UUID.randomUUID().toString();
+    public Resource resource;
 
     @Override
     public List<ResourceType> getResourceTypes() {
@@ -35,17 +33,6 @@ public class Mock_ResourceDAL implements ResourceDAL {
 
     @Override
     public Resource getResource(org.hl7.fhir.instance.model.ResourceType resourceType, String resourceId, String serviceId) {
-        String reference = resourceType.name() + "/" + resourceId;
-
-        if (MISSING_REFERENCE.equals(reference))
-            return null;
-
-        if (VALID_REFERENCE.equals(reference))
-            return new MockResource(org.hl7.fhir.instance.model.ResourceType.Organization);
-
-        if (UNKNOWN_REFERENCE.equals(reference))
-            return new MockResource(org.hl7.fhir.instance.model.ResourceType.TestScript);
-
-        throw new IllegalArgumentException("Invalid test data used for mock!");
+        return resource;
     }
 }

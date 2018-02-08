@@ -454,13 +454,9 @@ values (
         <label for="Display">Display term</label>
         <input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.vaccineCode.coding[0].display}}">
       </div>
-      <div class="form-group" *ngIf="resource.resourceJson.explanation.reason!=null">
+      <div class="form-group" *ngIf="resource.resourceJson.explanation?.reason">
         <label for="Reason">Reason</label>
         <input id="Reason" class="form-control" type="text" disabled value="{{resource.resourceJson.explanation.reason[0].text}}">
-      </div>
-      <div class="form-group" *ngIf="resource.resourceJson.explanation.reason==null">
-        <label for="Reason">Reason</label>
-        <input id="Reason" class="form-control" type="text" disabled value="">
       </div>
       <div class="form-group">
         <label for="Route">Route</label>
@@ -526,6 +522,56 @@ values (
 				<input id="Reporter" class="form-control" type="text" disabled value="{{extension.valueReference.display}}">
 			</div>
 		</div>
+    </div>
+  </div>
+</form>
+</div>');
+
+delete from config where config_id = 'Template-ReferralRequest' and app_id = 'data-assurance';
+insert into config (app_id, config_id, config_data)
+values (
+  'data-assurance',
+  'Template-ReferralRequest',
+  '<div class="container">
+<form>
+  <div class="row">
+	<div class="col-md-6">
+	  <div *ngFor="let extension of resource.resourceJson.extension">
+        <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-referral-request-send-mode-extension''">
+          <label for="RequestMode">Request mode</label>
+          <input id="RequestMode" class="form-control" type="text" disabled value="{{extension.valueCodeableConcept.coding[0].display}}">
+        </div>
+        <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-recorded-by-extension''">
+          <label for="RecordedBy">Recorded by</label>
+          <input id="RecordedBy" class="form-control" type="text" disabled value="{{extension.valueReference.display}}">
+        </div>
+        <div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-recorded-date-extension''">
+          <label for="RecordedDate">Recorded date</label>
+          <input id="RecordedDate" class="form-control" type="text" disabled value="{{extension.valueDateTime}}">
+        </div>
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.serviceRequested">
+        <label for="Service">Service requested</label>
+        <input id="Service" class="form-control" type="text" disabled value="{{resource.resourceJson.serviceRequested[0].text}}">
+      </div>
+	</div>
+    <div class="col-md-6">
+      <div class="form-group" *ngIf="resource.resourceJson.type">
+        <label for="RequestType">Request type</label>
+        <input id="RequestType" class="form-control" type="text" disabled value="{{resource.resourceJson.type.coding[0].display}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.priority">
+        <label for="RequestPriority">Request priority</label>
+        <input id="RequestPriority" class="form-control" type="text" disabled value="{{resource.resourceJson.priority.coding[0].display}}">
+      </div>
+      <div class="form-group">
+        <label for="Requester">Requester</label>
+        <input id="Requester" class="form-control" type="text" disabled value="{{resource.resourceJson.requester?.display}}">
+      </div>
+      <div class="form-group" *ngIf="resource.resourceJson.recipient">
+        <label for="Recipient">Recipient</label>
+        <input id="Recipient" class="form-control" type="text" disabled value="{{resource.resourceJson.recipient[0].display}}">
+      </div>
     </div>
   </div>
 </form>

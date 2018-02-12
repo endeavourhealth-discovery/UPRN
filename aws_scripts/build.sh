@@ -24,7 +24,7 @@ aws s3 cp badges s3://endeavour-codebuild/badges/${artifact}/ --recursive --acl 
 
 # Build
 { #try
-    mvn -B package &&
+    eval $* &&
     buildresult=0
 } || { #catch
     buildresult=1

@@ -4,11 +4,10 @@ mkdir badges
 
 # Artifact
 artifact=$( xmllint --xpath "/*[local-name() = 'project']/*[local-name() = 'artifactId']/text()" pom.xml )
-artifact=${artifact/-/--}
 
 # Version
 version=$( xmllint --xpath "/*[local-name() = 'project']/*[local-name() = 'version']/text()" pom.xml )
-version=${version/-/--}
+version=${version/-/--} # Hyphen escaping required by shields.io
 
 # Update badges pre-build
 echo "https://img.shields.io/badge/Build-In_progress-orange.svg"
@@ -25,7 +24,7 @@ aws s3 cp badges s3://endeavour-codebuild/badges/${artifact}/ --recursive
 
 # Build
 { #try
-    mvn -B deploy &&
+    mvn -B package &&
     buildresult=0
 } || { #catch
     buildresult=1

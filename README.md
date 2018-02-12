@@ -1,7 +1,7 @@
 # Data-Assurance
-![Version](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/DataAssurance/badges/version.svg)
-![Build Status](https://codebuild.eu-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiOFczSlhjY2xCQmRzWUFOLy9tUWVEc3Aya2o5OVQwYUs2c2h1a2l5QXpHVWR6aDA4eWx3NGkwUnpzT2loUHpuUnhEMmZpaWthajloVUFUTHhQeXJjQW80PSIsIml2UGFyYW1ldGVyU3BlYyI6ImFVL2JIY0s3TzhVMy9sMlkiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
-![Unit Tests](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/DataAssurance/badges/unit-test.svg)
+![Version](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/version.svg)
+![Build Status](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/build.svg)
+![Unit Tests](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/unit-test.svg)
 
 ## Build Angular
 

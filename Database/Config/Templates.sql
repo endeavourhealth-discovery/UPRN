@@ -142,17 +142,29 @@ values (
         <label for="Date">Effective date</label>
         <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.onsetDateTime | date:''dd/MM/y''}}">
       </div>
-	  <div class="form-group">
+      <div class="form-group">
         <label for="Recorder">Recorded by</label>
         <input id="Recorder" class="form-control" type="text" disabled value="{{resource.resourceJson.asserter?.display}}">
       </div>
+      <div *ngFor="let profile of resource.resourceJson.meta.profile">
+        <div class="form-group" *ngIf="profile==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-problem''">
+          <label for="Problem">Is a problem</label>
+          <input id="Problem" class="form-control" type="text" disabled value="Yes">
+        </div>
+      </div>
+      <div *ngFor="let extension of resource.resourceJson.extension">
+		<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-problem-review'' && extension.valueBoolean">
+          <label for="Episodicity">Is a review</label>
+          <input id="Episodicity" class="form-control" type="text" disabled value="Yes">
+        </div>
+      </div>
     </div>
     <div class="col-md-6">
-	  <div class="form-group">
+      <div class="form-group">
         <label for="Code">Code</label>
         <input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="resource.resourceJson.category">
         <label for="Category">Category</label>
         <input id="Category" class="form-control" type="text" disabled value="{{resource.resourceJson.category.coding[0].code}}">
       </div>
@@ -254,6 +266,12 @@ values (
 			<label for="Value1Units">Units</label>
 			<input id="Value1Units" class="form-control" type="text" disabled value="{{resource.resourceJson.valueQuantity.unit}}">
 		</div>
+      <div *ngFor="let extension of resource.resourceJson.extension">
+		<div class="form-group" *ngIf="extension.url==''http://endeavourhealth.org/fhir/StructureDefinition/primarycare-problem-review'' && extension.valueBoolean">
+          <label for="Episodicity">Is a review</label>
+          <input id="Episodicity" class="form-control" type="text" disabled value="Yes">
+        </div>
+      </div>
     </div>
   </div>
 </form>

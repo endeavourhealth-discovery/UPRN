@@ -16,10 +16,8 @@ import org.hl7.fhir.instance.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ResourceLogic {
     static ResourceDAL dal = null;
@@ -106,9 +104,20 @@ public class ResourceLogic {
             case MedicationOrder: return getMedicationOrderDisplay((MedicationOrder)resource);
             case AllergyIntolerance: return getAllergyDisplay((AllergyIntolerance)resource);
             case ReferralRequest: return getReferralRequest((ReferralRequest)resource);
+            case ProcedureRequest: return getProcedureRequest((ProcedureRequest)resource);
         }
 
         return "Unknown type";
+    }
+
+    private String getProcedureRequest(ProcedureRequest resource) {
+        if (resource.getCode().hasText() && resource.hasStatus()) {
+            String status = resource.getStatus().getDisplay();
+            String orderDate = new SimpleDateFormat("dd/MM/yyyy").format(resource.getOrderedOn());
+            return resource.getCode().getText().concat(" (" + status + ":" + orderDate + ")");
+        }
+
+        return "";
     }
 
     private String getReferralRequest(ReferralRequest resource) {

@@ -576,3 +576,35 @@ values (
   </div>
 </form>
 </div>');
+
+delete from config where config_id = 'Template-ProcedureRequest' and app_id = 'data-assurance';
+insert into config (app_id, config_id, config_data)
+values (
+  'data-assurance',
+  'Template-ProcedureRequest',
+  '<div class="container">
+<form>
+  <div class="row">
+	<div class="col-md-6">
+		<div class="form-group">
+			<label for="Display">Display term</label>
+			<input id="Display" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].display}}">
+		</div>
+		<div class="form-group">
+			<label for="Requester">Requested by</label>
+			<input id="Requester" class="form-control" type="text" disabled value="{{resource.resourceJson.orderer.display}}">
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group">
+			<label for="Code">Code</label>
+			<input id="Code" class="form-control" type="text" disabled value="{{resource.resourceJson.code.coding[0].code}}">
+		</div>
+		<div class="form-group">
+			<label for="RequestDate">Requested date</label>
+			<input id="RequestDate" class="form-control" type="text" disabled value="{{resource.resourceJson.orderedOn}}">
+		</div>
+	</div>
+  </div>
+</form>
+</div>');

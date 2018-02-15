@@ -280,11 +280,48 @@ export class ResourcesComponent implements OnInit {
     if (resource.description)
       return resource.description;
 
-    return resource.description = this.getCodeTerm(resource.resourceJson);
+    return resource.description = this.generateDescription(resource);
   }
 
-  private getCodeTerm(resource: any): string {
-    const code = this.getCode(resource);
+  private generateDescription(resource: ServicePatientResource) : string {
+    switch (resource.resourceJson.resourceType) {
+      case 'AllergyIntolerance':
+        return this.getCodeTerm(resource.resourceJson.substance);
+      case 'Condition':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'DiagnosticOrder':
+        return this.getCodeTerm((resource.resourceJson.item && resource.resourceJson.item.length > 0) ? resource.resourceJson.item[0].code : null);
+      case 'DiagnosticReport':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'ProcedureRequest':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'Encounter':
+        return this.getCodeTerm((resource.resourceJson.reason && resource.resourceJson.reason.length > 0) ? resource.resourceJson.reason[0] : null);
+      case 'EpisodeOfCare':
+        return this.getCodeTerm(resource.resourceJson.type);
+      case 'FamilyMemberHistory':
+        return this.getCodeTerm((resource.resourceJson.condition && resource.resourceJson.condition.length > 0) ? resource.resourceJson.condition[0].code : null);
+      case 'Immunization':
+        return this.getCodeTerm(resource.resourceJson.vaccineCode);
+      case 'MedicationOrder':
+        return this.getCodeTerm((resource.resourceJson.medicationCodeableConcept) ? resource.resourceJson.medicationCodeableConcept : null);
+      case 'MedicationStatement':
+        return this.getMedicationStatementDescription(resource);
+      case 'Medication':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'Observation':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'Procedure':
+        return this.getCodeTerm(resource.resourceJson.code);
+      case 'ReferralRequest':
+        return this.getCodeTerm((resource.resourceJson.serviceRequested && resource.resourceJson.serviceRequested.length > 0) ? resource.resourceJson.serviceRequested[0] : null);
+      case 'Specimen':
+        return this.getCodeTerm(resource.resourceJson.type);
+      default: return null;
+    }
+  }
+
+  private getCodeTerm(code: any): string {
     if (code == null)
       return null;
 
@@ -297,27 +334,18 @@ export class ResourcesComponent implements OnInit {
     return null;
   }
 
-  private getCode(resource: any): any {
-    switch (resource.resourceType) {
-      case 'AllergyIntolerance': return resource.substance;
-      case 'Condition': return resource.code;
-      case 'DiagnosticOrder': return (resource.item && resource.item.length > 0) ? resource.item[0].code : null;
-      case 'DiagnosticReport': return resource.code;
-      case 'ProcedureRequest': return resource.code;
-      case 'Encounter': return (resource.reason && resource.reason.length > 0) ? resource.reason[0] : null;
-      case 'EpisodeOfCare': return resource.type;
-      case 'FamilyMemberHistory': return (resource.condition && resource.condition.length > 0) ? resource.condition[0].code : null;
-      case 'Immunization': return resource.vaccineCode;
-      case 'MedicationOrder': return (resource.medicationCodeableConcept) ? resource.medicationCodeableConcept : null;
-      case 'MedicationStatement': return (resource.medicationCodeableConcept) ? resource.medicationCodeableConcept : null;
-      case 'Medication': return resource.code;
-      case 'Observation': return  resource.code;
-      case 'Procedure': return resource.code;
-      case 'ReferralRequest':
-        return (resource.serviceRequested && resource.serviceRequested.length > 0) ? resource.serviceRequested[0] : null;
-      case 'Specimen':  return resource.type;
-      default: return null;
+  private getMedicationStatementDescription(resource: ServicePatientResource) {
+    let description = '';
+
+    if (resource.resourceJson.extension) {
+      for(let extension of resource.resourceJson.extension) {
+        if (extension.url === 'http://endeavourhealth.org/fhir/StructureDefinition/primarycare-medication-authorisation-type-extension')
+          description = '(' + extension.valueCoding.display + ') ';
+      }
     }
+
+    description += this.getCodeTerm((resource.resourceJson.medicationCodeableConcept) ? resource.resourceJson.medicationCodeableConcept : null);
+    return description;
   }
 
   /** BASIC LOOKUPS **/

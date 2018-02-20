@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {NgbActiveModal, NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {ServicePatientResource} from '../../models/Resource';
 import {ResourcesService} from '../resources.service';
@@ -11,6 +11,7 @@ import {ResourcesService} from '../resources.service';
 export class ViewerComponent implements OnInit {
   @Input() title: string;
   @Input() resource: ServicePatientResource;
+  mapDetail: any;
 
   public static open(modalService: NgbModal,
                      title: string,
@@ -75,5 +76,9 @@ export class ViewerComponent implements OnInit {
 
   public isPrimitive(value: any): boolean {
     return !Array.isArray(value) && typeof value !== 'object';
+  }
+
+  public showMap(mapDetail: any) {
+    this.mapDetail = mapDetail;
   }
 }

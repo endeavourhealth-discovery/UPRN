@@ -37,7 +37,7 @@ export class TemplateViewComponent implements AfterViewInit {
   private buildView(template: string) {
 
     if (template == null || template === '')
-      template = '<div class="container"><h3>No clinical template configured for this resource type</h3></div>'
+      template = '<div class="container"><h3>No clinical template configured for this resource type</h3></div>';
 
     const tmpCmp = Component({template: template})(class {
     });

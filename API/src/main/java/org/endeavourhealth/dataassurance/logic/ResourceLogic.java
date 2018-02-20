@@ -338,13 +338,13 @@ public class ResourceLogic {
         }
     }
 
-    public ResourceFieldMapping getResourceMappingForField(String serviceId, String resourceType, String resourceId, String field) {
+    public List<ResourceFieldMapping> getResourceMappingsForField(String serviceId, String resourceType, String resourceId, String field) {
         try {
             if (field == null || field.isEmpty())
-                return new ResourceFieldMapping();
+                return new ArrayList<>();
 
-            ResourceFieldMapping fieldMapping = fileMappingDal.findFieldMappingForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
-            if (fieldMapping != null)
+            List<ResourceFieldMapping> fieldMapping = fileMappingDal.findFieldMappingsForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
+            if (fieldMapping != null && fieldMapping.size() > 0)
                 return fieldMapping;
 
             // Try the parent
@@ -352,15 +352,15 @@ public class ResourceLogic {
             if (idx > 0)
                 field = field.substring(0, idx);
 
-            fieldMapping = fileMappingDal.findFieldMappingForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
+            fieldMapping = fileMappingDal.findFieldMappingsForField(UUID.fromString(serviceId), org.hl7.fhir.instance.model.ResourceType.valueOf(resourceType), UUID.fromString(resourceId), field);
 
             if (fieldMapping != null)
                 return fieldMapping;
             else
-                return new ResourceFieldMapping();
+                return new ArrayList<>();
         } catch (Exception e) {
             LOG.error("Error getting resource mappings", e);
-            return null;
+            return new ArrayList<>();
         }
     }
 }

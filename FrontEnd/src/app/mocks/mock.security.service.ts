@@ -14,7 +14,8 @@ export class MockSecurityService {
       title : 'Mr',
       forename : 'Mock',
       surname : 'User',
-      clientAccess : clientAccessMap
+      clientAccess : clientAccessMap,
+      organisationGroups: []
     } as User;
   }
 

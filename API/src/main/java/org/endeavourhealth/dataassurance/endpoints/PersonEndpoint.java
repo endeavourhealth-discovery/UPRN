@@ -28,7 +28,6 @@ public class PersonEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Timed(absolute = true, name="DataAssurance.PersonEndpoint.Get")
-    @Path("/")
     @ApiOperation(value = "Returns a list of matching persons")
     public Response get(@Context SecurityContext sc,
                         @ApiParam(value = "Mandatory Search terms") @QueryParam("searchTerms") String searchTerms

@@ -417,7 +417,7 @@ values (
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="Date">Appointment date</label>
+          <label for="Date">Date</label>
           <input id="Date" class="form-control" type="text" disabled value="{{resource.resourceJson.period.start | date:''dd/MM/y''}}">
         </div>
         <div class="form-group" *ngIf="resource.resourceJson.participant!=null">

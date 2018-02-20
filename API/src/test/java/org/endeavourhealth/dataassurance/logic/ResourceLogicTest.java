@@ -386,50 +386,51 @@ public class ResourceLogicTest {
     // getResourceMappingForField
     @Test
     public void getResourceMappingForFieldNullField() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), null);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), null);
         Assert.assertNotNull(mapping);
-        Assert.assertNull(mapping.getSourceLocation());
+        Assert.assertEquals(0, mapping.size());
     }
 
     @Test
     public void getResourceMappingForFieldEmptyField() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), "");
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), "");
         Assert.assertNotNull(mapping);
-        Assert.assertNull(mapping.getSourceLocation());
+        Assert.assertEquals(0, mapping.size());
     }
 
     @Test
     public void getResourceMappingForFieldLeafNoAudit() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_NO_AUDIT);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_NO_AUDIT);
         Assert.assertNotNull(mapping);
-        Assert.assertNull(mapping.getSourceLocation());
+        Assert.assertEquals(0, mapping.size());
     }
 
     @Test
     public void getResourceMappingForFieldLeafWithAudit() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
         Assert.assertNotNull(mapping);
-        Assert.assertEquals(mapping.getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
+        Assert.assertEquals(mapping.get(0).getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
     }
 
     @Test
     public void getResourceMappingForFieldLeafParentAudit() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AUDIT);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AUDIT);
         Assert.assertNotNull(mapping);
-        Assert.assertEquals(mapping.getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
+        Assert.assertEquals(mapping.get(0).getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_AUDIT);
     }
 
     @Test
     public void getResourceMappingForFieldLeafParentAndChildAudit() {
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
         Assert.assertNotNull(mapping);
-        Assert.assertEquals(mapping.getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
+        Assert.assertEquals(mapping.get(0).getSourceLocation(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
     }
 
     @Test
     public void getResourceMappingForFieldDALException() {
         fileMappingDAL.exception = new SQLException("Test exception");
-        ResourceFieldMapping mapping = resourceLogic.getResourceMappingForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
-        Assert.assertNull(mapping);
+        List<ResourceFieldMapping> mapping = resourceLogic.getResourceMappingsForField(UUID.randomUUID().toString(), "Observation", UUID.randomUUID().toString(), Mock_FileMappingDAL.LEAF_WITH_PARENT_AND_CHILD_AUDIT);
+        Assert.assertNotNull(mapping);
+        Assert.assertEquals(0, mapping.size());
     }
 }

@@ -79,4 +79,9 @@ export class MockResourcesService extends AbstractMockObservable {
     this._fakeContent = 'Unit test system';
     return this;
   }
+
+  getFieldMappings() {
+    this._fakeContent = [];
+    return this;
+  }
 }

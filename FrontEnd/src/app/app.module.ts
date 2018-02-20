@@ -40,6 +40,7 @@ import {CuiControlsModule} from 'eds-angular4/dist/cuicontrols/cuicontrols.modul
     { provide: Http, useFactory: keycloakHttpFactory, deps: [XHRBackend, RequestOptions, KeycloakService] },
     { provide: AbstractMenuProvider, useClass : AppMenuService }
   ],
+  entryComponents: [LayoutComponent],
   bootstrap: [LayoutComponent]
 })
 export class AppModule { }

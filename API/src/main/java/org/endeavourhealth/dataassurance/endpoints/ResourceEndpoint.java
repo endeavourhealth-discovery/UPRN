@@ -120,7 +120,7 @@ public class ResourceEndpoint {
     ) {
         LOG.debug("Get Field Mapping For Field Called");
 
-        ResourceFieldMapping fieldMapping = new ResourceLogic().getResourceMappingForField(serviceId, resourceType, resourceId, field);
+        List<ResourceFieldMapping> fieldMapping = new ResourceLogic().getResourceMappingsForField(serviceId, resourceType, resourceId, field);
 
         return Response
             .ok(fieldMapping)

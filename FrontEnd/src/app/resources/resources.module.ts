@@ -12,6 +12,7 @@ import { RawViewComponent } from './raw-view/raw-view.component';
 import {TemplateViewComponent} from './template-view/template-view.component';
 import {ControlsModule} from 'eds-angular4/dist/controls';
 import {MapViewComponent} from './map-view/map-view.component';
+import { MapDetailComponent } from './map-detail/map-detail.component';
 
 @NgModule({
   imports : [
@@ -29,7 +30,8 @@ import {MapViewComponent} from './map-view/map-view.component';
     ViewerComponent,
     RawViewComponent,
     TemplateViewComponent,
-    MapViewComponent
+    MapViewComponent,
+    MapDetailComponent
   ],
   providers : [
     ResourcesService,

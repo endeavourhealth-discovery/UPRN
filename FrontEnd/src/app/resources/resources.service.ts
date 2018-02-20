@@ -85,4 +85,16 @@ export class ResourcesService {
     return this.http.get('api/resource/fieldMappings', {search: params, withCredentials: true})
       .map((response) => response.json());
   }
+
+  public getFieldMappingsForField(serviceId: string, resourceType: string, resourceId: string, field: string): Observable<ResourceFieldMapping[]> {
+    const params: URLSearchParams = new URLSearchParams();
+    params.append('serviceId', serviceId);
+    params.append('resourceType', resourceType);
+    params.append('resourceId', resourceId);
+    params.append('field', field);
+
+    return this.http.get('api/resource/fieldMappingForField', {search: params, withCredentials: true})
+      .map((response) => response.json());
+  }
+
 }

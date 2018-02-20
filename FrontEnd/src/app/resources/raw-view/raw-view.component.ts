@@ -1,4 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ResourcesService} from '../resources.service';
+import {ServicePatientResource} from '../../models/Resource';
+import {ResourceFieldMapping} from '../../models/ResourceFieldMapping';
 
 @Component({
   selector: 'app-raw-view',
@@ -6,10 +9,13 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./raw-view.component.css']
 })
 export class RawViewComponent implements OnInit {
+  @Input() resource: ServicePatientResource;
   @Input() node: any;
   @Input() path = '';
+  @Output() onShowMap = new EventEmitter<any>();
+  fieldMaps: ResourceFieldMapping[];
 
-  constructor() { }
+  constructor(private resourceService: ResourcesService) { }
 
   ngOnInit() {
   }
@@ -34,10 +40,30 @@ export class RawViewComponent implements OnInit {
     return !Array.isArray(value) && typeof value !== 'object';
   }
 
-  public getSource(path: string, property: string) {
-    if (path === '')
+  public getSource(property: string) {
+    if (this.path === '')
       return property;
     else
-      return path + '.' + property;
+      return this.path + '.' + property;
+  }
+
+  showMapping(node: any) {
+    if (!this.fieldMaps) {
+      this.fieldMaps = [{ value: 'Loading...'} as ResourceFieldMapping];
+      const vm = this;
+      vm.resourceService.getFieldMappingsForField(vm.resource.serviceId, vm.resource.resourceJson.resourceType, vm.resource.resourceJson.id, vm.path)
+        .subscribe(
+          (result) => {
+            vm.fieldMaps = result;
+            vm.showMap({path: vm.path, maps: result});
+          }
+        );
+    } else {
+      this.showMap({path: this.path, maps: this.fieldMaps})
+    }
+  }
+
+  showMap(mapEvent: any) {
+    this.onShowMap.emit(mapEvent);
   }
 }

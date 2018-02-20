@@ -1,16 +1,16 @@
-<span *ngIf="isPrimitive(node)">{{node}}</span>
+<span *ngIf="isPrimitive(node)"><a href="javascript:;" (click)="showMapping()">{{node}}</a></span>
 
 <span *ngIf="isObject(node)">
   <ul>
     <li *ngFor="let property of getKeys()">
-      <b ngbTooltip="{{getSource(path, property)}}">{{property}}:</b>
-      <app-raw-view [node]="getValue(property)" [path]="getSource(path, property)"></app-raw-view>
+      <b>{{property}}:</b>
+      <app-raw-view [resource]="resource" [node]="getValue(property)" [path]="getSource(property)" (onShowMap)="showMap($event)"></app-raw-view>
     </li>
   </ul>
 </span>
 
 <span *ngIf="isArray(node)">
   <span *ngFor="let arrayItem of node; let i = index">
-    [<app-raw-view [node]="arrayItem" [path]="path+'['+i+']'"></app-raw-view>]
+    [<app-raw-view [resource]="resource" [node]="arrayItem" [path]="path+'['+i+']'" (onShowMap)="showMap($event)"></app-raw-view>]
   </span>
 </span>

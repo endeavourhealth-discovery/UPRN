@@ -8,6 +8,9 @@ import {ServicePatientResource} from '../../models/Resource';
 import {TemplateViewComponent} from '../template-view/template-view.component';
 import {ResourcesService} from '../resources.service';
 import {MockResourcesService} from '../../mocks/mock.resources.service';
+import {MapViewComponent} from '../map-view/map-view.component';
+import {MapDetailComponent} from '../map-detail/map-detail.component';
+import {ControlsModule} from 'eds-angular4/dist/controls';
 
 describe('ViewerComponent', () => {
   let component: ViewerComponent;
@@ -15,8 +18,8 @@ describe('ViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot()],
-      declarations: [ ViewerComponent, RawViewComponent, TemplateViewComponent ],
+      imports: [ControlsModule, NgbModule.forRoot()],
+      declarations: [ ViewerComponent, RawViewComponent, TemplateViewComponent, MapViewComponent, MapDetailComponent ],
       providers: [
         {provide : NgbActiveModal, useClass: MockNgbActiveModal },
         {provide : ResourcesService, useClass: MockResourcesService }

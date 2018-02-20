@@ -14,7 +14,17 @@
     <ngb-tab title="Technical">
       <ng-template ngbTabContent>
         <div class="scroll-box-500">
-          <app-raw-view [node]="resource.resourceJson"></app-raw-view>
+          <app-raw-view [resource]="resource" [node]="resource.resourceJson" (onShowMap)="showMap($event)"></app-raw-view>
+          <div *ngIf="mapDetail" style="position: fixed; top: 140px; right: 55px;">
+            <app-map-detail [mapDetail]="mapDetail"></app-map-detail>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Data Map">
+      <ng-template ngbTabContent>
+        <div class="scroll-box-500">
+          <app-map-view [resource]="resource"></app-map-view>
         </div>
       </ng-template>
     </ngb-tab>

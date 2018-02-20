@@ -4,7 +4,6 @@ import { TemplateViewComponent } from './template-view.component';
 import {ResourcesService} from '../resources.service';
 import {MockResourcesService} from '../../mocks/mock.resources.service';
 import {ServicePatientResource} from '../../models/Resource';
-import {by, element} from 'protractor';
 
 describe('TemplateViewComponent', () => {
   let component: TemplateViewComponent;

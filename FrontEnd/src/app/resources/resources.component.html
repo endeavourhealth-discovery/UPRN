@@ -11,7 +11,7 @@
             <loadingIndicator [done]="patients">
               <div class="card" id="resourceCard">
                 <div class="card-header">
-                  <!-- ***************** FILTERS ***************** -->
+                  <!-- ***************** DATA FILTERS ***************** -->
                   <div class="row">
                     <div class="form-group col-md-5">
                       <label class="control-label">Patient</label>
@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <div class="card-block">
-                  <!-- ***************** PATIENTS ***************** -->
+                  <!-- ***************** PATIENT RESOURCES ***************** -->
                   <div class="row">
                     <div class="col-md-12">
                       <h2>Patient resources <small>({{patientResourceList?.length}})</small></h2>
@@ -40,16 +40,16 @@
                           <tr>
                             <th>Date of birth</th>
                             <th>Name</th>
-                            <th>Service</th>
                             <th>Local ID(s)</th>
+                            <th>Service</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let patient of patientResourceList" (click)="viewResource(patient)" [ngClass]="{'highlight': patient === highlight}">
-                            <td>{{getDate(patient) | date:'dd-MMM-y'}}</td>
-                            <td>{{getPatientName(patient)}}</td>
-                            <td>{{getServiceName(patient)}}</td>
-                            <td>{{getLocalIds(patient)}}</td>
+                          <tr *ngFor="let patientResource of patientResourceList" (click)="viewResource(patientResource)" [ngClass]="{'highlight': patientResource === highlight}">
+                            <td>{{getDate(patientResource) | date:'dd-MMM-y'}}</td>
+                            <td>{{getPatientName(patientResource)}}</td>
+                            <td>{{getLocalIds(patientResource)}}</td>
+                            <td>{{getServiceName(patientResource)}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -57,7 +57,7 @@
                       </loadingIndicator>
                     </div>
                   </div>
-                  <!-- ***************** RESOURCES ***************** -->
+                  <!-- ***************** CLINICAL RESOURCES ***************** -->
                   <div class="row">
                     <div class="col-md-12">
                       <h2>Clinical resources <small>({{clinicalResourceList?.length}})</small></h2>
@@ -70,15 +70,17 @@
                             <th>Effective date</th>
                             <th>Resource type</th>
                             <th>Description</th>
+                            <th>Service</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let resource of clinicalResourceList" (click)="viewResource(resource)">
-                            <td>{{getRecordedDate(resource) | date:'dd-MMM-y'}}</td>
-                            <td>{{getDate(resource) | date:'dd-MMM-y'}}</td>
-                            <td>{{getResourceName(resource)}}</td>
-                            <td>{{getDescription(resource)}}</td>
-                          </tr>
+                          <tr *ngFor="let clinicalResource of clinicalResourceList" (click)="viewResource(clinicalResource)">
+                            <td>{{getRecordedDate(clinicalResource) | date:'dd-MMM-y'}}</td>
+                            <td>{{getDate(clinicalResource) | date:'dd-MMM-y'}}</td>
+                            <td>{{getResourceName(clinicalResource)}}</td>
+                            <td>{{getDescription(clinicalResource)}}</td>
+                            <td>{{getServiceName(clinicalResource)}}</td>
+                          </tr>yes
                         </tbody>
                       </table>
                         </div>

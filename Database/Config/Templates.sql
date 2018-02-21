@@ -426,8 +426,12 @@ values (
         </div>
         <div class="form-group" *ngIf="resource.resourceJson.contained!=null">
           <label for="Linked">Linked resources</label>
-          <div class="form-group" *ngFor="let linkedResource of resource.resourceJson.contained[0].entry">
-            <input id="Linked" class="form-control" type="text" disabled value="{{linkedResource.item.display}}">
+          <div class="form-control looks-disabled">
+            <div class="scrollbox-100">
+              <div *ngFor="let linkedResource of resource.resourceJson.contained[0].entry">
+                <div>{{linkedResource.item.display}}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-group" *ngIf="resource.resourceJson.type!=null">

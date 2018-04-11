@@ -1,0 +1,6 @@
+
+UPDATE patient_search_2 SET NHS_NUMBER = ' '
+UPDATE patient_search_2 SET forenames = ' '
+UPDATE patient_search_2 SET surname = ' '
+
+select * from patient_search_2 

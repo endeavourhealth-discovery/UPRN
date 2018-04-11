@@ -1,0 +1,9 @@
+alter table eds.patient_address_sample_distinct_100k
+add column UPRN BIGINT null;
+
+===================
+select * from eds.patient_address_sample_distinct_100k
+
+ALTER TABLE patient_address_sample_distinct_100k CHANGE uprn UPRN BIGINT
+
+

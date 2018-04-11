@@ -1,0 +1,19 @@
+create table eds.address_matching_results
+select 
+  ps.address_line_1 as discovery_address_line_1,
+  ps.address_line_2 as discovery_address_line_2,
+  ps.address_line_3 as discovery_address_line_3,
+  ps.city as discovery_city,
+  ps.district as discovery_district,
+  ps.postcode as discovery_postcode,
+  ps.uprn as uprn,
+  uprn.SUB_BUILDING_NAME as abp_dpa_sub_building_name,
+  uprn.BUILDING_NAME as abp_dpa_bulding_name,
+  uprn.BUILDING_NUMBER as abp_dpa_building_number,
+  uprn.ORGANISATION_NAME as abp_dpa_organisation_name,
+  uprn.THOROUGHFARE as abp_dpa_thoroughfare,
+  uprn.POST_TOWN as abp_dpa_post_town,
+  uprn.POSTCODE as abp_dpa_postcode
+from eds.patient_search_2 ps
+join uprn.abp_dpa uprn on uprn.UPRN = ps.uprn
+where ps.uprn is not null;

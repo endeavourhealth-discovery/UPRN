@@ -1,0 +1,3 @@
+
+INSERT INTO CONFIG (app_id, config_id, config_data)
+VALUES ('db_common', 'uprn', '{\n   \"url\" : \"jdbc:mysql://localhost:3306/uprn?useSSL=false\",\n   \"username\" : \"root\",\n   \"password\" : \"MedicalAdmin_23\",\n   \"class\": \"com.mysql.cj.jdbc.MysqlDataSource\",\n   \"dialect\": \"org.hibernate.dialect.MySQLDialect\"\n}\n\n');

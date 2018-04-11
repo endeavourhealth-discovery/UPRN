@@ -1,4 +1,4 @@
-# UPRN Matcher
+# Address Matcher - UPRN
 ![Version](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/version.svg)
 ![Build Status](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/build.svg)
 ![Unit Tests](https://s3.eu-west-2.amazonaws.com/endeavour-codebuild/badges/Data-Assurance/unit-test.svg)

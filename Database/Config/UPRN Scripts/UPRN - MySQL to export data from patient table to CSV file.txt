@@ -38,5 +38,7 @@ join uprn.abp_dpa uprn on uprn.UPRN = ps.uprn
 where ps.uprn is not null;
 
 
+// Location:
+
 use `SELECT @@secure_file_priv;` to check the file location.  It must be saved to where this query says
 

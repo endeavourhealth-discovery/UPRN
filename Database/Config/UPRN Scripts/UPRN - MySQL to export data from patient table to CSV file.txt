@@ -1,0 +1,42 @@
+select
+  "discovery_address_line_1",
+  "discovery_address_line_2",
+  "discovery_address_line_3",
+  "discovery_city",
+  "discovery_district",
+  "discovery_postcode",
+  "matched_uprn",
+  "abp_SUB_BUILDING_NAME",
+  "abp_BUILDING_NAME",
+  "abp_BUILDING_NUMBER",
+  "abp_ORGANISATION_NAME",
+  "abp_THOROUGHFARE",
+  "abp_POST_TOWN",
+  "abp_POSTCODE"
+union all
+select
+  ps.address_line_1,
+  ps.address_line_2,
+  ps.address_line_3,
+  ps.city,
+  ps.district,
+  ps.postcode,
+  ps.uprn,
+  uprn.SUB_BUILDING_NAME,
+  uprn.BUILDING_NAME,
+  uprn.BUILDING_NUMBER,
+  uprn.ORGANISATION_NAME,
+  uprn.THOROUGHFARE,
+  uprn.POST_TOWN,
+  uprn.POSTCODE
+into outfile 'C:/ProgramData/MySQL/MySQL Server 5.7/Uploads/uprn_output.csv'
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+from eds.patient_search_2 ps
+join uprn.abp_dpa uprn on uprn.UPRN = ps.uprn
+where ps.uprn is not null;
+
+
+use `SELECT @@secure_file_priv;` to check the file location.  It must be saved to where this query says
+

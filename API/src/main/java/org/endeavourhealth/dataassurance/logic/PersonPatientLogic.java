@@ -68,6 +68,7 @@ public class PersonPatientLogic {
                 person.setName("Unknown");
         }
 
+
         return result;
     }
 

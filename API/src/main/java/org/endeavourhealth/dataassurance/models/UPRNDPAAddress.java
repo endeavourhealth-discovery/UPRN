@@ -1,5 +1,8 @@
 package org.endeavourhealth.dataassurance.models;
 
+
+import org.endeavourhealth.dataassurance.utils.UPRNUtils;
+
 public class UPRNDPAAddress extends UPRNAddress {
 
     // Represents a record of ABP LPI Address information
@@ -81,25 +84,25 @@ public class UPRNDPAAddress extends UPRNAddress {
                           String po_box_number) {
         super(uprn, udprn);
 
-        this.organisation_name = organisation_name.toLowerCase();
-        this.department_name = department_name.toLowerCase();
-        this.sub_building_name = sub_building_name.toLowerCase();
-        this.building_name = building_name.toLowerCase();
-        this.building_number = building_number.toLowerCase();
-        this.dependent_thoroughfare = dependent_thoroughfare.toLowerCase();
-        this.thoroughfare = thoroughfare.toLowerCase();
-        this.double_dependent_locality = double_dependent_locality.toLowerCase();
-        this.dependent_locality = dependent_locality.toLowerCase();
-        this.post_town = post_town.toLowerCase();
-        this.postcode = postcode.toLowerCase();
-        this.postcode_type = postcode_type.toLowerCase();
-        this.delivery_point_suffix = delivery_point_suffix.toLowerCase();
-        this.welsh_dependent_thoroughfare = welsh_dependent_thoroughfare.toLowerCase();
-        this.welsh_thoroughfare = welsh_thoroughfare.toLowerCase();
-        this.welsh_double_dependent_locality = welsh_double_dependent_locality.toLowerCase();
-        this.welsh_dependent_locality = welsh_dependent_locality.toLowerCase();
-        this.welsh_post_town = welsh_post_town.toLowerCase();
-        this.po_box_number = po_box_number.toLowerCase();
+        this.organisation_name = UPRNUtils.sanitize(organisation_name);
+        this.department_name = UPRNUtils.sanitize(department_name);
+        this.sub_building_name = UPRNUtils.sanitize(sub_building_name);
+        this.building_name = UPRNUtils.sanitize(building_name);
+        this.building_number = UPRNUtils.sanitize(building_number);
+        this.dependent_thoroughfare = UPRNUtils.sanitize(dependent_thoroughfare);
+        this.thoroughfare = UPRNUtils.sanitize(thoroughfare);
+        this.double_dependent_locality = UPRNUtils.sanitize(double_dependent_locality);
+        this.dependent_locality = UPRNUtils.sanitize(dependent_locality);
+        this.post_town = UPRNUtils.sanitize(post_town);
+        this.postcode = UPRNUtils.sanitize(postcode);
+        this.postcode_type = UPRNUtils.sanitize(postcode_type);
+        this.delivery_point_suffix = UPRNUtils.sanitize(delivery_point_suffix);
+        this.welsh_dependent_thoroughfare = UPRNUtils.sanitize(welsh_dependent_thoroughfare);
+        this.welsh_thoroughfare = UPRNUtils.sanitize(welsh_thoroughfare);
+        this.welsh_double_dependent_locality = UPRNUtils.sanitize(welsh_double_dependent_locality);
+        this.welsh_dependent_locality = UPRNUtils.sanitize(welsh_dependent_locality);
+        this.welsh_post_town = UPRNUtils.sanitize(welsh_post_town);
+        this.po_box_number = UPRNUtils.sanitize(po_box_number);
 
     }
 

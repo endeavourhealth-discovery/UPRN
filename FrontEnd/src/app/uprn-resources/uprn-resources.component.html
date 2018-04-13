@@ -1,0 +1,114 @@
+<div class="module">
+  <div class="container-fluid">
+    <div class="module-heading">
+      Discovery Address Matching to Address Base Premium data
+    </div>
+
+    <div class="module-body">
+
+      <form endUserRole="form" class="form-inline">
+        <table border="2" cellspacing="5">
+          <tr>
+            <td align="center" colspan="3"><h4>Discovery Address Filters</h4></td></tr>
+          <tr>
+            <td>
+            <!-- ***************** UPRN FILTERS - Postcode Prefix ***************** -->
+              <label class="control-label"><h5>Postcode Prefix:</h5></label>
+              <input type="text" class="form-control" placeholder="Search..." aria-describedby="searchPostcode" name="searchPatientPostcode"
+                     [(ngModel)]="filterPostcode" (keyup)="$event.keyCode == 13 ? getPatientResourcesPostcode() : null" autofocus>
+
+            </td>
+            <td>
+              <!-- ***************** SPACER ***************** -->
+            </td>
+            <td>
+            <!-- ***************** UPRN FILTER - Postcode ***************** -->
+              <label class="control-label"><h5>Postcode:</h5></label>
+              <input type="text" class="form-control" placeholder="Search..." aria-describedby="searchPostcode" name="searchPatientPostcode"
+                     [(ngModel)]="filterPostcode" (keyup)="$event.keyCode == 13 ? getPatientResourcesPostcode() : null" autofocus>
+
+            </td>
+          </tr>
+          <tr>
+          <td>
+              <span class="input-group-addon" (click)="getPatientResourcesAddr1()" style="cursor: pointer" id="searchPatientButtonAddr1">
+
+              <button ng-click="getPatientResources()">Match UPRN on Postcode Prefix</button>
+              </span>
+
+          </td>
+            <td>
+              <!-- ***************** SPACER ***************** -->
+            </td>
+            <td>
+              <span class="input-group-addon" (click)="getPatientResourcesPostcode()" style="cursor: pointer" id="searchPatientButtonPostcode">
+
+              <button ng-click="getPatientResources()">Match UPRN on Postcode</button>
+              </span>
+
+            </td>
+          </tr>
+
+        </table>
+      </form>
+      <br/>
+
+      <h4>Matched Discovery Addresses:<small>({{patientResourceList?.length}})</small></h4>
+
+        <loadingIndicator [done]="patientResourceList">
+
+        <div class="scroll-box-400">
+
+          <table class="table table-sm table-hover" id="patientresourceTable" border="2" cellpadding="2">
+            <thead>
+            <tr>
+              <th>Discovery Address</th>
+              <th>ABP Match Type</th>
+              <th>UPRN</th>
+              <th>ABP Address</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let patientResource of patientResourceList" [ngClass]="{'highlight': patientResource === highlight}">
+                <td>
+                <table>
+                  <tr><td>Addr 1:</td><td>{{patientResource.address_line1}}</td></tr>
+                  <tr><td>Addr 2:</td><td>{{patientResource.address_line2}}</td></tr>
+                  <tr><td>Addr 3:</td><td>{{patientResource.address_line3}}</td></tr>
+                  <tr><td>City:</td><td>{{patientResource.city}}</td></tr>
+                  <tr><td>District:</td>{{patientResource.district}}<td></td></tr>
+                  <tr><td>Postcode:</td>{{patientResource.post_code}}<td></td></tr>
+                </table>
+                </td>
+                <td>DPA</td>
+                <td><b>UPRN: {{patientResource.uprn}}</b></td>
+              <td>{{patientResource.abp_match_address}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br/>
+
+          <!-- ***************** Candidate Addresses COMMENT OUT START ***************** --
+
+          <table>
+        <tr><td><h4>Candidate ABP (DPA) Addresses:</h4></td></tr>
+           <tr *ngFor="let patientResource of patientResourceList" [ngClass]="{'highlight': patientResource === highlight}">
+                <td>{{patientResource.abp_match_candidate_addresses}}</td>
+           </tr>
+      </table>
+
+          <!-- ***************** Candidate Addresses COMMENT OUT END ***************** -->
+
+
+
+        </div>
+
+        </loadingIndicator>
+
+    </div>
+  </div>
+</div>
+
+

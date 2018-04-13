@@ -3,15 +3,20 @@ import {MenuOption} from 'eds-angular4/dist/layout/models/MenuOption';
 import {AbstractMenuProvider} from 'eds-angular4';
 import {Routes} from '@angular/router';
 import {ResourcesComponent} from './resources/resources.component';
+import {AdminResourcesComponent} from './admin-resources/admin-resources.component';
+import {UPRNResourcesComponent} from './uprn-resources/uprn-resources.component';
 import {StandardReportsComponent} from './standard-reports/standard-reports.component';
 
 @Injectable()
 export class AppMenuService implements  AbstractMenuProvider {
   static getRoutes(): Routes {
     return [
-      { path: '', redirectTo : 'resources', pathMatch: 'full' },
-      { path: 'resources', component: ResourcesComponent },
-      { path: 'reports', component: StandardReportsComponent }
+     // { path: '', redirectTo : 'resources', pathMatch: 'full' },
+      { path: '', redirectTo : 'uprnresources', pathMatch: 'full' },
+     // { path: 'resources', component: ResourcesComponent },
+     // { path: 'adminresources', component: AdminResourcesComponent },
+      { path: 'uprnresources', component: UPRNResourcesComponent },
+     // { path: 'reports', component: StandardReportsComponent }
     ]
   }
 
@@ -19,12 +24,14 @@ export class AppMenuService implements  AbstractMenuProvider {
     return 'data-assurance';
   }
   getApplicationTitle(): string {
-    return 'Data Assurance';
+    return 'UPRN Matching Module';
   }
   getMenuOptions(): MenuOption[] {
     return [
-      {caption: 'Resources', state: 'resources', icon: 'fa fa-archive', role: 'data-assurance:resources'},
-      {caption: 'Standard reports', state: 'reports', icon: 'fa fa-file-text-o', role: 'data-assurance:reports'},
+     // {caption: 'Resources', state: 'resources', icon: 'fa fa-archive', role: 'data-assurance:resources'},
+     // {caption: 'Admin Resources', state: 'adminresources', icon: 'fa fa-archive', role: 'data-assurance:resources'},
+      {caption: 'Address matching to ABP data', state: 'uprnresources', icon: 'fa fa-file-text-o', role: 'data-assurance:resources'},
+     // {caption: 'Standard reports', state: 'reports', icon: 'fa fa-file-text-o', role: 'data-assurance:reports'},
     ];
   }
 }

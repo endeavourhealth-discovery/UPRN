@@ -9,6 +9,8 @@ import {KeycloakService} from 'eds-angular4/dist/keycloak/keycloak.service';
 import {keycloakHttpFactory} from 'eds-angular4/dist/keycloak/keycloak.http';
 import {AbstractMenuProvider, LayoutModule, LoggerModule} from 'eds-angular4';
 import {ResourcesModule} from './resources/resources.module';
+import {AdminResourcesModule} from './admin-resources/admin-resources.module';
+import {UPRNResourcesModule} from './uprn-resources/uprn-resources.module';
 import {LayoutComponent} from 'eds-angular4/dist/layout/layout.component';
 import {PersonFindModule} from './person-find/person-find.module';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
@@ -29,6 +31,8 @@ import {CuiControlsModule} from 'eds-angular4/dist/cuicontrols/cuicontrols.modul
 
     PersonFindModule,
     ResourcesModule,
+    AdminResourcesModule,
+    UPRNResourcesModule,
     StandardReportsModule,
 
     RouterModule.forRoot(AppMenuService.getRoutes(), {useHash: true}),

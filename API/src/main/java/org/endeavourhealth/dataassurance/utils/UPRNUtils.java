@@ -8,7 +8,7 @@ public class UPRNUtils {
             return "";
         } else {
             return (data.trim().toLowerCase()
-                    .replace(" ", " ").replace(".", " "));
+                    .replace(" ", " ").replace(".", " ")).replace(" rd", " road");
         }
     }
 

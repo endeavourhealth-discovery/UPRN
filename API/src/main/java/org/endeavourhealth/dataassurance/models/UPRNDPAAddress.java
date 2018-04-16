@@ -109,16 +109,16 @@ public class UPRNDPAAddress extends UPRNAddress {
     public boolean isMatched(UPRNPatientResource patientResource) {
         boolean isMatched = false;
 
-        System.out.println("Attempting to match: >"+patientResource.getAddress_line1()+"< >"+patientResource.getAddress_line2()+"<");
-        System.out.println("Attempting to match city: >"+patientResource.getCity()+"< >"+post_town+"<");
+        // System.out.println("Attempting to match: >"+patientResource.getAddress_line1()+"< >"+patientResource.getAddress_line2()+"<");
+        // System.out.println("Attempting to match city: >"+patientResource.getCity()+"< >"+post_town+"<");
 
         // First ensure that the post codes match
         if (patientResource.getPost_code().equals(postcode)) {
             // Postcode and city/post town match
-            System.out.println("Matched post code and city");
+            // System.out.println("Matched post code and city");
 
             if (building_number.isEmpty()) {
-                System.out.println("Matching Building name");
+                // System.out.println("Matching Building name");
 
 
                 // Try building name
@@ -128,7 +128,7 @@ public class UPRNDPAAddress extends UPRNAddress {
                     if (patientResource.getAddress_line1().equals(building_name) &&
                             patientResource.getAddress_line2().equals(thoroughfare)
                             ) {
-                        System.out.println("Match 1");
+                        // System.out.println("Match 1");
 
                         isMatched = true;
                     }
@@ -136,13 +136,13 @@ public class UPRNDPAAddress extends UPRNAddress {
                 }
 
             } else {
-                System.out.println("Matching Building number");
+                // System.out.println("Matching Building number");
 
                 // Try building number
 
                 if (patientResource.getAddress_line1().equals(building_number + " " + thoroughfare)
                         ) {
-                    System.out.println("Match 2");
+                    // System.out.println("Match 2");
 
                     isMatched = true;
                 }
@@ -156,7 +156,7 @@ public class UPRNDPAAddress extends UPRNAddress {
                         if (patientResource.getAddress_line1().equals(building_number) &&
                                 patientResource.getAddress_line2().equals(thoroughfare)
                                 ) {
-                            System.out.println("Match 3");
+                            // System.out.println("Match 3");
 
                             isMatched = true;
                         }
@@ -173,7 +173,7 @@ public class UPRNDPAAddress extends UPRNAddress {
                             if (patientResource.getAddress_line1().equals(sub_building_name) &&
                                 patientResource.getAddress_line2().equals(building_number + " " + thoroughfare)
                                 ) {
-                                      System.out.println("Match 4");
+                                      // System.out.println("Match 4");
 
                                 isMatched = true;
                             }
@@ -185,10 +185,10 @@ public class UPRNDPAAddress extends UPRNAddress {
         }
 
         if (isMatched == true) {
-            System.out.println("Matched: " + patientResource.getAddress_line1());
-            System.out.println("Matched: " + patientResource.toString() + " with DPA "+toString());
+            // System.out.println("Matched: " + patientResource.getAddress_line1());
+            // System.out.println("Matched: " + patientResource.toString() + " with DPA "+toString());
         } else {
-            System.out.println("Failed to match: " + patientResource.toString() + " with DPA "+toString());
+            // System.out.println("Failed to match: " + patientResource.toString() + " with DPA "+toString());
         }
 
 

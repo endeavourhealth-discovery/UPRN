@@ -69,17 +69,16 @@ public class UPRNPatientResourceDAL_Jdbc implements UPRNPatientResourceDAL, Cont
 
             if (dbConnection != null) {
 
-                System.out.println("UPRNPatientResourceDAL_Jdbc - Got a connection");
+                //System.out.println("UPRNPatientResourceDAL_Jdbc - Got a connection");
 
                 return dbConnection;
             } else {
-                System.out.println("UPRNPatientResourceDAL_Jdbc - No connection!");
-
+                //System.out.println("UPRNPatientResourceDAL_Jdbc - No connection!");
+                LOG.error("Error getting connection");
             }
 
         } catch (Exception e) {
-            System.out.println("UPRNPatientResourceDAL_Jdbc - No connection!!");
-
+            //System.out.println("UPRNPatientResourceDAL_Jdbc - No connection!!");
             LOG.error("Error getting connection", e);
         }
 
@@ -112,9 +111,7 @@ public class UPRNPatientResourceDAL_Jdbc implements UPRNPatientResourceDAL, Cont
                 //System.out.println("Bring back some patients");
 
                 sql = "select * from patient_address_sample_distinct_100k where postcode like '"+filter+"%'";
-                System.out.println("UPRNPatientResourceDAL_Jdbc - running sql: "+sql);
-
-                // System.out.println("SQL query debug: "+sql);
+                // System.out.println("UPRNPatientResourceDAL_Jdbc - running sql: "+sql);
 
             }
 

@@ -53,9 +53,11 @@ public class UPRNPatientResource {
             this.forenames = UPRNUtils.sanitize(forenames);
             this.surname = UPRNUtils.sanitize(surname);
 
+
             this.address_line1 = UPRNUtils.sanitize(address_line1);
             this.address_line2 = UPRNUtils.sanitize(address_line2);
             this.address_line3 = UPRNUtils.sanitize(address_line3);
+
 
             this.city = UPRNUtils.sanitize(city);
             this.district = UPRNUtils.sanitize(district);

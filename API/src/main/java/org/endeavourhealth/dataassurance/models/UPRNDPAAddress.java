@@ -119,7 +119,7 @@ public class UPRNDPAAddress extends UPRNAddress {
             // Postcode and matches
             // System.out.println("Matched post code");
 
-            if (!patientResource.isFlat()) {
+            if (!patientResource.hasFlatIndicator()) {
 
                 // Try to match for a non-flat
                 isMatched = isMatchedNonFlat(patientResource);
@@ -232,7 +232,7 @@ public class UPRNDPAAddress extends UPRNAddress {
                 //System.out.println(patientResource.getFlatNumber()+"+"+sub_building_name);
                 //System.out.println(patientResource.getAddress_line2()+"+"+building_number + " " + thoroughfare);
 
-                if (patientResource.getFlatNumber().equals(sub_building_name) &&
+                if (patientResource.getFlatIndicatorNumber().equals(sub_building_name) &&
                         patientResource.getAddress_line2().equals(building_number + " " + thoroughfare)
                         ) {
 

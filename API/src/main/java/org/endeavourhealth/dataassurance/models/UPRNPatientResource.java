@@ -32,8 +32,8 @@ public class UPRNPatientResource {
     private String post_code;
 
     // Meta data
-    private boolean isFlat;
-    private String flatNumber;
+    private boolean hasFlatIndicator;
+    private String flatIndicatorNumber;
 
     // Matching Address Attributes
     private String uprn;
@@ -52,7 +52,7 @@ public class UPRNPatientResource {
     private void initState() {
 
         // Initialise variable
-        isFlat=false;
+        this.hasFlatIndicator=false;
 
     }
 
@@ -77,7 +77,7 @@ public class UPRNPatientResource {
             this.post_code = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(post_code));
 
             // Next do processing for any flat names
-            processFlatData();
+            sanitizeFlatData();
 
         } catch (Exception e) {
 
@@ -86,17 +86,18 @@ public class UPRNPatientResource {
     }
 
     // Sanitize and process any flat data
-    private void processFlatData() {
+    private void sanitizeFlatData() {
 
         this.address_line1 = UPRNUtils.sanitizeDiscoveryFlatData(this.address_line1);
-        if (this.isFlat = UPRNUtils.checkFlatPrefix(this.address_line1)) {
-            this.flatNumber = UPRNUtils.extractFlatNumber(this.address_line1);
+
+        if (this.hasFlatIndicator = UPRNUtils.checkFlatPrefix(this.address_line1)) {
+            this.flatIndicatorNumber = UPRNUtils.extractFlatNumber(this.address_line1);
         } else {
             // In the absence of a "flat" word, check if there is a number in both address lines
 
             if (UPRNUtils.containsNumber(this.address_line1) && UPRNUtils.containsNumber(this.address_line2)) {
-                this.isFlat = true;
-                this.flatNumber = UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(this.address_line1));
+                this.hasFlatIndicator = true;
+                this.flatIndicatorNumber = UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(this.address_line1));
             }
         }
 
@@ -169,7 +170,7 @@ public class UPRNPatientResource {
 
 
     public String getUprn() {
-        return uprn;
+        return this.uprn;
     }
 
     public void setUprn(String uprn) {
@@ -177,7 +178,7 @@ public class UPRNPatientResource {
     }
 
     public String getAbp_match_address() {
-        return abp_match_address;
+        return this.abp_match_address;
     }
 
     public void setAbp_match_address(String abp_match_address) {
@@ -200,19 +201,19 @@ public class UPRNPatientResource {
         return str;
     }
 
-    public boolean isFlat() {
-        return isFlat;
+    public boolean hasFlatIndicator() {
+        return this.hasFlatIndicator;
     }
 
-    public void setFlat(boolean flat) {
-        isFlat = flat;
+    public void setHasFlatIndicator(boolean flatIndicator) {
+        this.hasFlatIndicator = flatIndicator;
     }
 
-    public String getFlatNumber() {
-        return flatNumber;
+    public String getFlatIndicatorNumber() {
+        return this.flatIndicatorNumber;
     }
 
-    public void setFlatNumber(String flatNumber) {
-        this.flatNumber = flatNumber;
+    public void setFlatIndicatorNumber(String flatIndicatorNumber) {
+        this.flatIndicatorNumber = flatIndicatorNumber;
     }
 }

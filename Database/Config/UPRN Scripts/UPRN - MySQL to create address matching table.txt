@@ -5,7 +5,7 @@ select
   ps.address_line_3 as discovery_address_line_3,
   ps.city as discovery_city,
   ps.district as discovery_district,
-  ps.postcode as discovery_postcode,
+  ps.post_code as discovery_postcode,
   ps.uprn as uprn,
   uprn.SUB_BUILDING_NAME as abp_dpa_sub_building_name,
   uprn.BUILDING_NAME as abp_dpa_bulding_name,

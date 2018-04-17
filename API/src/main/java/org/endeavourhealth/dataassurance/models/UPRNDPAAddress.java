@@ -119,17 +119,17 @@ public class UPRNDPAAddress extends UPRNAddress {
             // Postcode and matches
             // System.out.println("Matched post code");
 
-            if (!patientResource.hasFlatIndicator()) {
+            // Try an initial property match
+            isMatched = isMatchedNonFlat(patientResource);
 
-                // Try to match for a non-flat
-                isMatched = isMatchedNonFlat(patientResource);
+            if (isMatched == false) {
 
-            } else {
-                // Try to match a flat
+                // Still not matched - try to match a flat
                 isMatched = isMatchedFlat(patientResource);
             }
 
         }
+
 
         if (isMatched == true) {
             // System.out.println("Matched: " + patientResource.getAddress_line1());
@@ -223,23 +223,101 @@ public class UPRNDPAAddress extends UPRNAddress {
 
         //System.out.println("Trying to match Flat for: "+patientResource.getFlatNumber()+" for "+patientResource.toString());
 
-        if (!sub_building_name.isEmpty()) {
+        if (patientResource.hasFlatIndicator()) {
 
-            //System.out.println("1");
+            if (!sub_building_name.isEmpty()) {
 
-            if (patientResource.getAddress_line2() != null) {
+                if (patientResource.getAddress_line2() != null) {
 
-                //System.out.println(patientResource.getFlatNumber()+"+"+sub_building_name);
-                //System.out.println(patientResource.getAddress_line2()+"+"+building_number + " " + thoroughfare);
+                    //System.out.println(patientResource.getFlatNumber()+"+"+sub_building_name);
+                    //System.out.println(patientResource.getAddress_line2()+"+"+building_number + " " + thoroughfare);
 
-                if (patientResource.getFlatIndicatorNumber().equals(sub_building_name) &&
-                        patientResource.getAddress_line2().equals(building_number + " " + thoroughfare)
-                        ) {
+                    if (patientResource.getFlatIndicatorNumber().equals(sub_building_name)) {
 
-                    //System.out.println("Matched Flat: "+patientResource.getFlatNumber()+" for "+patientResource.toString());
+                        if (patientResource.getAddress_line2().equals(building_number + " " + thoroughfare)) {
 
-                    isMatchedFlat = true;
+                            // System.out.println("Match flat 1a");
+                            isMatchedFlat = true;
+                        }
+
+                        if (isMatchedFlat == false) {
+                            // Check if the building name is in the 2nd address line
+                            if (patientResource.getAddress_line2().equals(building_name)) {
+
+                                // System.out.println("Match flat 1b");
+                                isMatchedFlat = true;
+                            }
+
+                        }
+                    }
                 }
+            }
+        }
+
+        if (isMatchedFlat == false) {
+
+            // Try another method of determining if its a flat address to match
+            if (!building_name.isEmpty()) {
+
+                String candidateFlat = patientResource.getAddress_line1();
+                //System.out.println("1: >"+candidateFlat+"<");
+                //System.out.println("2: >"+patientResource.getAddress_line2()+"<");
+                //System.out.println("3: >"+thoroughfare+"<");
+
+                if (candidateFlat.contains(building_name) &&
+                        patientResource.getAddress_line2().equals(thoroughfare)) {
+
+                    isMatchedFlat = matchFlatFromBuildingName(candidateFlat);
+                }
+
+                if (isMatchedFlat == false) {
+                    // See if thoroughfare is in the district field instead as sometimes happens with
+                    // Discovery address data
+
+                    if (patientResource.getDistrict().equals(thoroughfare)) {
+                        // Try a match with the building name in the first address line
+
+                        if (candidateFlat.contains(building_name)) {
+                            isMatchedFlat = matchFlatFromBuildingName(candidateFlat);
+                        }
+
+                        if (isMatchedFlat == false) {
+                            // Try a match with the building name in the second address line
+                            if (patientResource.getAddress_line2().contains(building_name)) {
+                                isMatchedFlat = matchFlatFromBuildingName(candidateFlat);
+                            }
+                        }
+                    }
+                }
+
+                if (isMatchedFlat == false) {
+
+                    // Street may not have been specified so use flat name, building name and post code
+                    if (candidateFlat.contains(building_name)) {
+                        isMatchedFlat = matchFlatFromBuildingName(candidateFlat);
+                    }
+                }
+
+            }
+        }
+
+        return isMatchedFlat;
+    }
+
+    private boolean matchFlatFromBuildingName(String candidateFlat) {
+        boolean isMatchedFlat = false;
+
+        if (UPRNUtils.containsNumber(candidateFlat)) {
+            //System.out.println("a: >"+thoroughfare+"<");
+
+            String flatNum = UPRNUtils.extractFlatNumber(candidateFlat);
+            //System.out.println("b: >"+flatNum+"<");
+            //System.out.println("b: >"+sub_building_name+"<");
+
+            if (flatNum.equals(sub_building_name)) {
+
+                //System.out.println("matchFlatFromBuildingName");
+                isMatchedFlat = true;
             }
         }
 

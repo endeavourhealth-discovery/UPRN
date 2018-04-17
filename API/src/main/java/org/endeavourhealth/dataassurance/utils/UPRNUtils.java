@@ -81,7 +81,12 @@ public class UPRNUtils {
     public static String extractFlatNumber(String data) {
         String flatNumberStr="";
 
-        String flatNumText = data.substring(FLAT_DEMARCATOR.length()+1);
+        String flatNumText;
+        if (data.contains(FLAT_DEMARCATOR+" ")) {
+            flatNumText = data.substring(FLAT_DEMARCATOR.length()+1);
+        } else {
+            flatNumText = data;
+        }
 
         flatNumberStr = extractNumber(flatNumText);
 

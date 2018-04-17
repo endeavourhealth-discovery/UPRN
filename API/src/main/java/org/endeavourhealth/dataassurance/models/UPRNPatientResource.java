@@ -64,38 +64,41 @@ public class UPRNPatientResource {
 
             initState();
 
-            this.forenames = UPRNUtils.sanitize(forenames);
-            this.surname = UPRNUtils.sanitize(surname);
+            this.forenames = forenames;
+            this.surname = surname;
+
+            this.address_line1 = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(address_line1));
+            this.address_line2 = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(address_line2));
+            this.address_line3 = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(address_line3));
 
 
-            this.address_line1 = UPRNUtils.sanitize(address_line1);
-            this.address_line2 = UPRNUtils.sanitize(address_line2);
-            this.address_line3 = UPRNUtils.sanitize(address_line3);
+            this.city = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(city));
+            this.district = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(district));
+            this.post_code = UPRNUtils.sanitizeDiscoveryData(UPRNUtils.sanitizeGeneralData(post_code));
 
-
-            this.city = UPRNUtils.sanitize(city);
-            this.district = UPRNUtils.sanitize(district);
-            this.post_code = UPRNUtils.sanitize(post_code);
-
-
-            // Next process for any flats
-            this.address_line1 = UPRNUtils.sanitizeFlatText(this.address_line1);
-            if (this.isFlat = UPRNUtils.checkFlatPrefix(this.address_line1)) {
-                this.flatNumber = UPRNUtils.extractFlatNumber(this.address_line1);
-            } else {
-                // In the absence of a "flat" word, check if there is a number in both address lines
-
-                if (UPRNUtils.containsNumber(this.address_line1) && UPRNUtils.containsNumber(this.address_line2)) {
-                    this.isFlat = true;
-                    this.flatNumber = UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(this.address_line1));
-                }
-            }
+            // Next do processing for any flat names
+            processFlatData();
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            //e.printStackTrace();
         }
+    }
 
+    // Sanitize and process any flat data
+    private void processFlatData() {
+
+        this.address_line1 = UPRNUtils.sanitizeDiscoveryFlatData(this.address_line1);
+        if (this.isFlat = UPRNUtils.checkFlatPrefix(this.address_line1)) {
+            this.flatNumber = UPRNUtils.extractFlatNumber(this.address_line1);
+        } else {
+            // In the absence of a "flat" word, check if there is a number in both address lines
+
+            if (UPRNUtils.containsNumber(this.address_line1) && UPRNUtils.containsNumber(this.address_line2)) {
+                this.isFlat = true;
+                this.flatNumber = UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(this.address_line1));
+            }
+        }
 
     }
 

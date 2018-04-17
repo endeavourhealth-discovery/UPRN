@@ -84,25 +84,25 @@ public class UPRNDPAAddress extends UPRNAddress {
                           String po_box_number) {
         super(uprn, udprn);
 
-        this.organisation_name = UPRNUtils.sanitize(organisation_name);
-        this.department_name = UPRNUtils.sanitize(department_name);
-        this.sub_building_name = UPRNUtils.sanitize(sub_building_name);
-        this.building_name = UPRNUtils.sanitize(building_name);
-        this.building_number = UPRNUtils.sanitize(building_number);
-        this.dependent_thoroughfare = UPRNUtils.sanitize(dependent_thoroughfare);
-        this.thoroughfare = UPRNUtils.sanitize(thoroughfare);
-        this.double_dependent_locality = UPRNUtils.sanitize(double_dependent_locality);
-        this.dependent_locality = UPRNUtils.sanitize(dependent_locality);
-        this.post_town = UPRNUtils.sanitize(post_town);
-        this.postcode = UPRNUtils.sanitize(postcode);
-        this.postcode_type = UPRNUtils.sanitize(postcode_type);
-        this.delivery_point_suffix = UPRNUtils.sanitize(delivery_point_suffix);
-        this.welsh_dependent_thoroughfare = UPRNUtils.sanitize(welsh_dependent_thoroughfare);
-        this.welsh_thoroughfare = UPRNUtils.sanitize(welsh_thoroughfare);
-        this.welsh_double_dependent_locality = UPRNUtils.sanitize(welsh_double_dependent_locality);
-        this.welsh_dependent_locality = UPRNUtils.sanitize(welsh_dependent_locality);
-        this.welsh_post_town = UPRNUtils.sanitize(welsh_post_town);
-        this.po_box_number = UPRNUtils.sanitize(po_box_number);
+        this.organisation_name = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(organisation_name));
+        this.department_name = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(department_name));
+        this.sub_building_name = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(sub_building_name));
+        this.building_name = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(building_name));
+        this.building_number = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(building_number));
+        this.dependent_thoroughfare = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(dependent_thoroughfare));
+        this.thoroughfare = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(thoroughfare));
+        this.double_dependent_locality = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(double_dependent_locality));
+        this.dependent_locality = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(dependent_locality));
+        this.post_town = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(post_town));
+        this.postcode = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(postcode));
+        this.postcode_type = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(postcode_type));
+        this.delivery_point_suffix = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(delivery_point_suffix));
+        this.welsh_dependent_thoroughfare = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(welsh_dependent_thoroughfare));
+        this.welsh_thoroughfare = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(welsh_thoroughfare));
+        this.welsh_double_dependent_locality = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(welsh_double_dependent_locality));
+        this.welsh_dependent_locality = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(welsh_dependent_locality));
+        this.welsh_post_town = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(welsh_post_town));
+        this.po_box_number = UPRNUtils.sanitizeABPData(UPRNUtils.sanitizeGeneralData(po_box_number));
 
     }
 
@@ -187,6 +187,16 @@ public class UPRNDPAAddress extends UPRNAddress {
                         // System.out.println("Match non-flat 3");
 
                         isMatchedNonFlat = true;
+                    } else {
+
+                        // Cater for the fact that sometimes the Discovery street name is put in the District field
+                        if (patientResource.getAddress_line1().equals(building_number) &&
+                                patientResource.getDistrict().equals(thoroughfare)) {
+                            // System.out.println("Match non-flat 4");
+
+                            isMatchedNonFlat = true;
+                        }
+
                     }
                 }
             }

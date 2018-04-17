@@ -7,7 +7,8 @@ public class UPRNUtils {
 
     public static String FLAT_DEMARCATOR = "flat";
 
-    public static String sanitize(String data) {
+    // General sanitization of data before matching
+    public static String sanitizeGeneralData(String data) {
         String sanitizedData = "";
 
         if (data == null) {
@@ -16,22 +17,54 @@ public class UPRNUtils {
 
             // Do some general cleanup first
             sanitizedData = data.trim().toLowerCase()
-                    .replace(",", " ").replace(".", " ").replace(" rd", " road").replace("  ", " ");
+                    .replace(",", " ").replace(".", " ").replace("  ", " ");
 
         }
 
         return sanitizedData;
     }
 
-    // Returns a flat or flat range number(s) if there is one
-    public static String sanitizeFlatText(String data) {
+    // Sanitization of Discovery data before matching
+    public static String sanitizeDiscoveryData(String data) {
         String sanitizedData = "";
 
-        // Manage abbreviations
+        if (data == null) {
+            return sanitizedData;
+        } else {
+
+            // Sanitize road abbreviations
+            sanitizedData = data.replace(" rd", " road");
+
+        }
+
+        return sanitizedData;
+    }
+
+    // Sanitization of Discovery flat data before matching
+    public static String sanitizeDiscoveryFlatData(String data) {
+        String sanitizedData = "";
+
+        // Sanitize flat abbreviations
         sanitizedData = data.replace("flt", FLAT_DEMARCATOR).replace("apt", FLAT_DEMARCATOR);
 
         return sanitizedData;
     }
+
+    // Sanitization of Address Base Premium data before matching
+    public static String sanitizeABPData(String data) {
+        String sanitizedData = "";
+
+        if (data == null) {
+            return sanitizedData;
+        } else {
+
+            sanitizedData = data.replace(" rd", " road");
+
+        }
+
+        return sanitizedData;
+    }
+
 
     // Checks if data contains "flat" and if so, return true if its a flat
     public static boolean checkFlatPrefix (String data) {

@@ -31,6 +31,9 @@ public class UPRNPatientResource {
     private String district;
     private String post_code;
 
+    // Meta data
+    private boolean isFlat;
+    private String flatNumber;
 
     // Matching Address Attributes
     private String uprn;
@@ -42,6 +45,14 @@ public class UPRNPatientResource {
 
     public UPRNPatientResource()
     {
+        initState();
+
+    }
+
+    private void initState() {
+
+        // Initialise variable
+        isFlat=false;
 
     }
 
@@ -50,6 +61,9 @@ public class UPRNPatientResource {
                 String city, String district, String post_code) {
 
         try {
+
+            initState();
+
             this.forenames = UPRNUtils.sanitize(forenames);
             this.surname = UPRNUtils.sanitize(surname);
 
@@ -62,6 +76,20 @@ public class UPRNPatientResource {
             this.city = UPRNUtils.sanitize(city);
             this.district = UPRNUtils.sanitize(district);
             this.post_code = UPRNUtils.sanitize(post_code);
+
+
+            // Next process for any flats
+            this.address_line1 = UPRNUtils.sanitizeFlatText(this.address_line1);
+            if (this.isFlat = UPRNUtils.checkFlatPrefix(this.address_line1)) {
+                this.flatNumber = UPRNUtils.extractFlatNumber(this.address_line1);
+            } else {
+                // In the absence of a "flat" word, check if there is a number in both address lines
+
+                if (UPRNUtils.containsNumber(this.address_line1) && UPRNUtils.containsNumber(this.address_line2)) {
+                    this.isFlat = true;
+                    this.flatNumber = UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(this.address_line1));
+                }
+            }
 
         } catch (Exception e) {
 
@@ -169,4 +197,19 @@ public class UPRNPatientResource {
         return str;
     }
 
+    public boolean isFlat() {
+        return isFlat;
+    }
+
+    public void setFlat(boolean flat) {
+        isFlat = flat;
+    }
+
+    public String getFlatNumber() {
+        return flatNumber;
+    }
+
+    public void setFlatNumber(String flatNumber) {
+        this.flatNumber = flatNumber;
+    }
 }

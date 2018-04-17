@@ -9,41 +9,21 @@
       <form endUserRole="form" class="form-inline">
         <table border="2" cellspacing="5">
           <tr>
-            <td align="center" colspan="3"><h4>Discovery Address Filters</h4></td></tr>
+            <td align="center" colspan="1"><h4>Discovery Address Filters</h4></td></tr>
           <tr>
             <td>
             <!-- ***************** UPRN FILTERS - Postcode Prefix ***************** -->
-              <label class="control-label"><h5>Postcode Prefix:</h5></label>
-              <input type="text" class="form-control" placeholder="Search..." aria-describedby="searchPostcode" name="searchPatientPostcode"
-                     [(ngModel)]="filterPostcode" (keyup)="$event.keyCode == 13 ? getPatientResourcesPostcode() : null" autofocus>
-
-            </td>
-            <td>
-              <!-- ***************** SPACER ***************** -->
-            </td>
-            <td>
-            <!-- ***************** UPRN FILTER - Postcode ***************** -->
-              <label class="control-label"><h5>Postcode:</h5></label>
-              <input type="text" class="form-control" placeholder="Search..." aria-describedby="searchPostcode" name="searchPatientPostcode"
+              <label class="control-label" align="left"><h5>Postcode Prefix or Postcode:</h5></label>
+              <input type="text" align="right" class="form-control" placeholder="Search..." aria-describedby="searchPostcode" name="searchPatientPostcode"
                      [(ngModel)]="filterPostcode" (keyup)="$event.keyCode == 13 ? getPatientResourcesPostcode() : null" autofocus>
 
             </td>
           </tr>
           <tr>
-          <td>
-              <span class="input-group-addon" (click)="getPatientResourcesAddr1()" style="cursor: pointer" id="searchPatientButtonAddr1">
-
-              <button ng-click="getPatientResources()">Match UPRN on Postcode Prefix</button>
-              </span>
-
-          </td>
-            <td>
-              <!-- ***************** SPACER ***************** -->
-            </td>
             <td>
               <span class="input-group-addon" (click)="getPatientResourcesPostcode()" style="cursor: pointer" id="searchPatientButtonPostcode">
 
-              <button ng-click="getPatientResources()">Match UPRN on Postcode</button>
+              <button ng-click="getPatientResources()">Match UPRN on Postcode Prefix (e.g. "E1[space]" ) or Post Code (e.g. "E1 7NY" )</button>
               </span>
 
             </td>

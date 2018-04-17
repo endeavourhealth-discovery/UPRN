@@ -8,12 +8,16 @@ import org.endeavourhealth.dataassurance.dal.UPRNDPAAddressResourceDAL;
 import org.endeavourhealth.dataassurance.dal.UPRNDPAAddressResourceDAL_Jdbc;
 import org.endeavourhealth.dataassurance.models.UPRNPatientResource;
 import org.endeavourhealth.dataassurance.models.UPRNDPAAddress;
+import org.endeavourhealth.dataassurance.utils.UPRNUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Date;
+
 
 public class UPRNPatientResourceLogic {
     private static final Logger LOG = LoggerFactory.getLogger(UPRNPatientResourceLogic.class);
@@ -90,6 +94,8 @@ public class UPRNPatientResourceLogic {
 
     public List<UPRNPatientResource> searchByPatientPostcode(String filter) throws Exception {
 
+        System.out.println("Started processing at "+ UPRNUtils.getDateAndTime());
+
         List<UPRNPatientResource> prPostCodeMatches = dal_pr.searchByPatientPostcode(filter);
 
         if (prPostCodeMatches != null && prPostCodeMatches.size() > 0) {
@@ -160,6 +166,8 @@ public class UPRNPatientResourceLogic {
         System.out.println("Percent addresses Matched: " + String.valueOf(matchPatientCount*100.0/processPatientCount));
 
         System.out.println("(searchByPatientPostcode) - COMPLETED the run for matches found for filter: "+filter);
+
+        System.out.println("Stopped processing at "+ UPRNUtils.getDateAndTime());
 
         return prPostCodeMatches;
 

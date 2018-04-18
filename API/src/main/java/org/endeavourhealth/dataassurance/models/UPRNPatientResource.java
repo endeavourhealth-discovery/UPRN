@@ -5,8 +5,6 @@ import org.endeavourhealth.dataassurance.utils.UPRNUtils;
 
 public class UPRNPatientResource {
 
-    // Constant definitions
-
     // MySQL table Field Names
     public static String UPRN_PATIENT_SQL_COL_FORENAMES = "forenames";
     public static String UPRN_PATIENT_SQL_COL_SURNAME = "surname";
@@ -216,4 +214,5 @@ public class UPRNPatientResource {
     public void setFlatIndicatorNumber(String flatIndicatorNumber) {
         this.flatIndicatorNumber = flatIndicatorNumber;
     }
+
 }

@@ -230,7 +230,7 @@ public class UPRNDPAAddress extends UPRNAddress {
 
             if (!sub_building_name.isEmpty()) {
 
-                System.out.println("Looking at flat indicator: "+patientResource.getFlatIndicatorNumber());
+                // System.out.println("Looking at flat indicator: "+patientResource.getFlatIndicatorNumber());
                 if (patientResource.getFlatIndicatorNumber().equals(sub_building_name)) {
 
                     String firstAddrLine = building_number + " " + thoroughfare;

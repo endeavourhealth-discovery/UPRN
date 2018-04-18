@@ -5,6 +5,7 @@ import org.endeavourhealth.dataassurance.utils.UPRNUtils;
 
 public class UPRNDPAAddress extends UPRNAddress {
 
+
     // Represents a record of ABP LPI Address information
 
     // Constant definitions
@@ -119,8 +120,10 @@ public class UPRNDPAAddress extends UPRNAddress {
             // Postcode and matches
             // System.out.println("Matched post code");
 
-            // Try an initial property match
-            isMatched = isMatchedNonFlat(patientResource);
+            // Try an initial property match - only for non-flats which dont have sub building names
+            if (sub_building_name.isEmpty()) {
+                isMatched = isMatchedNonFlat(patientResource);
+            }
 
             if (isMatched == false) {
 
@@ -148,27 +151,24 @@ public class UPRNDPAAddress extends UPRNAddress {
         if (building_number.isEmpty()) {
             // System.out.println("Matching Building name");
 
-
             // Try building name
-            if (patientResource.getAddress_line2() != null) {
+            if (patientResource.getAddress_line1().equals(building_name) &&
+                    patientResource.getAddress_line2().equals(thoroughfare)
+                    ) {
+                // System.out.println("Match non-flat 1");
 
-
-                if (patientResource.getAddress_line1().equals(building_name) &&
-                        patientResource.getAddress_line2().equals(thoroughfare)
-                        ) {
-                    // System.out.println("Match non-flat 1");
-
-                    isMatchedNonFlat = true;
-                }
-
+                isMatchedNonFlat = true;
             }
 
         } else {
             // System.out.println("Matching Building number");
 
             // Try building number
-
-            if (patientResource.getAddress_line1().equals(building_number + " " + thoroughfare)
+            String firstAddrLine = building_number + " " + thoroughfare;
+            if (patientResource.getAddress_line1().equals(firstAddrLine)
+                    || patientResource.getAddress_line2().equals(firstAddrLine) // Allowing for address 1 in wrong field
+                    || patientResource.getDistrict().equals(firstAddrLine) // Allowing for address 1 in wrong field
+                    || patientResource.getCity().equals(firstAddrLine) // Allowing for address 1 in wrong field
                     ) {
                 // System.out.println("Match non-flat 2");
 
@@ -179,32 +179,30 @@ public class UPRNDPAAddress extends UPRNAddress {
                 // No match yet so try address 1 as *just* the building number without the street,
                 // and address2 as the street/thoroughfare
 
-                if (patientResource.getAddress_line2() != null) {
+                if (patientResource.getAddress_line1().equals(building_number) &&
+                        patientResource.getAddress_line2().equals(thoroughfare)
+                        ) {
+                    // System.out.println("Match non-flat 3");
 
+                    isMatchedNonFlat = true;
+                } else {
+
+                    // Cater for the fact that sometimes the Discovery street name is put in the District field
                     if (patientResource.getAddress_line1().equals(building_number) &&
-                            patientResource.getAddress_line2().equals(thoroughfare)
-                            ) {
-                        // System.out.println("Match non-flat 3");
+                            patientResource.getDistrict().equals(thoroughfare)) {
+                        // System.out.println("Match non-flat 4");
 
                         isMatchedNonFlat = true;
-                    } else {
-
-                        // Cater for the fact that sometimes the Discovery street name is put in the District field
-                        if (patientResource.getAddress_line1().equals(building_number) &&
-                                patientResource.getDistrict().equals(thoroughfare)) {
-                            // System.out.println("Match non-flat 4");
-
-                            isMatchedNonFlat = true;
-                        }
-
                     }
+
                 }
+
             }
 
             if (isMatchedNonFlat == false) {
                 // Apply some catch all logic
 
-                // If there is a sub-building number then try and match it with the number in address line 1
+                // If there is a sub-building name then try and match it with the prefix in address line 1
                 if (sub_building_name.equals(UPRNUtils.createFlatNumber(UPRNUtils.extractNumber(patientResource.getAddress_line1())))
                         && patientResource.getAddress_line2().contains(thoroughfare)) {
 
@@ -214,6 +212,11 @@ public class UPRNDPAAddress extends UPRNAddress {
             }
 
         }
+
+
+//        if (isMatchedNonFlat == true) {
+//            System.out.println("Matched non flat: "+patientResource.toString());
+//        }
 
         return isMatchedNonFlat;
     }
@@ -227,30 +230,31 @@ public class UPRNDPAAddress extends UPRNAddress {
 
             if (!sub_building_name.isEmpty()) {
 
-                if (patientResource.getAddress_line2() != null) {
+                System.out.println("Looking at flat indicator: "+patientResource.getFlatIndicatorNumber());
+                if (patientResource.getFlatIndicatorNumber().equals(sub_building_name)) {
 
-                    //System.out.println(patientResource.getFlatNumber()+"+"+sub_building_name);
-                    //System.out.println(patientResource.getAddress_line2()+"+"+building_number + " " + thoroughfare);
+                    String firstAddrLine = building_number + " " + thoroughfare;
 
-                    if (patientResource.getFlatIndicatorNumber().equals(sub_building_name)) {
+                    if (patientResource.getAddress_line1().equals(firstAddrLine)
+                      || patientResource.getAddress_line2().equals(firstAddrLine) // Allowing for address 1 in wrong field
+                            || patientResource.getDistrict().equals(firstAddrLine) // Allowing for address 1 in wrong field
+                                || patientResource.getCity().equals(firstAddrLine) // Allowing for address 1 in wrong field
+                                ) {
+                        // System.out.println("Match flat 1a");
+                        isMatchedFlat = true;
+                    }
 
-                        if (patientResource.getAddress_line2().equals(building_number + " " + thoroughfare)) {
+                    if (isMatchedFlat == false) {
+                        // Check if the building name is in the 2nd address line
+                        if (patientResource.getAddress_line2().equals(building_name)) {
 
-                            // System.out.println("Match flat 1a");
+                            // System.out.println("Match flat 1b");
                             isMatchedFlat = true;
                         }
 
-                        if (isMatchedFlat == false) {
-                            // Check if the building name is in the 2nd address line
-                            if (patientResource.getAddress_line2().equals(building_name)) {
-
-                                // System.out.println("Match flat 1b");
-                                isMatchedFlat = true;
-                            }
-
-                        }
                     }
                 }
+
             }
         }
 
@@ -300,6 +304,13 @@ public class UPRNDPAAddress extends UPRNAddress {
 
             }
         }
+
+
+
+//        if (isMatchedFlat == true) {
+//            System.out.println("Matched flat: "+patientResource.toString());
+//        }
+
 
         return isMatchedFlat;
     }
@@ -516,4 +527,5 @@ public class UPRNDPAAddress extends UPRNAddress {
 
         return str;
     }
+
 }
